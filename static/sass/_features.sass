@@ -1,0 +1,36 @@
+%feature-icon
+  height: 49px
+  width: 66px
+  margin-bottom: 45px
+.features
+  height: 400px
+  border-bottom: 2px solid #f2f3f5
+  padding: 80px 0
+.feature-icon1
+  @extend %feature-icon
+  background: url("../img/index-icon-1.png") no-repeat
+.feature-icon2
+  @extend %feature-icon
+  background: url("../img/index-icon-2.png")
+.feature-icon3
+  @extend %feature-icon
+  background: url("../img/index-icon-3.png")
+.feature-icon4
+  @extend %feature-icon
+  background: url("../img/index-icon-4.png")
+.features-items
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(230px, auto))
+  grid-gap: 15px
+
+.feature-item
+  h3
+    font-size: 21px
+    color: #000000
+    margin-bottom: 30px
+
+  p
+    font-size: 14px
+    color: rgba(0, 0, 0, 0.7)
+    line-height: 22px
+
