@@ -1,58 +1,71 @@
+.item-cards
+  display: grid
+  grid-gap: 30px
+  grid-template-columns: repeat(auto-fit, minmax(270px, auto))
+  margin-bottom: 90px
+
+.popular-items-btn
+  text-align: center
+.popular-items
+  padding-top: 110px
 .item-card
   background: $bg-grey
   border-radius: 13px
   display: inline-block
-
-  padding: 10px 40px
+  position: relative
+  padding: 20px 0
+  width: 270px
+  margin: 0 auto
 
 .item-card-inner
   display: flex
   flex-direction: column
-  align-items: flex-start
+  align-items: center
 
   p
     max-width: 200px
 .item-card-name
+  font-family: Panton-Bold,sans-serif
   margin: 20px 0
 .item-card-description
+  font-family: SF UI Regular, sans-serif
   font-size: 13px
   margin-bottom: 30px
 
 .item-card-price
+  font-family: Gotham Pro Medium, sans-serif
   border-top: 1px solid #dfe0e2
   padding-top: 25px
+  text-align: center
   p
     font-size: 20px
 
-.item-card-discount:before
-  content: attr(data-discount)
+.item-card-discount
+  font-family: Gotham Pro, sans-serif
   background: $primary-color
   color: #ffffff
   font-size: 11px
   transform: rotate(-90deg)
   display: inline-block
   padding: 6px 23px
-  position: relative
-  top: 13px
-  left: -63px
+  position: absolute
+  top: 25px
+  left: -24px
   border-bottom-left-radius: 20px
   border-top-left-radius: 20px
   border-top-right-radius: 20px
 .item-card-favorite-btn
-  position: relative
-  top: -15px
-  left: 205px
+  position: absolute
+  top: 16px
+  left: 240px
 
-.favorite-empty
+
+.favorite-icon
   display: inline-block
   width: 24px
   height: 24px
   background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMjQiIGhlaWdodD0iMjQiCnZpZXdCb3g9IjAgMCAyNCAyNCIKc3R5bGU9IiBmaWxsOiMwMDAwMDA7Ij4gICAgPHBhdGggZD0iTTE2LjUsM0MxMy42MDUsMywxMiw1LjA5LDEyLDUuMDlTMTAuMzk1LDMsNy41LDNDNC40NjIsMywyLDUuNDYyLDIsOC41YzAsNC4xNzEsNC45MTIsOC4yMTMsNi4yODEsOS40OSBDOS44NTgsMTkuNDYsMTIsMjEuMzUsMTIsMjEuMzVzMi4xNDItMS44OSwzLjcxOS0zLjM2QzE3LjA4OCwxNi43MTMsMjIsMTIuNjcxLDIyLDguNUMyMiw1LjQ2MiwxOS41MzgsMywxNi41LDN6IE0xNC44MTEsMTYuMTEgYy0wLjE3NywwLjE2LTAuMzMxLDAuMjk5LTAuNDU2LDAuNDE2Yy0wLjc1MSwwLjctMS42MzksMS41MDMtMi4zNTUsMi4xNDVjLTAuNzE2LTAuNjQyLTEuNjA1LTEuNDQ2LTIuMzU1LTIuMTQ1IGMtMC4xMjYtMC4xMTctMC4yOC0wLjI1Ny0wLjQ1Ni0wLjQxNkM3Ljc2OSwxNC44MjcsNCwxMS40MTksNCw4LjVDNCw2LjU3LDUuNTcsNSw3LjUsNWMxLjgyNywwLDIuODg2LDEuMjc1LDIuOTE0LDEuMzA4TDEyLDggbDEuNTg2LTEuNjkyQzEzLjU5Niw2LjI5NSwxNC42NzMsNSwxNi41LDVDMTguNDMsNSwyMCw2LjU3LDIwLDguNUMyMCwxMS40MTksMTYuMjMxLDE0LjgyNywxNC44MTEsMTYuMTF6Ij48L3BhdGg+PC9zdmc+') 50% 50% no-repeat
   background-size: 100%
+  &:hover
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMjQiIGhlaWdodD0iMjQiCnZpZXdCb3g9IjAgMCAyNCAyNCIKc3R5bGU9IiBmaWxsOiMwMDAwMDA7Ij4gICAgPHBhdGggZD0iTTE2LjUsM0MxMy42MDUsMywxMiw1LjA5LDEyLDUuMDlTMTAuMzk1LDMsNy41LDNDNC40NjIsMywyLDUuNDYyLDIsOC41YzAsNC4xNzEsNC45MTIsOC4yMTMsNi4yODEsOS40OSBDOS44NTgsMTkuNDYsMTIsMjEuMzUsMTIsMjEuMzVzMi4xNDItMS44OSwzLjcxOS0zLjM2QzE3LjA4OCwxNi43MTMsMjIsMTIuNjcxLDIyLDguNUMyMiw1LjQ2MiwxOS41MzgsMywxNi41LDN6Ij48L3BhdGg+PC9zdmc+') 50% 50% no-repeat
 
-.favorite-filled
-  display: inline-block
-  width: 24px
-  height: 24px
-  background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMjQiIGhlaWdodD0iMjQiCnZpZXdCb3g9IjAgMCAyNCAyNCIKc3R5bGU9IiBmaWxsOiMwMDAwMDA7Ij4gICAgPHBhdGggZD0iTTE2LjUsM0MxMy42MDUsMywxMiw1LjA5LDEyLDUuMDlTMTAuMzk1LDMsNy41LDNDNC40NjIsMywyLDUuNDYyLDIsOC41YzAsNC4xNzEsNC45MTIsOC4yMTMsNi4yODEsOS40OSBDOS44NTgsMTkuNDYsMTIsMjEuMzUsMTIsMjEuMzVzMi4xNDItMS44OSwzLjcxOS0zLjM2QzE3LjA4OCwxNi43MTMsMjIsMTIuNjcxLDIyLDguNUMyMiw1LjQ2MiwxOS41MzgsMywxNi41LDN6Ij48L3BhdGg+PC9zdmc+') 50% 50% no-repeat
-  background-size: 100%

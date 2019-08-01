@@ -248,36 +248,79 @@
 <section class="popular-items">
     <div class="container">
         <h3>Популярные товары</h3>
+        <div class="item-cards">
+            <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
 
-        <div data-discount="-15 %" class="item-card item-card-discount">
-            <div class="item-card-favorite-btn">
-                <a href="#"><i class="favorite-empty"></i></a>
-            </div>
-            <div class="item-card-inner">
-                <img src="img/170x190.png">
-                <p class="item-card-name">Lorem ipsum.</p>
-                <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
-            </div>
-            <div class="item-card-price">
-                <p> 1300 Р</p>
-            </div>
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <img src="img/item.png">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <img src="img/item.png">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <img src="img/item.png">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <img src="img/item.png">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
         </div>
-         <div data-discount="-15 %" class="item-card">
-            <div class="item-card-favorite-btn">
-                <a href="#"><i class="favorite-empty"></i></a>
-            </div>
-            <div class="item-card-inner">
-                <img src="img/170x190.png">
-                <p class="item-card-name">Lorem ipsum.</p>
-                <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
-            </div>
-            <div class="item-card-price">
-                <p> 1300 Р</p>
-            </div>
+        <div class="popular-items-btn">
+            <a href="#" class="btn">смотреть каталог</a>
         </div>
     </div>
 
 </section><!--popular-items-->
+<section class="slider">
+
+</section><!--slider-->
 
 
 <script>
@@ -290,17 +333,12 @@
     console.log( menu_items)
     for (var i = 0; i < menu_items.length; i++){
         menu_items[i].addEventListener("mouseover", function( event ) {
-
             menu_id = event.target.dataset.menu_id
             li_id = event.target.dataset.li_id
             let menu = document.getElementById('menu_id_'+menu_id)
             menu.classList.add('menu-active')
             event.target.classList.add('hover')
             console.log(menu)
-
-
-
-
         })
     }
 
@@ -313,22 +351,13 @@
             if (event.relatedTarget.classList != 'categories-nav-dropdown menu-active'){
                 console.log('close')
                 menu.classList.remove('menu-active')
-
             }else{
                 console.log('not close')
                 let li = document.getElementById('li_id_'+menu_id)
                 li.classList.add('li-before')
-
-
             }
-
-
         })
     }
-
-
-
-
     for (var i = 0; i < sub_menus.length; i++){
         sub_menus[i].addEventListener("mouseover", function( event ) {
             console.log('menu over')
@@ -343,11 +372,9 @@
             console.log('menu out')
             let li = document.getElementById('li_id_'+menu_id)
             li.classList.remove('hover')
-
             let menu = document.getElementById('menu_id_'+menu_id)
             menu.classList.remove('menu-active')
             li.classList.remove('li-before')
-
         })
     }
 
