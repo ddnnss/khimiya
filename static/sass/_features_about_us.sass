@@ -3,9 +3,9 @@
   width: 66px
   margin-bottom: 45px
 .features
-  height: 400px
-  border-bottom: 2px solid #f2f3f5
-  padding: 80px 0
+  height: 320px
+  border-bottom: 2px solid $bg-grey
+  padding-top: 80px
 .feature-icon1
   @extend %feature-icon
   background: url("../img/index-icon-1.png") no-repeat
@@ -24,7 +24,7 @@
   grid-gap: 15px
 
 .feature-item
-  h3
+  h4
     font-size: 21px
     color: #000000
     margin-bottom: 30px
@@ -34,3 +34,32 @@
     color: rgba(0, 0, 0, 0.7)
     line-height: 22px
 
+.about-us
+  box-sizing: border-box
+  background: url("../img/bg.jpg") no-repeat center
+  padding-top: 70px
+  height: 450px
+  border-bottom: 2px solid $bg-grey
+
+.about-us-inner
+  display: grid
+  grid-template-columns: 1fr 1fr
+
+.about-us-info
+  max-width: 80%
+
+  p
+    color: #5a5b5c
+    margin-bottom: 50px
+  p:last-child
+    margin: 0
+.about-us-video
+  background: $bg-grey
+  text-align: end
+
+  iframe
+    border: none
+    border-radius: 5px
+    margin-bottom: 45px
+  p
+    color: #b1b1b1

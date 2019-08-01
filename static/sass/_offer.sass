@@ -33,6 +33,7 @@
         text-decoration: none
         color: #ffffff
         z-index: 1
+        pointer-events: none
       &:hover
         a
           color: $text-color !important
@@ -50,11 +51,55 @@
         border-radius: 4px 4px 0 0
 
 
+.li-before
+  a
+    color: $text-color !important
+.li-before:before
+  content: ''
+  width: 100%
+  height: 160px
+  position: absolute
+  top: 0
+  left: 0
+  background-color: #fff
+  border-radius: 4px 4px 0 0
+
+
 .hover
   background-color: #fff
   z-index: 47 !important
   border-radius: 4px 4px 0 0
 
+
+
+.categories-nav-dropdown
+  grid-template-columns: 1fr 1fr 1fr
+  background: #ffffff
+  padding: 50px
+  z-index: 50
+  position: relative
+  border-radius: 5px
+  display: none
+
+.menu-active
+  display: grid
+
+.categories-nav-dropdown-subcategory-items
+  li:first-child
+    margin-bottom: 25px
+    a
+      text-decoration: none
+      color: #000000
+
+  li
+    margin-bottom: 20px
+    a
+      text-decoration: none
+      color: #000000
+      font-size: 14px
+
+      &:hover
+        border-bottom: 1px solid #000000
 
 
 
