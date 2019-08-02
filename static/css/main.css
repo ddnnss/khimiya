@@ -619,3 +619,38 @@ h3 {
   background-size: 100%; }
   .favorite-icon:hover {
     background: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iMjQiIGhlaWdodD0iMjQiCnZpZXdCb3g9IjAgMCAyNCAyNCIKc3R5bGU9IiBmaWxsOiMwMDAwMDA7Ij4gICAgPHBhdGggZD0iTTE2LjUsM0MxMy42MDUsMywxMiw1LjA5LDEyLDUuMDlTMTAuMzk1LDMsNy41LDNDNC40NjIsMywyLDUuNDYyLDIsOC41YzAsNC4xNzEsNC45MTIsOC4yMTMsNi4yODEsOS40OSBDOS44NTgsMTkuNDYsMTIsMjEuMzUsMTIsMjEuMzVzMi4xNDItMS44OSwzLjcxOS0zLjM2QzE3LjA4OCwxNi43MTMsMjIsMTIuNjcxLDIyLDguNUMyMiw1LjQ2MiwxOS41MzgsMywxNi41LDN6Ij48L3BhdGg+PC9zdmc+") 50% 50% no-repeat; }
+
+.slider-inner {
+  display: grid;
+  grid-template-columns: 54% 46%; }
+
+.slider-text {
+  background: #202122; }
+
+.slider-text-inner {
+  max-width: 400px;
+  min-height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  .slider-text-inner h4 {
+    font-family: Panton-Bold, sans-serif;
+    font-size: 30px;
+    color: #ffffff;
+    margin-bottom: 60px; }
+  .slider-text-inner p {
+    color: #ffffff;
+    font-family: SF UI Regular, sans-serif;
+    margin-bottom: 40px; }
+
+#cur_slide {
+  font-family: Panton-SemiBoldItalic,sans-serif;
+  font-size: 36px;
+  color: #ffffff; }
