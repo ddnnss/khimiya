@@ -27,7 +27,63 @@
                                                                            viewBox="0 0 24 24"
                                                                            style=" fill:#44d4de;">    <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"></path></svg></button>
                 </form>
-                <a href="#"><span class="shopping-bag"><span class="cart-items">3</span></span></a>
+                <div id="shopping-bag" class="header-cart">
+                    <a  href="#"><span class="shopping-bag"><span class="cart-items">3</span></span></a>
+                <div id="shopping_bag_menu" class="menu-cart-items">
+                    <table>
+                        <tr>
+                            <td>
+                                <img width="40" src="img/icons-vk.png" alt="">
+                            </td>
+                            <td>
+                                Название товара
+                            </td>
+                            <td>
+                                <span id="cart_item_number">1</span> x <span id="cart_item_price">500</span> = <span id="cart_item_total_price">9098</span>
+                            </td>
+                        </tr>
+                          <tr>
+                            <td>
+                                <img width="40" src="img/icons-vk.png" alt="">
+                            </td>
+                            <td >
+                                Название товара
+                            </td>
+                            <td>
+                                <span id="cart_item_number">1</span> x <span id="cart_item_price">500</span> = <span id="cart_item_total_price">87889789</span>
+                            </td>
+                        </tr>
+                          <tr>
+                            <td>
+                                <img width="40" src="img/icons-vk.png" alt="">
+                            </td>
+                            <td>
+                                Название товара
+                            </td>
+                            <td>
+                                <span id="cart_item_number">1</span> x <span id="cart_item_price">500</span> = <span id="cart_item_total_price">56565</span>
+                            </td>
+                        </tr>
+                        <tr class="cart-footer">
+                            <td colspan="2">Итого</td>
+                            <td colspan="2">123123123</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <a href="#" class="btn btn-sm">Открыть корзину</a>
+
+                            </td>
+                            <td colspan="2">
+
+                            <a href="#" class="btn-outline btn-sm">Оплата</a>
+                            </td>
+
+                        </tr>
+                    </table>
+
+                </div>
+                </div>
+
             </div>
         </div>
 
@@ -258,22 +314,9 @@
                     <a href="#"><i class="favorite-icon"></i></a>
                 </div>
                 <div class="item-card-inner">
-                    <img src="img/item.png">
-                    <p class="item-card-name">Lorem ipsum.</p>
-                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
-                </div>
-                <div class="item-card-price">
-                    <p> 1300 Р</p>
-                </div>
-            </div><!--item-card-->
-            <div class="item-card ">
+                    <a href="#"><img src="img/item.png" alt=""></a>
 
-                <div class="item-card-favorite-btn">
-                    <a href="#"><i class="favorite-icon"></i></a>
-                </div>
-                <div class="item-card-inner">
-                    <img src="img/item.png">
-                    <p class="item-card-name">Lorem ipsum.</p>
+                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
                     <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
                 </div>
                 <div class="item-card-price">
@@ -289,8 +332,9 @@
                     <a href="#"><i class="favorite-icon"></i></a>
                 </div>
                 <div class="item-card-inner">
-                    <img src="img/item.png">
-                    <p class="item-card-name">Lorem ipsum.</p>
+                    <a href="#"><img src="img/item.png" alt=""></a>
+
+                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
                     <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
                 </div>
                 <div class="item-card-price">
@@ -298,13 +342,35 @@
                 </div>
             </div><!--item-card-->
             <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
 
                 <div class="item-card-favorite-btn">
                     <a href="#"><i class="favorite-icon"></i></a>
                 </div>
                 <div class="item-card-inner">
-                    <img src="img/item.png">
-                    <p class="item-card-name">Lorem ipsum.</p>
+                    <a href="#"><img src="img/item.png" alt=""></a>
+
+                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <a href="#"><img src="img/item.png" alt=""></a>
+
+                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
                     <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
                 </div>
                 <div class="item-card-price">
@@ -321,34 +387,185 @@
 <section class="slider">
     <div class="slider-inner">
         <div class="slider-image">
-            <img src="img/slide1.jpg">
-
+            <img id="slide-img-1" class="slide-img" src="img/slide1.jpg">
+            <img id="slide-img-2" class="slide-img" src="img/slide1.jpg">
         </div>
         <div class="slider-text">
             <div class="slider-text-inner">
-                    <h4>Самый большой выбор на рынке</h4>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos dolore ducimus facilis rem repudiandae unde? Beatae cupiditate earum et expedita id nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+                <div id="slide-text-1" class="slide-text">
+                    <h4>Самый большой выбор на рынке1</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos dolore ducimus facilis rem repudiandae unde? Beatae cupiditate earum et expedita id nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+                </div>
+                <div id="slide-text-2" class="slide-text">
+                    <h4>Самый большой выбор на рынке2</h4>
+                    <p>L nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+                </div>
 
             </div>
             <div class="slider-text-inner-arrows">
-                <span id="cur_slide">01</span><span id="total_slide">03</span>
+                <span id="cur_slide">01</span><span id="total_slide"></span>
+                <a id="arrow_left" href="javascript:void(0)" onclick="prevSlide()" > <img src="img/arrow_left.png" alt=""></a>
+                <a id="arrow_right" href="javascript:void(0)" onclick="nextSlide()"> <img src="img/arrow_right.png" alt=""></a>
             </div>
-       </div>
+        </div>
 
     </div>
 
 </section><!--slider-->
+<section class="popular-items"><!--popular-category-->
+    <div class="container">
+        <h3>Популярные категории</h3>
+        <div class="item-cards">
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="img/item.png" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="img/item.png" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="img/item.png" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="img/item.png" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="img/item.png" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+
+
+        </div>
+        <div class="popular-items-btn">
+            <a href="#" class="btn">смотреть каталог</a>
+        </div>
+    </div>
+
+</section><!--popular-category-->
+<footer class="footer">
+    <section class="mailform">
+    <div class="mailform-inner">
+        <h3>Хотите подробнее узнать о нашем товаре?</h3>
+        <p>Оставьте заявку на бесплатную консультацию</p>
+        <div class="mailform-form">
+
+            <input type="text" class="mailform-imput" placeholder="Ваше имя" value="" required>
+            <input type="email" class="mailform-imput" placeholder="Email" value="" required>
+            <input type="text" class="mailform-imput no-m" placeholder="Сотовый номер" value="" required>
+            <button type="submit" class="mailform-button">Заказать звонок</button>
+
+        </div>
+
+    </div>
+
+
+</section><!--mailform-->
+    <div class="container">
+        <div class="footer-top">
+            <div class="footer-menu">
+                <ul>
+                    <li><a href="#">главная</a></li>
+                    <li><a href="#">каталог</a></li>
+                    <li><a href="#">корзина</a></li>
+                    <li><a href="#">контакты</a></li>
+                    <li><a href="#">faq</a></li>
+                </ul>
+            </div>
+            <div class="footer-phone">
+                <p>8 800 355 65 65</p>
+            </div>
+        </div>
+    </div>
+    <div class="b-border"></div>
+        <div class="container">
+             <div class="footer-copyright">
+                 <div class="footer-copyright-text">
+                     <p>
+                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit, laborum!
+                     </p>
+                 </div>
+                  <div class="footer-copyright-social">
+                      <a href="#"><img src="img/icons-instagram.png" alt=""></a>
+                      <a href="#"><img src="img/icons-viber.png" alt=""></a>
+                      <a href="#"><img src="img/icons-vk.png" alt=""></a>
+                      <a href="#" class="no-m"><img src="img/icons-whatsapp.png" alt=""></a>
+
+                 </div>
+
+            </div>
+        </div>
+
+
+</footer>
+
 
 
 <script>
+    let cart = document.getElementById("shopping-bag");
+    let cart_menu = document.getElementById("shopping_bag_menu");
+    function showcart() {
+        cart_menu.style.display = 'block'
+        cart_menu.classList.add('slide-top')
+
+    }
+    function hidecart() {
+        cart_menu.style.display = 'none'
+
+    }
+
+    cart.addEventListener("click", showcart, false);
+    cart_menu.addEventListener("mouseleave", hidecart, false);
     let menu_items = document.getElementsByClassName('categories-nav-item')
     let menu_items_link = document.getElementsByClassName('categories-nav-item-link')
     let sub_menus = document.getElementsByClassName('categories-nav-dropdown')
     let menu_id = ''
+    let cur_slide = 1
+
+    let slide_img = document.getElementsByClassName('slide-img')
+    let slide_text = document.getElementsByClassName('slide-text')
+    document.getElementById('total_slide').innerText = '0'+slide_text.length
 
     let li_id = ''
     console.log( menu_items)
+    document.getElementById('slide-img-1').style.display = 'block'
+    document.getElementById('slide-text-1').style.display = 'block'
     for (var i = 0; i < menu_items.length; i++){
         menu_items[i].addEventListener("mouseover", function( event ) {
             menu_id = event.target.dataset.menu_id
@@ -396,8 +613,63 @@
         })
     }
 
+    function nextSlide() {
+        if (cur_slide + 1 > slide_text.length){
+            console.log('cur_slide + 1 > slide_text.length')
 
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-out')
 
+            document.getElementById('slide-text-'+cur_slide).style.display = 'none'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-out')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'none'
+            cur_slide = 1
+            document.getElementById('cur_slide').innerText = '0'+cur_slide
+            document.getElementById('slide-text-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-in')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-in')
+
+        }else{
+            console.log('cur_slide='+cur_slide)
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-out')
+
+            document.getElementById('slide-text-'+cur_slide).style.display = 'none'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-out')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'none'
+            cur_slide +=1
+            document.getElementById('cur_slide').innerText = '0'+cur_slide
+            document.getElementById('slide-text-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-in')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-in')
+        }
+
+    }
+
+    function prevSlide() {
+        if (cur_slide - 1 < 1){
+            console.log('cur_slide - 1 < 1')
+
+        }else{
+            console.log('cur_slide='+cur_slide)
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-out')
+            document.getElementById('slide-text-'+cur_slide).style.display = 'none'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-out')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'none'
+            cur_slide -=1
+            document.getElementById('cur_slide').innerText = '0'+cur_slide
+            document.getElementById('slide-text-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-img-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-in')
+
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-in')
+        }
+
+    }
+
+    setInterval(function() {
+        nextSlide()
+    }, 3000);
 
 </script>
 </body>

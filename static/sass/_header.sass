@@ -26,6 +26,7 @@
   align-items: center
 .search-form
   display: flex
+  margin-right: 70px
 
 .search-input
   font-family: "Gotham Pro",sans-serif
@@ -57,7 +58,6 @@
 
 .shopping-bag
   display: inline-block
-  margin-left: 70px
   width: 25px
   height: 27px
   background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHg9IjBweCIgeT0iMHB4Igp3aWR0aD0iNTAiIGhlaWdodD0iNTAiCnZpZXdCb3g9IjAgMCA1MCA1MCIKc3R5bGU9IiBmaWxsOiMwMDAwMDA7Ij48ZyBpZD0ic3VyZmFjZTEiPjxwYXRoIHN0eWxlPSIgIiBkPSJNIDI1IDEgQyAxOS40NjQ4NDQgMSAxNSA1LjQ2NDg0NCAxNSAxMSBMIDE1IDEzIEwgNy4wOTM3NSAxMyBMIDcgMTMuODc1IEwgMyA0OC44NzUgTCAyLjg3NSA1MCBMIDQ3LjEyNSA1MCBMIDQ3IDQ4Ljg3NSBMIDQzIDEzLjg3NSBMIDQyLjkwNjI1IDEzIEwgMzUgMTMgTCAzNSAxMSBDIDM1IDUuNDY0ODQ0IDMwLjUzNTE1NiAxIDI1IDEgWiBNIDI1IDMgQyAyOS40NjQ4NDQgMyAzMyA2LjUzNTE1NiAzMyAxMSBMIDMzIDEzIEwgMTcgMTMgTCAxNyAxMSBDIDE3IDYuNTM1MTU2IDIwLjUzNTE1NiAzIDI1IDMgWiBNIDguOTA2MjUgMTUgTCAxNSAxNSBMIDE1IDE3LjI4MTI1IEMgMTQuNDAyMzQ0IDE3LjYyODkwNiAxNCAxOC4yNjE3MTkgMTQgMTkgQyAxNCAyMC4xMDU0NjkgMTQuODk0NTMxIDIxIDE2IDIxIEMgMTcuMTA1NDY5IDIxIDE4IDIwLjEwNTQ2OSAxOCAxOSBDIDE4IDE4LjI2MTcxOSAxNy41OTc2NTYgMTcuNjI4OTA2IDE3IDE3LjI4MTI1IEwgMTcgMTUgTCAzMyAxNSBMIDMzIDE3LjI4MTI1IEMgMzIuNDAyMzQ0IDE3LjYyODkwNiAzMiAxOC4yNjE3MTkgMzIgMTkgQyAzMiAyMC4xMDU0NjkgMzIuODk0NTMxIDIxIDM0IDIxIEMgMzUuMTA1NDY5IDIxIDM2IDIwLjEwNTQ2OSAzNiAxOSBDIDM2IDE4LjI2MTcxOSAzNS41OTc2NTYgMTcuNjI4OTA2IDM1IDE3LjI4MTI1IEwgMzUgMTUgTCA0MS4wOTM3NSAxNSBMIDQ0Ljg3NSA0OCBMIDUuMTI1IDQ4IFogIj48L3BhdGg+PC9nPjwvc3ZnPg==') 50% 50% no-repeat
@@ -71,3 +71,50 @@
   border-radius: 50%
   color: #f7f7f7
   font-size: 12px
+
+.menu-cart-items
+  width: max-content
+  background: #ffffff
+  padding: 20px
+  //border-radius: 10px
+  position: absolute
+  top: 60px
+  border-top: 2px solid $primary-color
+  display: none
+  table
+    tr
+      font-family: SF UI Regular, sans-serif
+      font-size: 14px
+      td
+        padding: 10px
+.cart-footer
+  font-family: "SF UI Display Bold", sans-serif !important
+  font-size: 18px !important
+  border-top: 2px solid $border
+  margin-top: 20px
+  td
+    padding-top: 20px !important
+  td:first-child
+    text-align: end
+
+.header-cart-item-name
+  font-size: 15px
+  font-family: SF UI Regular, sans-serif
+
+
+.header-cart
+  position: relative
+  display: flex
+  align-items: center
+  flex-direction: column
+
+@keyframes slide-top
+  0%
+    transform: translateY(20px)
+
+  100%
+    transform: translateY(0px)
+
+
+.slide-top
+	animation: slide-top 0.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both

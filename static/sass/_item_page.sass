@@ -1,0 +1,185 @@
+.item
+  margin-top: 30px
+
+.item-info
+  display: grid
+  grid-template-columns: 1fr 4fr 5fr
+  grid-gap: 20px
+  margin-bottom: 80px
+
+.item-info-preview
+  img
+    box-sizing: border-box
+    width: 90px
+    margin-bottom: 10px
+    &:hover
+      box-shadow: 0px 1px 11px 0px #9a9a9a
+      cursor: pointer
+      height: auto
+  .selected
+    border: 2px solid $primary-color
+
+.item-info-description
+  h1
+    @extend h1
+    color: $text-color
+    font-size: 24px
+    margin-bottom: 20px
+.item-presents
+  font-family: "SF UI Display Medium",sans-serif
+  font-size: 14px
+  color: #696969
+  margin-bottom: 30px
+.item-info-description-price-volume
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding-bottom: 15px
+  border-bottom: 2px solid $border
+  span
+    font-family: "SF UI Display Semibold",sans-serif
+    font-size: 30px
+    color: $text-color
+.item-info-description-volume
+  span
+    font-size: 12px
+    font-family: "SF UI Display Medium",sans-serif
+    display: block
+    margin-bottom: 10px
+.item-info-description-buttons
+  margin: 45px 0 70px 0
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+.item-info-description-short-share
+  h4
+    font-family: "SF UI Display Semibold",sans-serif
+    font-size: 16px
+    text-transform: uppercase
+    margin-bottom: 25px
+  p
+    font-family: "SF UI Display Medium",sans-serif
+    font-size: 14px
+    line-height: 20px
+    color: #666666
+    margin-bottom: 45px
+  h5
+    font-family: "SF UI Display Medium",sans-serif
+    font-size: 16px
+
+    color: $text-color
+    margin-bottom: 20px
+  ul
+    display: inline-flex
+    li
+      margin-right: 10px
+      a
+        img
+          width: 42px
+
+.tab-description
+  display: grid
+  grid-template-columns: 1fr 6fr
+  grid-gap: 20px
+.tab-description-columns
+  p
+    font-family: "SF UI Display Semibold",sans-serif
+    font-size: 15px
+    margin-bottom: 20px
+.tab-description-data
+  p
+    font-family: "SF UI Display Medium",sans-serif
+    font-size: 15px
+    margin-bottom: 20px
+
+.custom-select 
+  position: relative
+  font-family: "SF UI Display Medium",sans-serif
+  font-size: 14px
+  color: $text-color
+
+
+.custom-select select
+  display: none
+
+.select-selected 
+  background-color: rgba(30, 144, 255, 0)
+
+.select-selected:after 
+  position: absolute
+  content: url("../img/accordion_down.png")
+  top: 8px
+  right: 24px
+  width: 0
+  height: 0
+
+.select-selected.select-arrow-active:after 
+   content: url("../img/accordion_up.png")
+
+.select-items div,.select-selected 
+  color: $primary-color
+  padding: 8px 20px
+  border: 1px solid $border
+  cursor: pointer
+
+.select-items 
+  position: absolute
+  background-color: #ffffff
+  top: 100%
+  left: 0
+  right: 0
+  z-index: 99
+
+.select-hide 
+  display: none
+
+.select-items div:hover, .same-as-selected 
+  background-color: rgba(0, 0, 0, 0.1)
+
+/* Style the tab */
+.tab 
+  overflow: hidden
+  border-bottom: 1px solid #ccc
+  background-color: #ffffff
+  position: relative
+
+
+.tab button 
+  background-color: inherit
+  float: left
+  border: none
+  outline: none
+  cursor: pointer
+  padding: 14px 16px
+  transition: 0.3s
+  font-size: 16px
+  font-family: "SF UI Display Semibold",sans-serif
+  border-bottom: 2px solid #ffffff
+  text-transform: uppercase
+
+
+
+.tab button:hover 
+  border-bottom: 2px solid $text-color
+
+
+
+.tab button.tab-active
+  border-bottom: 2px solid $text-color
+  position: relative
+  z-index: 20
+
+
+
+.tabcontent 
+  display: none
+  padding: 35px 0 120px 0
+  border-top:  2px solid $border
+  position: relative
+  top: -3px
+  p
+    font-family: "SF UI Display Medium",sans-serif
+    font-size: 15px
+    margin-bottom: 20px
+

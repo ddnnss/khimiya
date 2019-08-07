@@ -1,0 +1,116 @@
+.catalog-banner
+  @extend .top-banner
+  background: url("../img/catalog_top_bg.jpg")
+
+
+.catalog
+
+.catalog-inner
+  display: flex
+  justify-content: space-between
+  margin-top: 75px
+
+
+.catalog-list
+  min-width: 19%
+.catalog-items-wrappper
+  min-width: 80%
+
+.catalog-items-filter
+  border-bottom: 1px solid $border
+
+.catalog-items
+ padding-top: 25px
+  
+  
+.accordion 
+  background-color: #ffffff
+  color: #444
+  cursor: pointer
+  padding: 18px
+  width: 100%
+  border: none
+  text-align: left
+  outline: none
+  font-size: 22px
+  font-family: Panton-Bold,sans-serif
+  transition: 0.4s
+  border-bottom: 1px solid $border
+
+//.active, .accordion:hover
+//  background-color: #ccc
+
+.accordion:after 
+  content: url("../img/accordion_down.png")
+  color: #777
+  font-weight: bold
+  float: right
+  margin-left: 5px
+
+.active:after 
+  content: url("../img/accordion_up.png")
+
+.panel 
+  padding: 0 18px
+  background-color: white
+  max-height: 0
+  overflow: hidden
+  transition: max-height 0.2s ease-out
+  ul
+    margin-top: 25px
+    li
+      margin-bottom: 20px
+      a
+        font-family: SF UI Regular, sans-serif
+        font-size: 14px
+        text-decoration: none
+        color: #000000
+    
+.dropbtn 
+  background: #ffffff
+  color: #000000
+  padding: 20px
+  font-size: 18px
+  font-family: Panton-Regular,sans-serif
+  border: none
+  cursor: pointer
+  &:focus
+    outline-width: 0
+
+  &:after
+    content: url("../img/accordion_down.png")
+    margin-left: 15px
+
+
+//.dropbtn:hover, .dropbtn:focus
+//  background-color: #2980B9
+
+
+.dropdown 
+  position: relative
+  display: inline-block
+
+
+.dropdown-content 
+  display: none
+  position: absolute
+  background-color: #f1f1f1
+  min-width: 160px
+  overflow: auto
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+  z-index: 1
+
+
+.dropdown-content a 
+  color: black
+  padding: 12px 16px
+  text-decoration: none
+  display: block
+
+
+.dropdown a:hover
+  background-color: #ddd
+
+.show
+  display: block
+

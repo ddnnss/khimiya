@@ -2,39 +2,83 @@
   display: grid
   grid-template-columns: 54% 46%
 .slider-text
-
+  background: #202122
+.slider-image
   background: #202122
 .slider-text-inner
   max-width: 400px
   min-height: 100%
+  padding: 0 0 0 70px
   display: flex
   flex-direction: column
   justify-content: center
   h4
-
     font-family: Panton-Bold, sans-serif
     font-size: 30px
     color: #ffffff
     margin-bottom: 60px
   p
-
     color: #ffffff
     font-family: SF UI Regular, sans-serif
     margin-bottom: 40px
+    line-height: 23px
+.slide-text
+  display: none
+.slide-img
+  display: none
 .slider-text-inner-arrows
+  padding: 0 0 0 70px
   position: relative
   top: -60px
 
 #cur_slide
   font-family: Panton-SemiBoldItalic,sans-serif
   font-size: 36px
+  margin: 0 15px 0 0
   color: #ffffff
 
 #total_slide
   font-family: Panton-SemiBoldItalic,sans-serif
-  font-size: 26px
-  color: #ffffff
+  font-size: 16px
+  color: rgba(255, 255, 255, 0.7)
+  position: relative
+  top: -13px
   &:before
     content: '/'
+    margin-right: 5px
+
+#arrow_left
+  display: inline-block
+  margin: 0 20px 0 80px
+  img
+    opacity: .6
+    &:hover
+      opacity: 1
+#arrow_right
+
+  display: inline-block
+  img
+    opacity: .6
+    &:hover
+      opacity: 1
+
+@keyframes text-blur-out
+  0%
+    filter: blur(0.01)
+  100%
+    filter: blur(12px) opacity(0%)
+
+@keyframes text-focus-in
+  0%
+    filter: blur(12px)
+    opacity: 0
+
+  100%
+    filter: blur(0px)
+    opacity: 1
 
 
+.text-blur-out
+	animation: text-blur-out 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both
+.text-blur-in
+	animation: text-focus-in 1s cubic-bezier(0.550, 0.085, 0.680, 0.530) both
