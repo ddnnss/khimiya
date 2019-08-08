@@ -1,0 +1,61 @@
+.main-cart-items
+  min-width: 100%
+
+.main-cart-items-head
+  font-family: "SF UI Display",sans-serif
+  font-size: 14px
+  border-bottom: 1px solid $border
+  line-height: 50px
+
+.main-cart-item
+  line-height: 120px
+  border-bottom: 1px solid $border
+
+.main-cart-item-name
+  width: 50%
+  display: flex
+  align-items: center
+  span
+    margin-left: 20px
+    font-family: "SF UI Display Semibold",sans-serif
+    font-size: 15px
+    color: $text-color
+
+.main-cart-item-price
+  width: 10%
+  font-size: 18px
+  font-family: "SF UI Display Semibold",sans-serif
+  color: $text-color
+.main-cart-item-total-price
+  @extend .main-cart-item-price
+.main-cart-item-number
+  width: 20%
+.main-cart-item-action
+
+  width: 10%
+.custom-input
+  border: 1px solid $border
+  width: 100px
+  display: inline-flex
+  align-items: center
+  justify-content: flex-start
+  font-family: "SF UI Display Semibold",sans-serif
+  font-size: 18px
+  button
+    border: none
+    background: none
+    font-family: "SF UI Display Semibold",sans-serif
+    font-size: 18px
+    padding: 10px
+    &:focus
+    outline-width: 0
+    &:hover
+      background: $primary-color
+      color: #ffffff
+  input
+    border: none
+    width: 100%
+    padding: 10px
+    text-align: center
+    &:focus
+    outline-width: 0
