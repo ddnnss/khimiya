@@ -9,7 +9,7 @@ import string
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.conf import settings
 from django.utils.safestring import mark_safe
-from laskshmi import settings
+#from laskshmi import settings
 
 import os
 
@@ -23,13 +23,16 @@ def format_number(num):
 class Category(models.Model):
     name = models.CharField('Название категории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
-    image = models.ImageField('Изображение категории', upload_to='category_img/', blank=False)
+    image = models.ImageField('Изображение категории', upload_to='category_img/', blank=True)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
     page_keywords = models.TextField('Keywords', blank=False, null=True)
-    short_description = models.TextField('Краткое описание для главной', blank=True,)
+    short_description = models.TextField('Краткое описание', blank=True)
     description = RichTextUploadingField('Описание категории', blank=True, null=True)
     views = models.IntegerField(default=0)
+    is_active = models.BooleanField('Отображать категорию ?', default=True, db_index=True)
+    for_fiz = models.BooleanField('Для физ лиц', default=True)
+    for_ur = models.BooleanField('Для юр лиц', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -54,8 +57,12 @@ class SubCategory(models.Model):
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
     page_keywords = models.TextField('Keywords', blank=False, null=True)
     description = RichTextUploadingField('Описание подкатегории', blank=True, null=True)
+    short_description = models.TextField('Краткое описание', blank=True)
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
     views = models.IntegerField(default=0)
+    is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
+    for_fiz = models.BooleanField('Для физ лиц', default=True)
+    for_ur = models.BooleanField('Для юр лиц', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -92,60 +99,30 @@ class Filter(models.Model):
         verbose_name = "Фильтр"
         verbose_name_plural = "Фильтры"
 
-class Collection(models.Model):
-    category = models.ForeignKey(Category, blank=False, null=True, on_delete=models.SET_NULL, verbose_name='Категория')
-    name = models.CharField('Название коллекции', max_length=255, blank=False, null=True)
-    name_slug = models.CharField(max_length=255, blank=True, null=True)
-    image = models.ImageField('Изображение коллекции', upload_to='collection_img/', blank=False)
-    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
-    page_description = models.TextField('Описание страницы', blank=False, null=True)
-    page_keywords = models.TextField('Keywords', blank=False, null=True)
-    description = RichTextUploadingField('Описание коллекции', blank=True, null=True)
-    discount = models.IntegerField('Скидка на все товары в коллекции %', blank=True, default=0)
-    views = models.IntegerField(default=0)
-    show_at_homepage = models.BooleanField('Отображать на главной', default=True)
-    show_at_category = models.BooleanField('Отображать в категории', default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        self.name_slug = slugify(self.name)
-        all_items = Item.objects.filter(collection=self)
-        for item in all_items:
-            item.discount = self.discount
-            item.save()
-        super(Collection, self).save(*args, **kwargs)
-
-    def __str__(self):
-        return '%s ' % self.name
-
-    class Meta:
-        verbose_name = "Коллекция"
-        verbose_name_plural = "Коллекции"
 
 class Item(models.Model):
-    collection = models.ManyToManyField(Collection, blank=True, verbose_name='Коллекция',db_index=True)
-    filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL,db_index=True)
-    subcategory = models.ForeignKey(SubCategory, blank=False, null=True, verbose_name='Подкатегория', on_delete=models.SET_NULL,db_index=True)
+    subcategory = models.ManyToManyField(SubCategory, blank=True, verbose_name='Подкатегория',db_index=True)
+    filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL,db_index=True, verbose_name='Фильтр')
     name = models.CharField('Название товара', max_length=255, blank=False, null=True)
     name_lower = models.CharField(max_length=255, blank=True, null=True,default='')
     name_slug = models.CharField(max_length=255, blank=True, null=True,db_index=True)
-    price = models.IntegerField('Цена', blank=False, default=0, db_index=True)
+    price = models.IntegerField('Цена за литр', blank=False, default=0, db_index=True)
     discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.TextField('Описание страницы',  blank=False, null=True)
     description = models.TextField('Описание товара', blank=True, null=True)
-    comment = models.TextField('Комментарий', blank=True, null=True)
+    short_description = models.TextField('Краткое описание товара', blank=True, null=True)
     length = models.CharField('Длина', max_length=15, default='не указано')
     width = models.CharField('Ширина', max_length=15, default='не указано')
+    volume = models.CharField('Доступные объемы(например 0,5;1;3)', max_length=100, default='1')
     height = models.CharField('Высота',  max_length=15, default='не указано')
+    goog_time = models.CharField('Срок годности', max_length=15, default='1 год')
     article = models.CharField('Артикул', max_length=50, blank=False, null=True)
     weight = models.CharField('Вес',  max_length=15, default='не указано')
-    material = models.CharField('Материал', max_length=50, blank=True, null=True, default='не указано')
+    ph = models.CharField('pH', max_length=15, default='0')
+    fasovka = models.CharField('Фасовка', max_length=50, blank=True, null=True, default='не указано')
     is_active = models.BooleanField('Отображать товар ?', default=True, db_index=True)
     is_present = models.BooleanField('Товар в наличии ?', default=True, db_index=True)
-    is_new = models.BooleanField('Товар новинка ?', default=False, db_index=True)
-    is_reserved = models.BooleanField('Товар в резерве ?', default=False)
     buys = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
@@ -209,7 +186,6 @@ class ItemImage(models.Model):
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
     image = models.ImageField('Изображение товара', upload_to=upload_to, blank=False)
     image_small = models.CharField(max_length=255, blank=True, default='')
-    f_id = models.CharField(max_length=5, blank=True, default='')
     is_main = models.BooleanField('Основная картинка ?', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -233,43 +209,43 @@ class ItemImage(models.Model):
 
     def save(self, *args, **kwargs):
         fill_color = '#fff'
-        base_image = Image.open(self.image)
+        image = Image.open(self.image)
 
-        if base_image.mode in ('RGBA', 'LA'):
-            background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
-            background.paste(base_image, base_image.split()[-1])
-            base_image = background
+        # if base_image.mode in ('RGBA', 'LA'):
+        #     background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
+        #     background.paste(base_image, base_image.split()[-1])
+        #     base_image = background
         os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
-        watermark = Image.open('static/images/watermark30.png')
-        width, height = base_image.size
-        transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
-        transparent.paste(base_image, (0, 0))
-        transparent.paste(watermark, (291, 386), mask=watermark)
-        # transparent.show()
-        image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_watermarked.jpg')
-        if settings.DEBUG:
-            transparent.save(image_url, 'JPEG', quality=80)
-        else:
-            transparent.save('laskshmi/' + image_url, 'JPEG', quality=80)
-        original_image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_original.jpg')
-        if settings.DEBUG:
-            base_image.save(original_image_url, 'JPEG', quality=80)
-        else:
-            base_image.save('laskshmi/' + original_image_url, 'JPEG', quality=80)
-        # transparent.save(image_url, 'JPEG', quality=80)
-        self.image = '/' + image_url
+        # watermark = Image.open('static/images/watermark30.png')
+        # width, height = base_image.size
+        # transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
+        # transparent.paste(base_image, (0, 0))
+        # transparent.paste(watermark, (291, 386), mask=watermark)
+        # # transparent.show()
+        # image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_watermarked.jpg')
+        # if settings.DEBUG:
+        #     transparent.save(image_url, 'JPEG', quality=80)
+        # else:
+        #     transparent.save('laskshmi/' + image_url, 'JPEG', quality=80)
+        # original_image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_original.jpg')
+        # if settings.DEBUG:
+        #     base_image.save(original_image_url, 'JPEG', quality=80)
+        # else:
+        #     base_image.save('laskshmi/' + original_image_url, 'JPEG', quality=80)
+        # # transparent.save(image_url, 'JPEG', quality=80)
+        # self.image = '/' + image_url
 
 
-        # if image.mode in ('RGBA', 'LA'):
-        #     background = Image.new(image.mode[:-1], image.size, fill_color)
-        #     background.paste(image, image.split()[-1])
-        #     image = background
-        transparent.thumbnail((400, 400), Image.ANTIALIAS)
+        if image.mode in ('RGBA', 'LA'):
+            background = Image.new(image.mode[:-1], image.size, fill_color)
+            background.paste(image, image.split()[-1])
+            image = background
+            image.thumbnail((400, 400), Image.ANTIALIAS)
         small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
         if settings.DEBUG:
-            transparent.save(small_name, 'JPEG', quality=75)
+            image.save(small_name, 'JPEG', quality=75)
         else:
-            transparent.save('laskshmi/' + small_name, 'JPEG', quality=75)
+            image.save('laskshmi/' + small_name, 'JPEG', quality=75)
         self.image_small = '/' + small_name
 
         super(ItemImage, self).save(*args, **kwargs)
