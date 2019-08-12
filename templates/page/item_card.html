@@ -1,0 +1,25 @@
+ {% load static %}
+  <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <a href="{% url 'showitem' cat.name_slug subcategory.name_slug subsubcat.name_slug item.name_slug %}"> <img
+                        {% for image in item.itemimage_set.all %}
+                        {% if image.is_main %}
+                           src="{{ image.image_small }}" alt="">
+                        {% endif %}
+                        {% endfor %}
+                       </a>
+
+                    <a href="#"><p class="item-card-name">{{ item.name }}</p></a>
+                    <p class="item-card-description">{{ item.short_description }}</p>
+                </div>
+                <div class="item-card-price">
+                    <p> {{ item.price }} &#8381;</p>
+                </div>
+            </div><!--item-card-->

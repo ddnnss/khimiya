@@ -32,6 +32,36 @@ def is_email(string):
 
     return True
 
+def showitem(request, cat_slug,subcat_slug,subsubcat_slug,item_slug):
+   # try:
+    item = Item.objects.get(name_slug=item_slug)
+    item.views += 1
+    item.save(force_update=True)
+    cat = Category.objects.get(name_slug=cat_slug)
+
+
+    images = ItemImage.objects.filter(item=item)
+    # cat.views += 1
+    # cat.save()
+    title = item.page_title
+    description = item.page_description
+   # keywords = item.key
+    subcat = SubCategory.objects.get(name_slug=subcat_slug)
+    subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
+   # recomended = Item.objects.filter(subcategory_id=item.subcategory_id).order_by('-views')[:12]
+    # title = item.name
+    # description = item.description
+
+
+   # except:
+  #      raise Http404
+        # return render(request, '404.html', locals())
+    title = '{} | артикул {} - купить оптом в Москве'.format(item.name, item.article)
+    description = 'Заказывайте оптом {} (артикул {})' \
+                  ' Большой выбор товаров на различную тематику по доступным ценам. Доставка по России.'.format(
+        item.name, item.article)
+    return render(request, 'page/item.html', locals())
+
 def check_email(request):
     return_dict = {}
     email = request.POST.get('email')
@@ -330,12 +360,12 @@ def checkout(request):
 
 def index(request):
     show_tags = True
-    title = 'Лакшми888 - Магазин Фен Шуй'
-    description = 'Интернет Магазин фен шуй товаров: у нас вы можете купить фен шуй товары по выгодным ценам. Доставка во все регионы.'
+    title = 'Главная'
+    description = ''
     keywords = ''
-    banners = Banner.objects.filter(is_active=True).order_by('order')
-    collections = Collection.objects.filter(show_at_homepage=True)
-    main_category = Category.objects.all()
+
+
+    all_categories = Category.objects.all()
     return render(request, 'page/index.html', locals())
 
 
@@ -352,11 +382,50 @@ def category(request, cat_slug):
         raise Http404
         # return render(request, '404.html', locals())
     show_tags = True
-    collections = Collection.objects.filter(category=cat, show_at_category=True)
-    return render(request, 'page/category.html', locals())
+
+    return render(request, 'page/catalog.html', locals())
+
+def subcategory(request, cat_slug,subcat_slug):
+   # try:
+    cat = Category.objects.get(name_slug=cat_slug)
+    # cat.views += 1
+    # cat.save()
+    title = cat.page_title
+    description = cat.page_description
+    keywords = cat.page_keywords
+    subcategory = SubCategory.objects.get(name_slug=subcat_slug)
+    subcats = SubCategory.objects.filter(name_slug=subcat_slug)
+    subsubcat = subcategory.subsubcategory_set.first()
+    all_items = subsubcat.item_set.filter(is_active=True)
+  #  except:
+   #     raise Http404
+        # return render(request, '404.html', locals())
+    show_tags = True
+
+    return render(request, 'page/catalog.html', locals())
 
 
-def subcategory(request, subcat_slug):
+def subsubcategory(request, cat_slug,subcat_slug,subsubcat_slug):
+    try:
+        cat = Category.objects.get(name_slug=cat_slug)
+        # cat.views += 1
+        # cat.save()
+        title = cat.page_title
+        description = cat.page_description
+        keywords = cat.page_keywords
+        subcategory = SubCategory.objects.get(name_slug=subcat_slug)
+        subcats = SubCategory.objects.filter(name_slug=subcat_slug)
+        subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
+        all_items = subsubcat.item_set.filter(is_active=True)
+
+    except:
+        raise Http404
+        # return render(request, '404.html', locals())
+    show_tags = True
+
+    return render(request, 'page/catalog.html', locals())
+
+def subcategory1(request, subcat_slug):
     try:
         subcat = SubCategory.objects.get(name_slug=subcat_slug)
         all_items = Item.objects.filter(subcategory_id=subcat.id, is_active=True, is_present=True).order_by('-created_at')

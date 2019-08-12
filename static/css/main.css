@@ -1116,7 +1116,11 @@ h3 {
         font-family: SF UI Regular, sans-serif;
         font-size: 14px;
         text-decoration: none;
-        color: #000000; }
+        color: #010101; }
+
+.selected {
+  font-family: "SF UI Display Semibold",sans-serif !important;
+  border-bottom: 1px solid #010101; }
 
 .dropbtn {
   background: #ffffff;

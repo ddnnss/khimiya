@@ -52,7 +52,7 @@ class SubCategory(models.Model):
     category = models.ForeignKey(Category, blank=False, null=True, on_delete=models.SET_NULL)
     name = models.CharField('Название подкатегории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
-    image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=False)
+    image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=True)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
     page_keywords = models.TextField('Keywords', blank=False, null=True)
@@ -68,12 +68,46 @@ class SubCategory(models.Model):
 
     def save(self, *args, **kwargs):
         self.name_slug = slugify(self.name)
-        all_items = self.item_set.all()
-        for item in all_items:
-            item.discount = self.discount
-            item.save()
+        # all_items = self.item_set.all()
+        # for item in all_items:
+        #     item.discount = self.discount
+        #     item.save()
 
         super(SubCategory, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return 'id :%s , %s ' % (self.id, self.name)
+
+    class Meta:
+        verbose_name = "Основная подкатегория"
+        verbose_name_plural = "Основные подкатегории"
+
+class SubSubCategory(models.Model):
+    subcategory = models.ForeignKey(SubCategory, blank=False, null=True, on_delete=models.SET_NULL,verbose_name='Основная подкатегория')
+    name = models.CharField('Название подкатегории', max_length=255, blank=False, null=True)
+    name_slug = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=True)
+    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
+    page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
+    page_keywords = models.TextField('Keywords', blank=False, null=True)
+    description = RichTextUploadingField('Описание подкатегории', blank=True, null=True)
+    short_description = models.TextField('Краткое описание', blank=True)
+    discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
+    views = models.IntegerField(default=0)
+    is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
+    for_fiz = models.BooleanField('Для физ лиц', default=True)
+    for_ur = models.BooleanField('Для юр лиц', default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        self.name_slug = slugify(self.name)
+        # all_items = self.item_set.all()
+        # for item in all_items:
+        #     item.discount = self.discount
+        #     item.save()
+
+        super(SubSubCategory, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'id :%s , %s ' % (self.id, self.name)
@@ -84,7 +118,7 @@ class SubCategory(models.Model):
 
 
 class Filter(models.Model):
-    subcategory = models.ForeignKey(SubCategory, blank=True, null=True,on_delete=models.SET_NULL, verbose_name='Подкатегория')
+    subcategory = models.ForeignKey(SubSubCategory, blank=True, null=True,on_delete=models.SET_NULL, verbose_name='Подкатегория')
     name = models.CharField('Название фильтра', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
 
@@ -101,7 +135,7 @@ class Filter(models.Model):
 
 
 class Item(models.Model):
-    subcategory = models.ManyToManyField(SubCategory, blank=True, verbose_name='Подкатегория',db_index=True)
+    subcategory = models.ManyToManyField(SubSubCategory, blank=True, verbose_name='Подкатегория',db_index=True)
     filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL,db_index=True, verbose_name='Фильтр')
     name = models.CharField('Название товара', max_length=255, blank=False, null=True)
     name_lower = models.CharField(max_length=255, blank=True, null=True,default='')
@@ -173,18 +207,10 @@ class Item(models.Model):
 
 
 class ItemImage(models.Model):
-    upload_to = 'items/%d/%s'
 
-
-    def _get_upload_to(self, filename):
-        ext = filename.split('.')[-1]
-
-        filename = '{}.{}'.format(self.item.pk, ext)
-
-        return self.upload_to % (self.item.id, filename)
 
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
-    image = models.ImageField('Изображение товара', upload_to=upload_to, blank=False)
+    image = models.ImageField('Изображение товара', upload_to='items', blank=False)
     image_small = models.CharField(max_length=255, blank=True, default='')
     is_main = models.BooleanField('Основная картинка ?', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -209,7 +235,7 @@ class ItemImage(models.Model):
 
     def save(self, *args, **kwargs):
         fill_color = '#fff'
-        image = Image.open(self.image)
+        image = Image.open(self.image).convert('RGB')
 
         # if base_image.mode in ('RGBA', 'LA'):
         #     background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
@@ -240,7 +266,7 @@ class ItemImage(models.Model):
             background = Image.new(image.mode[:-1], image.size, fill_color)
             background.paste(image, image.split()[-1])
             image = background
-            image.thumbnail((400, 400), Image.ANTIALIAS)
+        image.thumbnail((200, 240), Image.ANTIALIAS)
         small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
         if settings.DEBUG:
             image.save(small_name, 'JPEG', quality=75)

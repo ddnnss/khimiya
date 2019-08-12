@@ -1,0 +1,163 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+    {% include 'header_white.html' %}
+    <section class="catalog-banner">
+        <div class="top-banner-inner">
+            <h1>Каталог</h1>
+            <ul>
+                <li><a href="/">главная</a></li>
+                <li>каталог</li>
+                <li>{{ cat.name }}</li>
+            </ul>
+        </div>
+    </section>
+    <section class="catalog">
+        <div class="container">
+            <div class="catalog-inner">
+                <aside class="catalog-list">
+                    <i style="display: none" id="first_subcat">{{ subcategory.name_slug }}</i>
+                    <i style="display: none" id="first_subsubcat">{{ subcategory.subsubcategory_set.first.name_slug }}</i>
+                    {% for subcategory in cat.subcategory_set.all %}
+                        <button id="subcat_{{ subcategory.name_slug }}" class="accordion">{{ subcategory.name }}</button>
+                        <div class="panel">
+                            <ul>
+                                {% for subsubcategory in subcategory.subsubcategory_set.all %}
+                                    <li><a id="subsubcat_{{ subsubcategory.name_slug }}" href="{% url 'subsubcategory' cat.name_slug subcategory.name_slug subsubcategory.name_slug %}#item_filter">{{ subsubcategory.name }}</a></li>
+
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+
+
+
+                </aside>
+                <div class="catalog-items-wrappper">
+                    <div id="item_filter" class="catalog-items-filter">
+                        <div class="dropdown">
+                            <button onclick="customDropDown(this)" data-target="price" class="dropbtn">Сортировка</button>
+                            <div id="price" class="dropdown-content">
+                                <a href="#">Цена выше</a>
+                                <a href="#">Цена ниже</a>
+                                <a href="#">Цена ниже</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button onclick="customDropDown(this)" data-target="use" class="dropbtn">Область применения</button>
+                            <div id="use" class="dropdown-content">
+                                <a href="#">Цена выше</a>
+                                <a href="#">Цена ниже</a>
+                                <a href="#">Цена выше</a>
+                                <a href="#">Цена ниже</a>
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <button onclick="customDropDown(this)" data-target="home" class="dropbtn">Для дома</button>
+                            <div id="home" class="dropdown-content">
+                                <a href="#">Цена выше</a>
+                                <a href="#">Цена ниже</a>
+                                <a href="#">Цена выше</a>
+                                <a href="#">Цена ниже</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="catalog-items">
+                        <div class="item-cards">
+                            {% for item in all_items %}
+                                {% include 'page/item_card.html' %}
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+{% endblock %}
+
+{% block js %}
+    <script>
+
+
+        let first_subcat = document.getElementById('first_subcat').innerHTML
+        let first_subsubcat = document.getElementById('first_subsubcat').innerHTML
+        let last_open=''
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight){
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+
+        function customDropDown(el) {
+
+            let target = el.dataset.target
+            if (last_open !=''){
+                if (last_open === target){
+                    document.getElementById(target).classList.toggle("show");
+                    last_open=target
+                }else{
+                    document.getElementById(last_open).classList.remove("show");
+                    document.getElementById(target).classList.toggle("show");
+                    last_open=target
+                }
+
+
+            }else{
+
+                document.getElementById(target).classList.toggle("show");
+                last_open=target
+            }
+
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            if (window.location.pathname.split("/")[3] !== '' && window.location.pathname.split("/")[4] === undefined) {
+                document.getElementById('subcat_' + window.location.pathname.split("/")[3]).click()
+                document.getElementById('subsubcat_' + first_subsubcat).classList.add('selected')
+            }else{
+                document.getElementById('subcat_' + window.location.pathname.split("/")[3]).click()
+            }
+            if (window.location.pathname.split("/")[4] !== undefined){
+                document.getElementById('subsubcat_' + window.location.pathname.split("/")[4]).classList.add('selected')
+            }
+            // if (window.location.pathname.split("/")[3] !== '' && window.location.pathname.split("/")[4] !== '' )  {
+            //   document.getElementById('subcat_' + first_subcat).click()
+            //   document.getElementById('subsubcat_' + first_subsubcat).classList.add('selected')
+            //}
+        });
+
+
+    </script>
+{% endblock %}

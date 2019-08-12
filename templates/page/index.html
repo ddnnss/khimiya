@@ -1,0 +1,416 @@
+{% extends 'basic.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'header_white.html' %}
+<section class="offer">
+    <div class="container">
+        <div class=" offer-inner">
+            <h1>Получите скидку до 30% на любой товар</h1>
+            <p>Пройдите опрос, который автоматически определит товар для вас</p>
+            <a href="#" class="btn">пройти опрос</a>
+        </div>
+        <div class="categories-nav">
+            {% for category in all_categories %}
+            <ul>
+                <li class="categories-nav-item" id="li_id_{{ category.id }}" data-menu_id="{{ category.id }}"><a class="categories-nav-item-link" href="{% url 'category' category.name_slug%}">{{ category.name }}</a></li>
+
+            </ul>
+            {% endfor %}
+        </div>
+    {% for category in all_categories %}
+        <div id="menu_id_{{ category.id }}" data-li_id="{{ category.id }}" class="categories-nav-dropdown" >
+
+ {% for subcat in category.subcategory_set.all %}
+            <ul class="categories-nav-dropdown-subcategory-items">
+
+                         <li><a href="{% url 'subcategory' category.name_slug subcat.name_slug %}">{{ subcat.name }} 1234566</a></li>
+
+                        {% for subsubcat in subcat.subsubcategory_set.all %}
+                            <li><a href="{% url 'subsubcategory' category.name_slug subcat.name_slug subsubcat.name_slug %}">{{ subsubcat.name }}</a></li>
+                        {% endfor %}
+
+            </ul>
+ {% endfor %}
+        </div>
+     {% endfor %}
+    </div>
+
+</section><!--offer-->
+<section class="features">
+    <div class="container">
+        <div class="features-items">
+            <div class="feature-item">
+                <div class="feature-icon1"></div>
+                <h4>Бесплатная доставка</h4>
+                <p>Предоставим бесплатную доставку при заказе от 1000 рублей</p>
+
+            </div> <!--feature-item-->
+            <div class="feature-item">
+                <div class="feature-icon2"></div>
+                <h4>Бесплатная доставка</h4>
+                <p>Предоставим бесплатную доставку при заказе от 1000 рублей</p>
+
+            </div> <!--feature-item-->
+            <div class="feature-item">
+                <div class="feature-icon3"></div>
+                <h4>Бесплатная доставка</h4>
+                <p>Предоставим бесплатную доставку при заказе от 1000 рублей</p>
+
+            </div> <!--feature-item-->
+            <div class="feature-item">
+                <div class="feature-icon4"></div>
+                <h4>Бесплатная доставка</h4>
+                <p>Предоставим бесплатную доставку при заказе от 1000 рублей</p>
+
+            </div> <!--feature-item-->
+
+        </div>
+    </div>
+</section><!--features-->
+
+<section class="about-us">
+    <div class="container">
+        <div class="about-us-inner">
+            <div class="about-us-info" >
+                <h3>О компании и продукте</h3>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus, accusantium animi assumenda debitis doloremque, error facilis illo minus non nostrum numquam obcaecati quidem sapiente sed sunt voluptate voluptates? Ab adipisci, amet deleniti earum et facilis nam nesciunt nulla quibusdam vitae!</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A adipisci at dolorem doloribus earum esse illum itaque non nulla placeat. Culpa dolorum itaque magnam officia pariatur provident quibusdam voluptas voluptates!20</p>
+
+            </div>
+            <div class="about-us-video">
+                <iframe width="80%" height="100%"
+                        src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                </iframe>
+                <!--  <p>Посмотрите видео-ролик о нашем товаре</p>-->
+            </div>
+        </div>
+    </div>
+</section><!--about-us-->
+
+<section class="popular-items">
+    <div class="container">
+        <h3>Популярные товары</h3>
+        <div class="item-cards">
+            <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <a href="#"><img src="{% static 'img/item.png' %}" alt=""></a>
+
+                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <a href="#"><img src="{% static 'img/item.png' %}" alt=""></a>
+
+                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <a href="#"><img src="{% static 'img/item.png' %}" alt=""></a>
+
+                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-discount">
+                    -15 %
+                </div>
+
+                <div class="item-card-favorite-btn">
+                    <a href="#"><i class="favorite-icon"></i></a>
+                </div>
+                <div class="item-card-inner">
+                    <a href="#"><img src="{% static 'img/item.png' %}" alt=""></a>
+
+                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <p> 1300 Р</p>
+                </div>
+            </div><!--item-card-->
+        </div>
+        <div class="popular-items-btn">
+            <a href="#" class="btn">смотреть каталог</a>
+        </div>
+    </div>
+
+</section><!--popular-items-->
+<section class="slider">
+    <div class="slider-inner">
+        <div class="slider-image">
+            <img id="slide-img-1" class="slide-img" src="{% static 'img/slide1.jpg' %}">
+            <img id="slide-img-2" class="slide-img" src="{% static 'img/slide1.jpg' %}">
+        </div>
+        <div class="slider-text">
+            <div class="slider-text-inner">
+                <div id="slide-text-1" class="slide-text">
+                    <h4>Самый большой выбор на рынке1</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos dolore ducimus facilis rem repudiandae unde? Beatae cupiditate earum et expedita id nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+                </div>
+                <div id="slide-text-2" class="slide-text">
+                    <h4>Самый большой выбор на рынке2</h4>
+                    <p>L nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+                </div>
+
+            </div>
+            <div class="slider-text-inner-arrows">
+                <span id="cur_slide">01</span><span id="total_slide"></span>
+                <a id="arrow_left" href="javascript:void(0)" onclick="prevSlide()" > <img src="img/arrow_left.png" alt=""></a>
+                <a id="arrow_right" href="javascript:void(0)" onclick="nextSlide()"> <img src="img/arrow_right.png" alt=""></a>
+            </div>
+        </div>
+
+    </div>
+
+</section><!--slider-->
+<section class="popular-items"><!--popular-category-->
+    <div class="container">
+        <h3>Популярные категории</h3>
+        <div class="item-cards">
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="{% static 'img/item.png' %}" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="{% static 'img/item.png' %}" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="{% static 'img/item.png' %}" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="{% static 'img/item.png' %}" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+            <div class="item-card ">
+                <div class="item-card-inner">
+                    <img src="{% static 'img/item.png' %}" alt="">
+                    <p class="item-card-name">Lorem ipsum.</p>
+                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+                <div class="item-card-price">
+                    <a href="#" class="btn">открыть</a>
+                </div>
+            </div><!--item-card-->
+
+
+        </div>
+        <div class="popular-items-btn">
+            <a href="#" class="btn">смотреть каталог</a>
+        </div>
+    </div>
+
+</section><!--popular-category-->
+
+
+{% endblock %}
+{% block js %}
+<script>
+    let cart = document.getElementById("shopping-bag");
+    let cart_menu = document.getElementById("shopping_bag_menu");
+    function showcart() {
+        cart_menu.style.display = 'block'
+        cart_menu.classList.add('slide-top')
+
+    }
+    function hidecart() {
+        cart_menu.style.display = 'none'
+
+    }
+
+
+
+    cart.addEventListener("mouseenter", showcart, false);
+    cart_menu.addEventListener("mouseleave", hidecart, false)
+    cart.addEventListener("mouseleave", function (event) {
+        if (event.relatedTarget.classList != 'nav-search-cart'){
+                cart_menu.style.display = 'none'
+
+            }
+    });
+    let menu_items = document.getElementsByClassName('categories-nav-item')
+    let menu_items_link = document.getElementsByClassName('categories-nav-item-link')
+    let sub_menus = document.getElementsByClassName('categories-nav-dropdown')
+    let menu_id = ''
+    let cur_slide = 1
+
+    let slide_img = document.getElementsByClassName('slide-img')
+    let slide_text = document.getElementsByClassName('slide-text')
+    document.getElementById('total_slide').innerText = '0'+slide_text.length
+
+    let li_id = ''
+    console.log( menu_items)
+    document.getElementById('slide-img-1').style.display = 'block'
+    document.getElementById('slide-text-1').style.display = 'block'
+    for (var i = 0; i < menu_items.length; i++){
+        menu_items[i].addEventListener("mouseover", function( event ) {
+            menu_id = event.target.dataset.menu_id
+            li_id = event.target.dataset.li_id
+            let menu = document.getElementById('menu_id_'+menu_id)
+            menu.classList.add('menu-active')
+            event.target.classList.add('hover')
+            console.log(menu)
+        })
+    }
+
+    for (var i = 0; i < menu_items.length; i++){
+        menu_items[i].addEventListener("mouseout", function( event ) {
+
+            event.target.classList.remove('hover')
+            let menu = document.getElementById('menu_id_'+menu_id)
+            console.log('related= '+ (event.relatedTarget.classList))
+            if (event.relatedTarget.classList != 'categories-nav-dropdown menu-active'){
+                console.log('close')
+                menu.classList.remove('menu-active')
+            }else{
+                console.log('not close')
+                let li = document.getElementById('li_id_'+menu_id)
+                li.classList.add('li-before')
+            }
+        })
+    }
+    for (var i = 0; i < sub_menus.length; i++){
+        sub_menus[i].addEventListener("mouseover", function( event ) {
+            console.log('menu over')
+            let li = document.getElementById('li_id_'+menu_id)
+            li.classList.add('hover')
+
+
+        })
+    }
+    for (var i = 0; i < sub_menus.length; i++){
+        sub_menus[i].addEventListener("mouseleave", function( event ) {
+            console.log('menu out')
+            let li = document.getElementById('li_id_'+menu_id)
+            li.classList.remove('hover')
+            let menu = document.getElementById('menu_id_'+menu_id)
+            menu.classList.remove('menu-active')
+            li.classList.remove('li-before')
+        })
+    }
+
+    function nextSlide() {
+        if (cur_slide + 1 > slide_text.length){
+            console.log('cur_slide + 1 > slide_text.length')
+
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-out')
+
+            document.getElementById('slide-text-'+cur_slide).style.display = 'none'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-out')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'none'
+            cur_slide = 1
+            document.getElementById('cur_slide').innerText = '0'+cur_slide
+            document.getElementById('slide-text-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-in')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-in')
+
+        }else{
+            console.log('cur_slide='+cur_slide)
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-out')
+
+            document.getElementById('slide-text-'+cur_slide).style.display = 'none'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-out')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'none'
+            cur_slide +=1
+            document.getElementById('cur_slide').innerText = '0'+cur_slide
+            document.getElementById('slide-text-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-in')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-in')
+        }
+
+    }
+
+    function prevSlide() {
+        if (cur_slide - 1 < 1){
+            console.log('cur_slide - 1 < 1')
+
+        }else{
+            console.log('cur_slide='+cur_slide)
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-out')
+            document.getElementById('slide-text-'+cur_slide).style.display = 'none'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-out')
+            document.getElementById('slide-img-'+cur_slide).style.display = 'none'
+            cur_slide -=1
+            document.getElementById('cur_slide').innerText = '0'+cur_slide
+            document.getElementById('slide-text-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-img-'+cur_slide).style.display = 'block'
+            document.getElementById('slide-img-'+cur_slide).classList.add('text-blur-in')
+
+            document.getElementById('slide-text-'+cur_slide).classList.add('text-blur-in')
+        }
+
+    }
+
+    setInterval(function() {
+        nextSlide()
+    }, 3000);
+
+</script>
+{% endblock %}

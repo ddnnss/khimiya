@@ -10,12 +10,12 @@ class ImagesInline (admin.TabularInline):
 
 
 class ItemsInline (admin.TabularInline):
-    model = Item
+    model = Item.subcategory.through
     extra = 0
 
-class ItemsInlineCollections (admin.TabularInline):
-    model = Item.collection.through
-    extra = 0
+# class ItemsInlineCollections (admin.TabularInline):
+#     model = Item.collection.through
+#     extra = 0
 
 class FilterInline(admin.TabularInline):
     model = Filter
@@ -26,7 +26,7 @@ class ItemAdmin(admin.ModelAdmin):
     #list_display = [field.name for field in Item._meta.fields]
     inlines = [ImagesInline]
     search_fields = ('name_lower', 'article')
-    list_filter = ('subcategory', 'collection', 'is_active', 'is_present', 'is_new', 'is_reserved',)
+    list_filter = ('subcategory',  'is_active', 'is_present',)
     exclude = ['name_slug','buys','views', 'name_lower'] #не отображать на сранице редактирования
     class Meta:
         model = Item
@@ -66,24 +66,34 @@ class ItemAdmin(admin.ModelAdmin):
 class SubcatAdmin(admin.ModelAdmin):
     # list_display = ['name','discount']
     list_display = [field.name for field in SubCategory._meta.fields]
-    inlines = [ FilterInline]
-    exclude = ['name_slug','views'] #не отображать на сранице редактирования
+    exclude = ['name_slug','views','discount'] #не отображать на сранице редактирования
     class Meta:
         model = SubCategory
 
-class CollectionAdmin(admin.ModelAdmin):
-   # inlines = [ItemsInlineCollections]
-    exclude = ['name_slug', 'views']
+class SubSubcatAdmin(admin.ModelAdmin):
+    # list_display = ['name','discount']
+    list_display = [field.name for field in SubSubCategory._meta.fields]
+    inlines = [ FilterInline,ItemsInline]
+    exclude = ['name_slug','views','discount'] #не отображать на сранице редактирования
     class Meta:
-        model = Collection
+        model = SubSubCategory
+
+class CatAdmin(admin.ModelAdmin):
+    # list_display = ['name','discount']
+    list_display = [field.name for field in Category._meta.fields]
+    exclude = ['name_slug','views'] #не отображать на сранице редактирования
+    class Meta:
+        model = Category
+
 
 class FilterAdmin(admin.ModelAdmin):
     search_fields = ('name', 'name_slug')
 
-admin.site.register(Category)
+admin.site.register(Category,CatAdmin)
 admin.site.register(SubCategory, SubcatAdmin)
+admin.site.register(SubSubCategory, SubSubcatAdmin)
 admin.site.register(Filter,FilterAdmin)
 admin.site.register(Item,ItemAdmin)
 admin.site.register(ItemImage)
-admin.site.register(Collection,CollectionAdmin)
+
 admin.site.register(PromoCode)
