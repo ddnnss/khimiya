@@ -43,6 +43,7 @@ def showitem(request, cat_slug,subcat_slug,subsubcat_slug,item_slug):
     images = ItemImage.objects.filter(item=item)
     # cat.views += 1
     # cat.save()
+    volumes = item.volume.split(';')
     title = item.page_title
     description = item.page_description
    # keywords = item.key

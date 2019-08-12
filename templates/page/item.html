@@ -36,7 +36,8 @@
                 <p class="item-presents">Есть в наличии</p>
                 {% endif %}
                 <div class="item-info-description-price-volume">
-                    <span>{{ item.price }}</span>
+
+                    <span>{{ item.price }} &#8381;</span>
                     <div class="item-info-description-volume">
                        <span>
                            Количество литров:
@@ -44,9 +45,11 @@
                         <div class="custom-select" style="width:150px;">
                             <select>
                                 <option value="0">Объем:</option>
-                                <option value="5">5 литров</option>
-                                <option value="2">2 литра</option>
-                                <option value="1">1 литр</option>
+                                {% for vol in volumes %}
+                                <option value="{{ vol }}">{{ vol }} л.</option>
+
+
+                                {% endfor %}
                             </select>
                         </div>
                     </div>
