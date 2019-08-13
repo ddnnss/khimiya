@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="UTF-8">
     <title>index</title>
+     <link rel="stylesheet" href="{% static 'css/animate.min.css' %}">
+     <link rel="stylesheet" href="{% static 'css/amaran.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
@@ -14,7 +16,13 @@
  {% include 'footer.html' %}
 {% block js %}
 {% endblock %}
-
+ <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+ <script src="{% static 'js/main.js' %}"></script>
+<script src="{% static 'js/jquery.amaran.min.js' %}"></script>
+<script src="{% static 'js/add_to_cart.js' %}"></script>
 
 </body>
 </html>

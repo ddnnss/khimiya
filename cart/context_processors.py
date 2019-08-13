@@ -15,7 +15,7 @@ def items_in_cart(request):
         print('Cart items for auth user')
         count_items_in_cart = all_items_in_cart.count()
         total_cart_price = 0
-        for item in all_items_in_cart:
+        for item in all_items_in_cart:           
             total_cart_price += item.total_price
         print(total_cart_price)
         total_cart_price_with_discount = total_cart_price

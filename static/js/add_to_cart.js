@@ -1,40 +1,21 @@
-function add_to_cart(form,i_id) {
-    if (i_id){
-       // console.log(form.elements[i_id+"_items_number"].value);
-    var btn = "#"+i_id+"_submit"
-    // console.log($(btn).data('item_name'));
+function add_to_cart(el) {
 
+        var item_number = document.getElementById('item_total').value
+        var item_id = el.dataset.item_id
+        var item_name = el.dataset.item_name
+     //   var item_price = form.elements["item_price"].value
+        var item_image = el.dataset.item_image
+     let item_volume = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
+     var csrf_token = $('#dummy_form [name="csrfmiddlewaretoken"]').val();
 
-    //     console.log(form.elements["items_number"].value);
-    //     console.log(form.elements["item_id"].value);
-    //     console.log(form.elements["item_name"].value);
-    //     console.log(form.elements["item_price"].value);
-    //     console.log(form.elements["item_image"].value);
-        var item_number = form.elements[i_id+"_items_number"].value
-        var item_id = $(btn).data('item_id')
-        var item_name = $(btn).data('item_name')
-        var item_price = $(btn).data('item_price')
-        var item_image = $(btn).data('item_image')
-
-
-    }
-    else {
-        var item_number = form.elements["items_number"].value
-        var item_id = form.elements["item_id"].value
-        var item_name = form.elements["item_name"].value
-        var item_price = form.elements["item_price"].value
-        var item_image = form.elements["item_image"].value
-    }
-
-
-    var csrf_token = form.elements["csrfmiddlewaretoken"].value
     // console.log($(form).attr('action'));
     //  console.log(csrf_token);
         var data = {};
         data.item_id = item_id;
         data.item_number = item_number;
+        data.item_volume = item_volume
         data['csrfmiddlewaretoken'] = csrf_token;
-        var url = $(form).attr('action');
+        var url = '/cart/add_to_cart/';
         console.log(data);
         $.ajax({
             url:url,
@@ -46,44 +27,52 @@ function add_to_cart(form,i_id) {
                 // console.log(data.total_items_in_cart);
                 // console.log(data.all_items);
 
-                $('.cart_table_lg').empty();
+                $('.cart_table').empty();
+                $('.cart-items').css('display','inline-block')
+                $('.cart-items').text(data.total_items_in_cart)
 
                 $.each(data.all_items,function (k,v) {
-                    $('.cart_table_lg').append('<tr class="miniCartProduct">\n' +
-                        '                                    <td style="width:20%" class="miniCartProductThumb">\n' +
-                        '                                        <div><a href="product-details.html"> <img src="'+ v.image +'" alt="img">\n' +
-                        '                                        </a></div>\n' +
-                        '                                    </td>\n' +
-                        '                                    <td style="width:40%">\n' +
-                        '                                        <div class="miniCartDescription">\n' +
-                        '                                            <h4><a href="product-details.html">'+ v.name +'</a></h4>\n' +
-                        '                                            <div class="price"><span> '+ v.price +' &#8381;</span></div>\n' +
-                        '                                        </div>\n' +
-                        '                                    </td>\n' +
-                        '                                    <td style="width:10%" class="miniCartQuantity"><a> X '+ v.number+' </a></td>\n' +
-                        '                                    <td style="width:15%" class="miniCartSubtotal"><span> '+ v.total_price +' &#8381;</span></td>\n' +
-                        '                                    <td style="width:5%" class="delete"><a data-item_id="'+ v.id +'" onclick="delete_from_cart(this);return false;"> x </a></td>\n' +
-                        '                                </tr>');
+                  $('.cart_table').append('<tr>\n' +
+                     '                            <td>\n' +
+                     '                                <img width="40" src="'+ v.image +'" alt="">\n' +
+                     '                            </td>\n' +
+                     '                            <td>\n' +
+                     '                                '+ v.name +' '+v.volume +' л\n' +
+                     '                            </td>\n' +
+                     '                            <td>\n' +
+                     '                                <span id="cart_item_number">'+ v.number+' шт</span> x  <span id="cart_item_price">'+ v.price +' &#8381;</span> = <span id="cart_item_total_price">'+ v.total_price +' &#8381;</span>\n' +
+                     '                            </td>\n' +
+                     '                        </tr>\n');
 
 
                 });
-                $('.cart_total_lg').html(data.total_cart_price);
-                $('.cart_footer_lg').html('');
-                $('.cart_footer_lg').append('' +
-                    ' <h3 class="text-right subtotal"> ИТОГО: '+ data.total_cart_price +' &#8381; </h3>\n' +
-                    '                            <a class="btn  btn-danger" href="/cart"> <i class="fa fa-shopping-cart"> </i> ПРОСМОТР КОРЗИНЫ</a><a\n' +
-                    '                                class="btn  btn-primary"> ОПЛАТА</a>');
+                $('.cart_table').append(' <tr class="cart-footer">\n' +
+                    '                            <td colspan="2">Итого</td>\n' +
+                    '                            <td colspan="2">'+ data.total_cart_price +' &#8381;</td>\n' +
+                    '                        </tr>\n' +
+                    '                        <tr>\n' +
+                    '                            <td colspan="2">\n' +
+                    '                                <a href="#" class="btn btn-sm">Открыть корзину</a>\n' +
+                    '\n' +
+                    '                            </td>\n' +
+                    '                            <td colspan="2">\n' +
+                    '\n' +
+                    '                            <a href="#" class="btn-outline btn-sm">Оплата</a>\n' +
+                    '                            </td>\n' +
+                    '\n' +
+                    '                        </tr>');
 
 
-                $.amaran({
+            $.amaran({
                         'theme'     :'user blue',
                         'content'   :{
                             img: item_image,
                             user:'Добавлено в корзину:',
-                            message: item_number + ' шт. - ' + item_name
+                            message: item_number + ' шт. - ' + item_name + ' | ' + item_volume + 'л.'
                         },
-                        'position'  :'bottom right',
-                        'outEffect' :'slideBottom'
+
+                        'position'  :'top right',
+                        'outEffect' :'slideRight'
                     });
             },
             error: function () {

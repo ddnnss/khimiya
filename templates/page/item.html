@@ -40,15 +40,12 @@
                 {% if item.is_present %}
                 <p class="item-presents">Есть в наличии</p>
                 {% endif %}
-                <p>Цена за литр:
+                <p class="item-liter-price">Цена за литр:
                     {% if item.discount > 0 %}
                         <del>{{ item.price }} &#8381;  </del> <span> {{ item.discount_value }} &#8381;</span>
                     {% else %}
-                      {{ item.price }} &#8381;
+                      <span>{{ item.price }} &#8381;</span>
                     {% endif %}
-
-
-
                 </p>
                 <div class="item-info-description-price-volume">
 
@@ -57,16 +54,14 @@
                            Количество:
                        </span>
                   <div class="custom-input">
-                            <button class="custom-input-minus" data-item_id="1" onclick="minusItem(this)">-</button>
-                            <input id="1_item_total" value="1" disabled onchange="alert('sdfd')">
-                            <button class="custom-input-plus" data-item_id="1" onclick="plusItem(this)">+</button>
+                            <button class="custom-input-minus"  onclick="minusItem(this)">-</button>
+                            <input id="item_total" value="1" disabled >
+                            <button class="custom-input-plus"  onclick="plusItem(this)">+</button>
 
                         </div>
                     </div>
                     <span>
                         <span id="price_per_liter">
-
-
                          </span> &#8381;
                     </span>
 
@@ -93,7 +88,10 @@
                     </div>
                 </div>
                 <div class="item-info-description-buttons">
-                    <a href="javascript:void(0)" class="btn btn-md">добавить в корзину</a>
+                    <a href="javascript:void(0)" class="btn btn-md"
+                       data-item_id="{{ item.id }}"
+                       data-item_image="{{ item.itemimage_set.first.image.url }}"
+                       data-item_name="{{ item.name }}" onclick="add_to_cart(this)">добавить в корзину</a>
                     <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>
 
                 </div>
@@ -305,6 +303,7 @@
                 let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
                 console.log(parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML))
                 price_per_liter_span.innerHTML = (liter_price * selected_liters).toFixed(2)
+                document.getElementById('item_total').value='1'
             });
             b.appendChild(c);
         }
@@ -346,4 +345,6 @@
             price_per_liter_span.innerHTML = (liter_price * selected_liters).toFixed(2)
         });
 </script>
+
+
 {% endblock %}

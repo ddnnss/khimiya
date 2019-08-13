@@ -191,6 +191,9 @@ h3 {
   border-bottom: 2px solid #d9dadc;
   margin-bottom: 35px; }
 
+#lit_price {
+  display: none; }
+
 .btn {
   font-family: SF UI Display Semibold,sans-serif;
   text-decoration: none;
@@ -475,7 +478,10 @@ h3 {
   position: absolute;
   top: 60px;
   border-top: 2px solid #d5ab61;
-  display: none; }
+  display: none;
+  z-index: 100;
+  -webkit-box-shadow: 0px 2px 11px 1px #b3b3b3;
+          box-shadow: 0px 2px 11px 1px #b3b3b3; }
   .menu-cart-items table tr {
     font-family: SF UI Regular, sans-serif;
     font-size: 14px; }
@@ -1192,9 +1198,20 @@ h3 {
 
 .item-presents {
   font-family: "SF UI Display Medium",sans-serif;
-  font-size: 14px;
+  font-size: 15px;
   color: #696969;
-  margin-bottom: 30px; }
+  margin-bottom: 15px; }
+
+.item-liter-price {
+  font-family: "SF UI Display Medium",sans-serif;
+  color: #696969;
+  margin-bottom: 15px; }
+  .item-liter-price del {
+    font-size: 16px;
+    color: #191919; }
+  .item-liter-price span {
+    font-size: 20px;
+    color: #010101; }
 
 .item-info-description-price-volume {
   display: -webkit-box;

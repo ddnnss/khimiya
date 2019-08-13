@@ -140,7 +140,7 @@ class Item(models.Model):
     name = models.CharField('Название товара', max_length=255, blank=False, null=True)
     name_lower = models.CharField(max_length=255, blank=True, null=True,default='')
     name_slug = models.CharField(max_length=255, blank=True, null=True,db_index=True)
-    price = models.DecimalField('Цена за литр',decimal_places=2, max_digits=5, blank=False, default=0, db_index=True)
+    price = models.DecimalField('Цена за литр',decimal_places=2, max_digits=6, blank=False, default=0, db_index=True)
     discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
     page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
     page_description = models.TextField('Описание страницы',  blank=False, null=True)

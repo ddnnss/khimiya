@@ -1,3 +1,5 @@
+import decimal
+
 from django.shortcuts import render
 from django.http import JsonResponse
 from cart.models import Cart
@@ -40,16 +42,18 @@ def wishlist_add(request):
 def add_to_cart(request):
     return_dict = {}
 
-
     data = request.POST
     print(data)
     s_key = request.session.session_key
     item_id = int(data.get('item_id'))
     item_number = int(data.get('item_number'))
+    item_volume = decimal.Decimal(data.get('item_volume'))
     if request.user.is_authenticated:
         print('User is_authenticated')
         addtocart, created = Cart.objects.get_or_create(client=request.user,
-                                                        item_id=item_id, defaults={'number': item_number})
+                                                        item_id=item_id, volume=item_volume, defaults={'number': item_number})
+
+
         if not created:
             addtocart.number += int(item_number)
             addtocart.save(force_update=True)
@@ -69,7 +73,7 @@ def add_to_cart(request):
             print('Guest created')
 
         addtocart, created = Cart.objects.get_or_create(guest=guest,
-                                                           item_id=item_id, defaults={'number': item_number})
+                                                           item_id=item_id, volume=item_volume, defaults={'number': item_number})
         if not created:
             addtocart.number += int(item_number)
             addtocart.save(force_update=True)
@@ -88,6 +92,7 @@ def add_to_cart(request):
         item_dict['name_slug'] = item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
+        item_dict['volume'] = item.volume
         item_dict['number'] = item.number
         item_dict['image'] = item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
