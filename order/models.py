@@ -1,3 +1,5 @@
+import decimal
+
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from customuser.models import User, Guest
@@ -115,17 +117,19 @@ class ItemsInOrder(models.Model):
     item = models.ForeignKey(Item, blank=False, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Товар')
     number = models.IntegerField('Кол-во', blank=True, null=True, default=0)
-    current_price = models.IntegerField('Цена за ед.', default=0)
-    total_price = models.IntegerField('Общая стоимость', default=0)
+    volume = models.DecimalField('Объем', decimal_places=2,max_digits=3, blank=True, null=True, default=0)
+    current_price = models.DecimalField('Цена за ед.',decimal_places=2,max_digits=6, default=0)
+    total_price = models.DecimalField('Общая стоимость',decimal_places=2,max_digits=6, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         if self.item.discount > 0:
             self.current_price = self.item.price - (self.item.price * self.item.discount / 100)
+            print(self.current_price)
         else:
             self.current_price = self.item.price
-        self.total_price = self.number * self.current_price
+        self.total_price = self.number * (decimal.Decimal(self.current_price) * self.volume)
 
         super(ItemsInOrder, self).save(*args, **kwargs)
 

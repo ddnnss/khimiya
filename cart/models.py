@@ -10,6 +10,7 @@ class Cart(models.Model):
     item = models.ForeignKey(Item, blank=True, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Товар')
     number = models.IntegerField('Кол-во', blank=True, null=True, default=0)
+    volume = models.DecimalField('Объем',max_digits=3, decimal_places=2, blank=True, null=True, default=0)
     current_price = models.IntegerField('Цена за ед.', default=0)
     total_price = models.IntegerField('Общая стоимость', default=0)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -32,6 +33,6 @@ class Cart(models.Model):
             self.current_price = self.item.price - (self.item.price * self.item.discount / 100)
         else:
             self.current_price = self.item.price
-        self.total_price = self.number * self.current_price
+        self.total_price = self.number * (self.current_price * self.volume)
 
         super(Cart, self).save(*args, **kwargs)

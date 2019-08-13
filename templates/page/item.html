@@ -3,6 +3,11 @@
 
 {% block content %}
     {% include 'header_grey.html' %}
+     {% if item.discount > 0 %}
+                          <span id="lit_price">{{ item.discount_value }}</span>
+                        {% else %}
+                          <span id="lit_price">{{ item.price }}</span>
+                        {% endif %}
     <section class="item">
     <div class="container">
         <div class="breadcrumbs">
@@ -35,18 +40,51 @@
                 {% if item.is_present %}
                 <p class="item-presents">Есть в наличии</p>
                 {% endif %}
+                <p>Цена за литр:
+                    {% if item.discount > 0 %}
+                        <del>{{ item.price }} &#8381;  </del> <span> {{ item.discount_value }} &#8381;</span>
+                    {% else %}
+                      {{ item.price }} &#8381;
+                    {% endif %}
+
+
+
+                </p>
                 <div class="item-info-description-price-volume">
 
-                    <span>{{ item.price }} &#8381;</span>
+                    <div class="item-info-description-volume">
+                       <span>
+                           Количество:
+                       </span>
+                  <div class="custom-input">
+                            <button class="custom-input-minus" data-item_id="1" onclick="minusItem(this)">-</button>
+                            <input id="1_item_total" value="1" disabled onchange="alert('sdfd')">
+                            <button class="custom-input-plus" data-item_id="1" onclick="plusItem(this)">+</button>
+
+                        </div>
+                    </div>
+                    <span>
+                        <span id="price_per_liter">
+
+
+                         </span> &#8381;
+                    </span>
+
                     <div class="item-info-description-volume">
                        <span>
                            Количество литров:
                        </span>
                         <div class="custom-select" style="width:150px;">
-                            <select>
-                                <option value="0">Объем:</option>
+                            <select id="liters">
+
                                 {% for vol in volumes %}
-                                <option value="{{ vol }}">{{ vol }} л.</option>
+                                    {% if forloop.first %}
+                                         <option value="{{ vol }}">{{ vol }}</option>
+                                         <option value="{{ vol }}">{{ vol }}</option>
+                                    {% else %}
+                                         <option value="{{ vol }}">{{ vol }}</option>
+                                    {% endif %}
+
 
 
                                 {% endfor %}
@@ -198,6 +236,9 @@
 
 {% block js %}
     <script>
+    const liter_price = parseFloat(document.getElementById('lit_price').innerHTML)
+    console.log(liter_price)
+    let price_per_liter_span = document.getElementById('price_per_liter')
     document.getElementById('first-tab').click()
 
     function imageClick(i) {
@@ -242,6 +283,7 @@
             c = document.createElement("DIV");
             c.innerHTML = selElmnt.options[j].innerHTML;
             c.addEventListener("click", function(e) {
+                console.log('change')
                 /*when an item is clicked, update the original select box,
                 and the selected item:*/
                 var y, i, k, s, h;
@@ -260,6 +302,9 @@
                     }
                 }
                 h.click();
+                let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
+                console.log(parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML))
+                price_per_liter_span.innerHTML = (liter_price * selected_liters).toFixed(2)
             });
             b.appendChild(c);
         }
@@ -295,5 +340,10 @@
     /*if the user clicks anywhere outside the select box,
     then close all select boxes:*/
     document.addEventListener("click", closeAllSelect);
+
+      document.addEventListener('DOMContentLoaded', function(){
+            let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
+            price_per_liter_span.innerHTML = (liter_price * selected_liters).toFixed(2)
+        });
 </script>
 {% endblock %}
