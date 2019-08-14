@@ -49,3 +49,15 @@
         document.getElementById(id).value = newVal
         document.getElementById(id).dispatchEvent(event);
     }
+
+    function calculatePrice() {
+         const liter_price = parseFloat(document.getElementById('lit_price').innerHTML)
+        let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
+
+
+        let item_number = document.getElementById('item_total').value
+
+        document.getElementById('price_per_liter').innerHTML = (item_number * (liter_price* selected_liters)).toFixed(2)
+
+
+    }

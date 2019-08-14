@@ -65,21 +65,47 @@
 
                 </p>
                 <div class="item-info-description-price-volume">
-                    <span>900 Р</span>
-                    <div class="item-info-description-volume">
+
+                        <div class="item-info-description-volume">
+                       <span>
+                           Количество шт:
+                       </span>
+                            <div class="custom-input">
+                                <button class="custom-input-minus"  onclick="minusItem(this)">-</button>
+                                <input id="item_total" value="1" disabled >
+                                <button class="custom-input-plus"  onclick="plusItem(this)">+</button>
+
+                            </div>
+                        </div>
+                        <div class="item-info-description-volume">
                        <span>
                            Количество литров:
                        </span>
-                        <div class="custom-select" style="width:150px;">
-                            <select>
-                                <option value="0">Объем:</option>
-                                <option value="5">5 литров</option>
-                                <option value="2">2 литра</option>
-                                <option value="1">1 литр</option>
-                            </select>
+                            <div class="custom-select" style="width:150px;">
+                                <select id="liters">
+                                    {% for vol in volumes %}
+                                        {% if forloop.first %}
+                                            <option value="{{ vol }}">{{ vol }}</option>
+                                            <option value="{{ vol }}">{{ vol }}</option>
+                                        {% else %}
+                                            <option value="{{ vol }}">{{ vol }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
+                        <div class="item-total-price">
+                            <p class="item-total-price-p">Общая стоимость</p>
+                            <span>
+                        <span id="price_per_liter">
+                            100
+                         </span> &#8381;
+                         </span>
+                        </div>
+
+
+
                     </div>
-                </div>
                 <div class="item-info-description-buttons">
                     <a href="javascript:void(0)" class="btn btn-md">добавить в корзину</a>
                     <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>

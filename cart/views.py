@@ -17,7 +17,7 @@ def format_number(num):
 
 def show_cart(request):
 
-    return render(request, 'cart/cart.html', locals())
+    return render(request, 'page/cart.html', locals())
 
 def wishlist_delete(request):
     return_dict = {}
@@ -87,7 +87,7 @@ def add_to_cart(request):
     for item in all_items_in_cart:
         total_cart_price += item.total_price
         item_dict = dict()
-        item_dict['id'] = item.item.id
+        item_dict['id'] = item.id
         item_dict['name'] = item.item.name
         item_dict['name_slug'] = item.item.name_slug
         item_dict['price'] = item.current_price
@@ -109,14 +109,14 @@ def delete_from_cart(request):
 
     if request.user.is_authenticated:
         print('User is_authenticated')
-        Cart.objects.filter(client=request.user, item_id=item_id).delete()
+        Cart.objects.filter(client=request.user, id=item_id).delete()
         all_items_in_cart = Cart.objects.filter(client=request.user)
 
     else:
         print('User is_not authenticated')
 
         guest = Guest.objects.get(session=s_key)
-        Cart.objects.filter(guest=guest, item_id=item_id).delete()
+        Cart.objects.filter(guest=guest, id=item_id).delete()
         all_items_in_cart = Cart.objects.filter(guest=guest)
     count_items_in_cart = all_items_in_cart.count()
     total_cart_price = 0
@@ -126,8 +126,9 @@ def delete_from_cart(request):
     for item in all_items_in_cart:
         total_cart_price += item.total_price
         item_dict = dict()
-        item_dict['id'] = item.item.id
+        item_dict['id'] = item.id
         item_dict['name'] = item.item.name
+        item_dict['volume'] = item.volume
         item_dict['name_slug'] = item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price

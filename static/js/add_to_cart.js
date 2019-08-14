@@ -42,6 +42,11 @@ function add_to_cart(el) {
                      '                            <td>\n' +
                      '                                <span id="cart_item_number">'+ v.number+' шт</span> x  <span id="cart_item_price">'+ v.price +' &#8381;</span> = <span id="cart_item_total_price">'+ v.total_price +' &#8381;</span>\n' +
                      '                            </td>\n' +
+                      ' <td>\n' +
+                      '                            <a class="cart-delete-btn" href="javascript:void(0)"\n' +
+                      '                               data-item_id="'+v.id +'"\n' +
+                      '                               onclick="delete_from_cart(this)"><span>&#10006;</span></a>\n' +
+                      '                        </td>\n'+
                      '                        </tr>\n');
 
 
@@ -52,7 +57,7 @@ function add_to_cart(el) {
                     '                        </tr>\n' +
                     '                        <tr>\n' +
                     '                            <td colspan="2">\n' +
-                    '                                <a href="#" class="btn btn-sm">Открыть корзину</a>\n' +
+                    '                                <a href="/cart/" class="btn btn-sm">Открыть корзину</a>\n' +
                     '\n' +
                     '                            </td>\n' +
                     '                            <td colspan="2">\n' +

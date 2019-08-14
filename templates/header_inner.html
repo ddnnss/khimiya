@@ -38,6 +38,11 @@
                             <td>
                                 <span id="cart_item_number">{{ cart_item.number }} шт</span> x  <span id="cart_item_price">{{ cart_item.current_price}} &#8381;</span> = <span id="cart_item_total_price">{{ cart_item.total_price }} &#8381;</span>
                             </td>
+                        <td>
+                            <a class="cart-delete-btn" href="javascript:void(0)"
+                               data-item_id="{{  cart_item.id }}"
+                               onclick="delete_from_cart(this)"><span>&#10006;</span></a>
+                        </td>
                         </tr>
                         {% endfor %}
                       {% if count_items_in_cart > 0 %}
@@ -47,7 +52,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <a href="#" class="btn btn-sm">Открыть корзину</a>
+                                <a href="{% url 'show_cart' %}" class="btn btn-sm">Открыть корзину</a>
 
                             </td>
                             <td colspan="2">

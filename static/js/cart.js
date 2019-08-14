@@ -1,14 +1,10 @@
 function change_cart(obj) {
- //   console.log($(obj).val());
- //   console.log($(obj).data('item_in_cart_id'));
-    jQuery('#cart_content').showLoading();
-    jQuery('#cart_sidebar').showLoading();
+    jQuery('.cart').showLoading();
     var item_id = $(obj).data('item_in_cart_id');
     var item_number = $(obj).val();
     if (parseInt(item_number) > 0){
         var url = '/cart/update_cart/';
         var csrf_token = $('#dummy_form [name="csrfmiddlewaretoken"]').val();
- //   console.log(csrf_token);
         var data = {};
         data.item_id = item_id;
         data.item_number = item_number;
@@ -20,10 +16,7 @@ function change_cart(obj) {
             data: data,
             cache:true,
             success: function (data) {
-            //    console.log('OK');
-                // console.log(data.all_items);
-                 $('.cart_table_lg').empty();
-
+                $('.cart_table_lg').empty();
                 $.each(data.all_items,function (k,v) {
                     $('.cart_table_lg').append('<tr class="miniCartProduct">\n' +
                         '                                    <td style="width:20%" class="miniCartProductThumb">\n' +
