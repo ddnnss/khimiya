@@ -1,5 +1,6 @@
 {% extends 'basic.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block content %}
     {% include 'header_grey.html' %}
@@ -23,7 +24,7 @@
                     <td>Действие</td>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="cart_body">
                    {% for cart_item in all_items_in_cart %}
                 <tr class="main-cart-item">
                     <td>
@@ -40,15 +41,26 @@
 
                         </div>
                     </td>
-                    <td class="main-cart-item-price">{{ cart_item.current_price}} &#8381;</td>
-                    <td class="main-cart-item-total-price">{{ cart_item.total_price }} &#8381;</td>
+                    <td class="main-cart-item-price">{{ cart_item.current_price | intcomma}} &#8381;</td>
+                    <td class="main-cart-item-total-price">{{ cart_item.total_price | intcomma }} &#8381;</td>
                     <td class="main-cart-item-action"><a class="cart-delete-btn" onclick="delete_from_main_cart({{ cart_item.id }})" href="javascript:void(0)"><span>&#10006;</span></a></td>
                 </tr>
                 {% endfor %}
+                <tr class="main-cart-footer">
+                    <td class="main-cart-footer__total">Итого</td>
+                    <td></td>
+                    <td></td>
+                    <td colspan="2" class="main-cart-footer__total-price">{{ total_cart_price | intcomma }} &#8381;</td>
+
+                </tr>
 
                 </tbody>
             </table>
 
+        </div>
+     <div class="main-cart__buttons">
+            <a href="javascript:history.go(-1);" class="btn-outline btn-md">продолжить покупки</a>
+            <a href="{% url 'checkout' %}" class="btn btn-md">оформить заказ</a>
         </div>
 
     </div>

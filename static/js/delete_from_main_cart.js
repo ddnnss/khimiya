@@ -58,14 +58,47 @@ function delete_from_main_cart(i_id) {
                     '                            </td>\n' +
                     '\n' +
                     '                        </tr>');
-
+                      $('#cart_body').empty()
+                      $.each(data.all_items,function (k,v) {
+                          $('#cart_body').append(' <tr class="main-cart-item">\n' +
+                              '                    <td>\n' +
+                              '                        <div class="main-cart-item-name">\n' +
+                              '                            <img src="'+ v.image +'" alt=""> <span>'+ v.name +' '+ v.volume +' л</span>\n' +
+                              '                        </div>\n' +
+                              '\n' +
+                              '                    </td>\n' +
+                              '                    <td class="main-cart-item-number">\n' +
+                              '                        <div class="custom-input main-cart">\n' +
+                              '                            <button class="custom-input-minus" data-item_id="'+ v.id +'" onclick="mainCartMinusItem(this)">-</button>\n' +
+                              '                            <input id="'+ v.id +'_item_total" data-item_in_cart_id="'+ v.id +'" value="'+ v.number +'" disabled onchange="change_cart(this)">\n' +
+                              '                            <button class="custom-input-plus" data-item_id="'+ v.id +'" onclick="mainCartPlusItem(this)">+</button>\n' +
+                              '\n' +
+                              '                        </div>\n' +
+                              '                    </td>\n' +
+                              '                    <td class="main-cart-item-price">'+ numberWithCommas(v.price) +' &#8381;</td>\n' +
+                              '                    <td class="main-cart-item-total-price">'+ numberWithCommas(v.total_price) +' &#8381;</td>\n' +
+                              '                    <td class="main-cart-item-action"><a class="cart-delete-btn" onclick="delete_from_main_cart('+ v.id +')" href="javascript:void(0)"><span>&#10006;</span></a></td>\n' +
+                              '                </tr>')
+                      });
+                        $('#cart_body').append(' <tr class="main-cart-footer">\n' +
+                            '                    <td class="main-cart-footer__total">Итого</td>\n' +
+                            '                    <td></td>\n' +
+                            '                    <td></td>\n' +
+                            '                    <td colspan="2" class="main-cart-footer__total-price">'+ numberWithCommas(data.total_cart_price)+' &#8381;</td>\n' +
+                            '\n' +
+                            '                </tr>')
+                jQuery('.cart').hideLoading()
                 }
+
                 else
                 {
+                    $('.cart').empty()
+                    $('.main-cart__buttons').empty()
                      $('.cart-items').css('display','none')
                      $('.cart_table').append('<tr>\n' +
                          '                          <td> Корзина пуста</td>\n' +
                          '                          </tr>');
+                     jQuery('.cart').hideLoading()
 
                 }
             },

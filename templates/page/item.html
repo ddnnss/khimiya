@@ -1,5 +1,6 @@
 {% extends 'basic.html' %}
 {% load static %}
+{% load humanize %}
 
 {% block content %}
     {% include 'header_grey.html' %}
@@ -42,9 +43,9 @@
                     {% endif %}
                     <p class="item-liter-price">Цена за литр:
                         {% if item.discount > 0 %}
-                            <del>{{ item.price }} &#8381;  </del> <span> {{ item.discount_value }} &#8381;</span>
+                            <del>{{ item.price | intcomma }} &#8381;  </del> <span> {{ item.discount_value | intcomma }} &#8381;</span>
                         {% else %}
-                            <span>{{ item.price }} &#8381;</span>
+                            <span>{{ item.price | intcomma }} &#8381;</span>
                         {% endif %}
                     </p>
                     <div class="item-info-description-price-volume">
@@ -303,7 +304,7 @@
                     h.click();
                     let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
                     console.log(parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML))
-                    price_per_liter_span.innerHTML = (liter_price * selected_liters).toFixed(2)
+                    price_per_liter_span.innerHTML = numberWithCommas((liter_price * selected_liters).toFixed(2))
                     document.getElementById('item_total').value='1'
                 });
                 b.appendChild(c);
@@ -343,7 +344,7 @@
 
         document.addEventListener('DOMContentLoaded', function(){
             let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
-            price_per_liter_span.innerHTML = (liter_price * selected_liters).toFixed(2)
+            price_per_liter_span.innerHTML = numberWithCommas((liter_price * selected_liters).toFixed(2))
         });
     </script>
 

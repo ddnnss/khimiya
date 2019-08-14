@@ -57,7 +57,13 @@
 
         let item_number = document.getElementById('item_total').value
 
-        document.getElementById('price_per_liter').innerHTML = (item_number * (liter_price* selected_liters)).toFixed(2)
+        document.getElementById('price_per_liter').innerHTML = numberWithCommas((item_number * (liter_price* selected_liters)).toFixed(2))
 
 
     }
+
+    function numberWithCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return parts.join(".");
+}

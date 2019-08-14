@@ -40,7 +40,7 @@ function add_to_cart(el) {
                      '                                '+ v.name +' '+v.volume +' л\n' +
                      '                            </td>\n' +
                      '                            <td>\n' +
-                     '                                <span id="cart_item_number">'+ v.number+' шт</span> x  <span id="cart_item_price">'+ v.price +' &#8381;</span> = <span id="cart_item_total_price">'+ v.total_price +' &#8381;</span>\n' +
+                     '                                <span id="cart_item_number">'+ v.number+' шт</span> x  <span id="cart_item_price">'+ numberWithCommas(v.price) +' &#8381;</span> = <span id="cart_item_total_price">'+ numberWithCommas(v.total_price) +' &#8381;</span>\n' +
                      '                            </td>\n' +
                       ' <td>\n' +
                       '                            <a class="cart-delete-btn" href="javascript:void(0)"\n' +
@@ -53,7 +53,7 @@ function add_to_cart(el) {
                 });
                 $('.cart_table').append(' <tr class="cart-footer">\n' +
                     '                            <td colspan="2">Итого</td>\n' +
-                    '                            <td colspan="2">'+ data.total_cart_price +' &#8381;</td>\n' +
+                    '                            <td colspan="2">'+ numberWithCommas(data.total_cart_price) +' &#8381;</td>\n' +
                     '                        </tr>\n' +
                     '                        <tr>\n' +
                     '                            <td colspan="2">\n' +
