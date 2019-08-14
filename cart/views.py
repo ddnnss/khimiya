@@ -181,8 +181,8 @@ def update_cart(request):
         item_dict = dict()
         item_dict['id'] = item.id
         item_dict['name'] = item.item.name
-        item_dict['subcategory'] = item.item.subcategory.name
-        item_dict['subcategory_slug'] = item.item.subcategory.name_slug
+
+        item_dict['volume'] = item.volume
         item_dict['name_slug'] = item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
@@ -253,8 +253,8 @@ def delete_from_main_cart(request):
         item_dict = dict()
         item_dict['id'] = item.id
         item_dict['name'] = item.item.name
-        item_dict['subcategory'] = item.item.subcategory.name
-        item_dict['subcategory_slug'] = item.item.subcategory.name_slug
+        item_dict['volume'] = item.volume
+
         item_dict['name_slug'] = item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
