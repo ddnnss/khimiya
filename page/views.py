@@ -57,10 +57,10 @@ def showitem(request, cat_slug,subcat_slug,subsubcat_slug,item_slug):
    # except:
   #      raise Http404
         # return render(request, '404.html', locals())
-    title = '{} | артикул {} - купить оптом в Москве'.format(item.name, item.article)
-    description = 'Заказывайте оптом {} (артикул {})' \
+    title = '{}  - купить оптом в Москве'.format(item.name)
+    description = 'Заказывайте оптом {} ' \
                   ' Большой выбор товаров на различную тематику по доступным ценам. Доставка по России.'.format(
-        item.name, item.article)
+        item.name)
     return render(request, 'page/item.html', locals())
 
 def check_email(request):

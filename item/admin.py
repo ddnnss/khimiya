@@ -22,27 +22,15 @@ class FilterInline(admin.TabularInline):
     extra = 0
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['image_tag','name','price','discount',]
+    list_display = ['image_tag','name','price','discount','views','buys',]
     #list_display = [field.name for field in Item._meta.fields]
     inlines = [ImagesInline]
-    search_fields = ('name_lower', 'article')
-    list_filter = ('subcategory',  'is_active', 'is_present',)
-    exclude = ['name_slug','buys','views', 'name_lower'] #не отображать на сранице редактирования
+    search_fields = ('name_lower',)
+    list_filter = ('subcategory', 'is_active', 'is_present',)
+    exclude = ['name_slug','name_lower','zapah'] #не отображать на сранице редактирования
     class Meta:
         model = Item
 
-    def make_new(modeladmin, request, queryset):
-        queryset.update(is_new=True)
-
-    def make_not_new(modeladmin, request, queryset):
-        queryset.update(is_new=False)
-
-    def make_reserved(modeladmin, request, queryset):
-        queryset.update(is_reserved=True)
-
-    def make_not_reserved(modeladmin, request, queryset):
-        queryset.update(is_reserved=False)
-    
     def make_present(modeladmin, request, queryset):
         queryset.update(is_present=True)
     def make_not_present(modeladmin, request, queryset):
@@ -52,39 +40,34 @@ class ItemAdmin(admin.ModelAdmin):
         queryset.update(is_active=True)
     def make_not_active(modeladmin, request, queryset):
         queryset.update(is_active=False)
-    make_new.short_description = "Отметить все отмеченные товары новинкой"
-    make_not_new.short_description = "Отметить все отмеченные товары НЕ новинкой"
-    make_reserved.short_description = "Отметить все отмеченные товары в резерве"
-    make_not_reserved.short_description = "Отметить все отмеченные товары НЕ в резерве"
+
     make_present.short_description = "Отметить все отмеченные товары в наличии"
     make_not_present.short_description = "Отметить все отмеченные товары НЕ в наличии"
     make_active.short_description = "Отметить все отмеченные товары как активные"
     make_not_active.short_description = "Отметить все отмеченные товары как НЕ активные"
+    actions = [make_present, make_not_present, make_active, make_not_active]
 
-    actions = [make_new, make_not_new, make_reserved, make_not_reserved, make_present,
-               make_not_present, make_active, make_not_active]
 class SubcatAdmin(admin.ModelAdmin):
     # list_display = ['name','discount']
-    list_display = [field.name for field in SubCategory._meta.fields]
-    exclude = ['name_slug','views','discount'] #не отображать на сранице редактирования
+    list_display = ['name','is_active','views']#[field.name for field in SubCategory._meta.fields]
+    exclude = ['name_slug','views','discount','image','short_description','description'] #не отображать на сранице редактирования
     class Meta:
         model = SubCategory
 
 class SubSubcatAdmin(admin.ModelAdmin):
     # list_display = ['name','discount']
-    list_display = [field.name for field in SubSubCategory._meta.fields]
+    list_display = ['name','is_active','views']#[field.name for field in SubSubCategory._meta.fields]
     inlines = [ FilterInline,ItemsInline]
-    exclude = ['name_slug','views','discount'] #не отображать на сранице редактирования
+    exclude = ['name_slug','views','discount','image','short_description','description'] #не отображать на сранице редактирования
     class Meta:
         model = SubSubCategory
 
 class CatAdmin(admin.ModelAdmin):
     # list_display = ['name','discount']
-    list_display = [field.name for field in Category._meta.fields]
-    exclude = ['name_slug','views'] #не отображать на сранице редактирования
+    list_display = ['name','is_active','views']#[field.name for field in Category._meta.fields]
+    exclude = ['name_slug','views','image','short_description','description'] #не отображать на сранице редактирования
     class Meta:
         model = Category
-
 
 class FilterAdmin(admin.ModelAdmin):
     search_fields = ('name', 'name_slug')

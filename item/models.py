@@ -25,12 +25,12 @@ class Category(models.Model):
     name = models.CharField('Название категории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField('Изображение категории', upload_to='category_img/', blank=True)
-    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
-    page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
-    page_keywords = models.TextField('Keywords', blank=False, null=True)
+    page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
+    page_description = models.CharField('Описание страницы SEO', max_length=255, blank=True, null=True)
+    page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
     short_description = models.TextField('Краткое описание', blank=True)
     description = RichTextUploadingField('Описание категории', blank=True, null=True)
-    views = models.IntegerField(default=0)
+    views = models.IntegerField('Просмотров',default=0)
     is_active = models.BooleanField('Отображать категорию ?', default=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -40,7 +40,7 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
-        return 'id :%s , %s ' % (self.id, self.name)
+        return 'Основная категория %s ' % self.name
 
     class Meta:
         verbose_name = "Основная категория"
@@ -52,13 +52,13 @@ class SubCategory(models.Model):
     name = models.CharField('Название подкатегории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=True)
-    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
-    page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
-    page_keywords = models.TextField('Keywords', blank=False, null=True)
+    page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
+    page_description = models.CharField('Описание страницы SEO', max_length=255, blank=True, null=True)
+    page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
     description = RichTextUploadingField('Описание подкатегории', blank=True, null=True)
     short_description = models.TextField('Краткое описание', blank=True)
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
-    views = models.IntegerField(default=0)
+    views = models.IntegerField('Просмотров',default=0)
     is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -73,7 +73,7 @@ class SubCategory(models.Model):
         super(SubCategory, self).save(*args, **kwargs)
 
     def __str__(self):
-        return 'id :%s , %s ' % (self.id, self.name)
+        return 'Основная подкатегория %s ' % self.name
 
     class Meta:
         verbose_name = "Основная подкатегория"
@@ -84,13 +84,13 @@ class SubSubCategory(models.Model):
     name = models.CharField('Название подкатегории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=True)
-    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
-    page_description = models.CharField('Описание страницы', max_length=255, blank=False, null=True)
-    page_keywords = models.TextField('Keywords', blank=False, null=True)
+    page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
+    page_description = models.CharField('Описание страницы SEO', max_length=255, blank=True, null=True)
+    page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
     description = RichTextUploadingField('Описание подкатегории', blank=True, null=True)
     short_description = models.TextField('Краткое описание', blank=True)
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
-    views = models.IntegerField(default=0)
+    views = models.IntegerField('Просмотров',default=0)
     is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -105,7 +105,7 @@ class SubSubCategory(models.Model):
         super(SubSubCategory, self).save(*args, **kwargs)
 
     def __str__(self):
-        return 'id :%s , %s ' % (self.id, self.name)
+        return 'Подкатегория %s ' % self.name
 
     class Meta:
         verbose_name = "Подкатегория"
@@ -114,7 +114,7 @@ class SubSubCategory(models.Model):
 
 class Filter(models.Model):
     subcategory = models.ForeignKey(SubSubCategory, blank=True, null=True,on_delete=models.SET_NULL, verbose_name='Подкатегория')
-    name = models.CharField('Название фильтра', max_length=255, blank=False, null=True)
+    name = models.CharField('Фильтр', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -122,7 +122,7 @@ class Filter(models.Model):
         super(Filter, self).save(*args, **kwargs)
 
     def __str__(self):
-        return '%s | %s ' % (self.subcategory.name, self.name)
+        return 'Фильтр %s для подкатегории %s ' % (self.name, self.subcategory.name)
 
     class Meta:
         verbose_name = "Фильтр"
@@ -140,19 +140,19 @@ class Item(models.Model):
     page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
     page_description = models.TextField('Описание страницы SEO',  blank=True, null=True)
     page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
-    description = models.TextField('Описание товара', blank=True, null=True)
-    short_description = models.TextField('Краткое описание товара (если оставить пустым, то будет взято 30 первыз слов из описания товара)',
+    description = models.TextField('Описание товара (отображается на странице товара)', blank=True, null=True)
+    short_description = models.TextField('Краткое описание товара (отображается в карточке товара) (если оставить пустым, то будет взято 15 первых слов из описания товара)',
                                          blank=True, null=True)
     volume = models.CharField('Доступные объемы(например 0,5;1;3)', max_length=100, default='1')
     good_time = models.CharField('Срок годности', max_length=15, default='1 год')
     weight = models.CharField('Вес',  max_length=15, default='не указано')
-    ph = models.CharField('pH', max_length=15, default='0')
+    ph = models.CharField('pH', max_length=15, blank=True, default='0')
     fasovka = models.CharField('Фасовка', max_length=50, blank=True, null=True, default='не указано')
     zapah =  models.CharField('Запах', max_length=50, blank=True, null=True, default='не указано')
     is_active = models.BooleanField('Отображать товар ?', default=True, db_index=True)
     is_present = models.BooleanField('Товар в наличии ?', default=True, db_index=True)
-    buys = models.IntegerField(default=0)
-    views = models.IntegerField(default=0)
+    buys = models.IntegerField('Покупок', default=0)
+    views = models.IntegerField('Просмотров', default=0)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -163,7 +163,7 @@ class Item(models.Model):
         self.volume = self.volume.replace(',','.')
         if self.description:
             if not self.short_description:
-                self.short_description = Truncator(self.description).words(30, truncate='...')
+                self.short_description = Truncator(self.description).words(15, truncate='...')
         super(Item, self).save(*args, **kwargs)
 
     def getfirstimage(self):
@@ -298,11 +298,11 @@ class PromoCode(models.Model):
     def save(self, *args, **kwargs):
         if self.is_unlimited:
             if not self.promo_code:
-                self.promo_code = "LM-"+''.join(choices(string.ascii_uppercase + string.digits, k=5))
+                self.promo_code = "PR-U-"+''.join(choices(string.ascii_uppercase + string.digits, k=5))
                 self.use_counts = 0
         else:
             if not self.promo_code:
-                self.promo_code = "LM-" + ''.join(choices(string.ascii_uppercase + string.digits, k=5))
+                self.promo_code = "PR-O-" + ''.join(choices(string.ascii_uppercase + string.digits, k=5))
 
 
         super(PromoCode, self).save(*args, **kwargs)

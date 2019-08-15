@@ -1,9 +1,10 @@
  {% load static %}
   <div class="item-card ">
+                {% if item.discount > 0 %}
                 <div class="item-card-discount">
-                    -15 %
+                    -{{ item.discount }} %
                 </div>
-
+                {% endif %}
                 <div class="item-card-favorite-btn">
                     <a href="#"><i class="favorite-icon"></i></a>
                 </div>
@@ -15,11 +16,14 @@
                         {% endif %}
                         {% endfor %}
                        </a>
-
-                    <a href="#"><p class="item-card-name">{{ item.name }}</p></a>
+                    <div class="item-card-info">
+                      <a href="#"><p class="item-card-name">{{ item.name }}</p></a>
                     <p class="item-card-description">{{ item.short_description }}</p>
+                    </div>
+
                 </div>
                 <div class="item-card-price">
-                    <p> {{ item.price }} &#8381; л.</p>
+                    <p> {{ item.price }} Р / л.</p>
+                    <a class="btn btn-sm" href="javascript:void(0)" onclick="quick_add_to_cart({{ item.id }})">в корзину</a>
                 </div>
             </div><!--item-card-->

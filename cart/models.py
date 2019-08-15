@@ -12,7 +12,7 @@ class Cart(models.Model):
     item = models.ForeignKey(Item, blank=True, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Товар')
     number = models.IntegerField('Кол-во', blank=True, null=True, default=0)
-    volume = models.DecimalField('Объем',max_digits=3, decimal_places=2, blank=True, null=True, default=0)
+    volume = models.DecimalField('Объем',max_digits=6, decimal_places=2, blank=True, null=True, default=0)
     current_price = models.DecimalField('Цена за ед.',max_digits=10, decimal_places=2, default=0)
     total_price = models.DecimalField('Общая стоимость',max_digits=10, decimal_places=2, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
