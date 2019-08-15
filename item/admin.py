@@ -22,7 +22,7 @@ class FilterInline(admin.TabularInline):
     extra = 0
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['image_tag','name','article','price','discount',]
+    list_display = ['image_tag','name','price','discount',]
     #list_display = [field.name for field in Item._meta.fields]
     inlines = [ImagesInline]
     search_fields = ('name_lower', 'article')

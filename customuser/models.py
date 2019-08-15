@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-from item.models import PromoCode
+from item.models import PromoCode, Item
 
 
 class UserManager(BaseUserManager):
@@ -83,3 +83,16 @@ class Guest(models.Model):
     def __str__(self):
         return 'Гостевой аккаунт. EMAIL : %s' % self.email
 
+
+class Review(models.Model):
+    item = models.ForeignKey(Item,blank=False, on_delete=models.CASCADE,verbose_name='Отзыв о товаре')
+    user = models.ForeignKey(User,blank=False, on_delete=models.CASCADE,verbose_name='Отзыв от')
+    text = models.TextField('Отзыв', blank=False,default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return 'Отзыв о товаре %s ,от %s ' % (self.item.name, self.user.email)
+
+    class Meta:
+        verbose_name = "Отзыв"
+        verbose_name_plural = "Отзывы"

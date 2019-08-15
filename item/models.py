@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.text import Truncator
 from pytils.translit import slugify
 from PIL import Image
 from django.db.models.signals import post_save
@@ -31,8 +32,6 @@ class Category(models.Model):
     description = RichTextUploadingField('Описание категории', blank=True, null=True)
     views = models.IntegerField(default=0)
     is_active = models.BooleanField('Отображать категорию ?', default=True, db_index=True)
-    for_fiz = models.BooleanField('Для физ лиц', default=True)
-    for_ur = models.BooleanField('Для юр лиц', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -44,8 +43,8 @@ class Category(models.Model):
         return 'id :%s , %s ' % (self.id, self.name)
 
     class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+        verbose_name = "Основная категория"
+        verbose_name_plural = "Основные категории"
 
 
 class SubCategory(models.Model):
@@ -61,8 +60,6 @@ class SubCategory(models.Model):
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
     views = models.IntegerField(default=0)
     is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
-    for_fiz = models.BooleanField('Для физ лиц', default=True)
-    for_ur = models.BooleanField('Для юр лиц', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -95,8 +92,6 @@ class SubSubCategory(models.Model):
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
     views = models.IntegerField(default=0)
     is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
-    for_fiz = models.BooleanField('Для физ лиц', default=True)
-    for_ur = models.BooleanField('Для юр лиц', default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -142,19 +137,18 @@ class Item(models.Model):
     name_slug = models.CharField(max_length=255, blank=True, null=True,db_index=True)
     price = models.DecimalField('Цена за литр',decimal_places=2, max_digits=6, blank=False, default=0, db_index=True)
     discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
-    page_title = models.CharField('Название страницы', max_length=255, blank=False, null=True)
-    page_description = models.TextField('Описание страницы',  blank=False, null=True)
+    page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
+    page_description = models.TextField('Описание страницы SEO',  blank=True, null=True)
+    page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
     description = models.TextField('Описание товара', blank=True, null=True)
-    short_description = models.TextField('Краткое описание товара', blank=True, null=True)
-    length = models.CharField('Длина', max_length=15, default='не указано')
-    width = models.CharField('Ширина', max_length=15, default='не указано')
+    short_description = models.TextField('Краткое описание товара (если оставить пустым, то будет взято 30 первыз слов из описания товара)',
+                                         blank=True, null=True)
     volume = models.CharField('Доступные объемы(например 0,5;1;3)', max_length=100, default='1')
-    height = models.CharField('Высота',  max_length=15, default='не указано')
-    goog_time = models.CharField('Срок годности', max_length=15, default='1 год')
-    article = models.CharField('Артикул', max_length=50, blank=False, null=True)
+    good_time = models.CharField('Срок годности', max_length=15, default='1 год')
     weight = models.CharField('Вес',  max_length=15, default='не указано')
     ph = models.CharField('pH', max_length=15, default='0')
     fasovka = models.CharField('Фасовка', max_length=50, blank=True, null=True, default='не указано')
+    zapah =  models.CharField('Запах', max_length=50, blank=True, null=True, default='не указано')
     is_active = models.BooleanField('Отображать товар ?', default=True, db_index=True)
     is_present = models.BooleanField('Товар в наличии ?', default=True, db_index=True)
     buys = models.IntegerField(default=0)
@@ -167,6 +161,9 @@ class Item(models.Model):
         self.name_lower = self.name.lower()
 
         self.volume = self.volume.replace(',','.')
+        if self.description:
+            if not self.short_description:
+                self.short_description = Truncator(self.description).words(30, truncate='...')
         super(Item, self).save(*args, **kwargs)
 
     def getfirstimage(self):
