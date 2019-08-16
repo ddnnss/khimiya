@@ -22,12 +22,12 @@ class FilterInline(admin.TabularInline):
     extra = 0
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['image_tag','name','price','discount','views','buys',]
+    list_display = ['image_tag','name','price','discount']
     #list_display = [field.name for field in Item._meta.fields]
     inlines = [ImagesInline]
     search_fields = ('name_lower',)
     list_filter = ('subcategory', 'is_active', 'is_present',)
-    exclude = ['name_slug','name_lower','zapah'] #не отображать на сранице редактирования
+    exclude = ['name_slug','name_lower','zapah','views','buys',] #не отображать на сранице редактирования
     class Meta:
         model = Item
 
