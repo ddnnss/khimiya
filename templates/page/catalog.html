@@ -81,27 +81,23 @@
         </div>
 
     </section>
-<div id="add_to_cart_modal" class="modal">
-  <div class="modal-content">
- <div class="modal-form offer-form-wrapper">
+    <div id="add_to_cart_modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-form offer-form-wrapper">
                 <div class="offer-form-inner">
                     <div class="modal-header">
                         <h3>Добавить в корзину</h3> <span class="close">&times;</span>
                     </div>
-                     <div class="add-to-cart-item-info-description">
-                    <h1></h1>
-                         <span id="lit_price"></span>
+                  <div class="add-to-cart-item-info-description">
+                    <div class="add-to-cart-item-name">
+                        <img id="preview_img" src=""><h5 id="item_name"></h5>
                         <p class="item-presents">Есть в наличии</p>
-
-                    <p class="item-liter-price">Цена за литр:
-
-                              <del id="old_price"> &#8381;  </del> <span id="new_price">  &#8381;</span>
-
-
-
-
-                    </p>
-                    <div class="add-to-cart-item-info-description-price-volume">
+                        <p class="item-liter-price">Цена за литр:
+                            <del id="old_price">33 &#8381;  </del> <span id="new_price">100  &#8381;</span>
+                        </p>
+                    </div>
+                    <span id="lit_price"></span>
+                    <div class="item-info-description-price-volume">
 
                         <div class="item-info-description-volume">
                        <span>
@@ -111,7 +107,6 @@
                                 <button class="custom-input-minus"  onclick="minusItem(this)">-</button>
                                 <input id="item_total" value="1" disabled onchange="calculatePrice()">
                                 <button class="custom-input-plus"  onclick="plusItem(this)">+</button>
-
                             </div>
                         </div>
                         <div class="item-info-description-volume">
@@ -120,7 +115,6 @@
                        </span>
                             <div class="custom-select" style="width:150px;">
                                 <select id="liters">
-
                                 </select>
                             </div>
                         </div>
@@ -135,6 +129,7 @@
 
 
                     </div>
+
                     <div class="item-info-description-buttons">
                         <a id="quick_add_to_cart_btn" href="javascript:void(0)" class="btn btn-md"
                            data-item_id=""
@@ -143,7 +138,7 @@
                         <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>
 
                     </div>
-                     </div>
+                </div>
 
                 </div>
 
@@ -151,77 +146,79 @@
             </div>
 
 
-  </div>
+        </div>
 
-</div>
+    </div>
 {% endblock %}
 
 {% block js %}
     <script>
-    let close_modal = document.getElementsByClassName("close")[0];
-    let modal = document.getElementById('add_to_cart_modal')
+        let close_modal = document.getElementsByClassName("close")[0];
+        let modal = document.getElementById('add_to_cart_modal')
 
-    close_modal.onclick = function () {
-        modal.style.display = "none";
-    }
-    function quick_add_to_cart(item_id) {
+        close_modal.onclick = function () {
+            modal.style.display = "none";
+        }
+        function quick_add_to_cart(item_id) {
 
-         var url = '/item/quick_add_to_cart/';
-   var csrf_token = $('#dummy_form [name="csrfmiddlewaretoken"]').val();
-   var data = {};
-   data.item_id = item_id;
-   data['csrfmiddlewaretoken'] = csrf_token;
-   $.ajax({
-            url:url,
-            type:'POST',
-            data: data,
-            cache:true,
-            success: function (data) {
-                console.log('OK');
-                console.log(data);
+            var url = '/item/quick_add_to_cart/';
+            var csrf_token = $('#dummy_form [name="csrfmiddlewaretoken"]').val();
+            var data = {};
+            data.item_id = item_id;
+            data['csrfmiddlewaretoken'] = csrf_token;
+            $.ajax({
+                url:url,
+                type:'POST',
+                data: data,
+                cache:true,
+                success: function (data) {
+                    console.log('OK');
+                    console.log(data);
 
-                 if (data.item_discount > 0){
-                     $('#old_price').html(numberWithCommas(data.item_price) + ' &#8381;');
-                     $('#new_price').html(numberWithCommas(data.item_price_discount) + ' &#8381;');
-                     $('#lit_price').html(data.item_price_discount)
+                    if (data.item_discount > 0){
+                        $('#old_price').html(numberWithCommas(data.item_price) + ' &#8381;');
+                        $('#new_price').html(numberWithCommas(data.item_price_discount) + ' &#8381;');
+                        $('#lit_price').html(data.item_price_discount)
+                    }
+                    else {
+                        $('#old_price').html('');
+                        $('#new_price').html(numberWithCommas(data.item_price) + ' &#8381;');
+                        $('#lit_price').html(data.item_price)
+
+                    }
+                    $('#liters').empty()
+                    $('.select-selected').remove()
+                    $('.select-items').remove()
+                    $('#preview_img').attr('src',data.item_images[0])
+                    $('#item_name').text(data.item_name)
+                    $('#price_per_liter').html('0')
+                    $('#quick_add_to_cart_btn').attr('data-item_id',data.item_id)
+                    $('#quick_add_to_cart_btn').attr('data-item_image',data.item_images[0])
+                    $('#quick_add_to_cart_btn').attr('data-item_name',data.item_name)
+                    document.getElementById('item_total').value='1'
+                    $('#liters').append('<option value="'+ data.item_volumes[0] +'">'+ data.item_volumes[0] +'</option>');
+                    $.each(data.item_volumes,function (i,v) {
+                        console.log(v)
+                        $('#liters').append('<option value="'+ v +'">'+ v +'</option>');
+
+
+                    })
+                    customInput()
+                    modal.style.display = 'block'
+
+
+
+
+
+                },
+                error: function () {
+                    console.log('ERROR')
                 }
-                else {
-                     $('#old_price').html('');
-                     $('#new_price').html(numberWithCommas(data.item_price) + ' &#8381;');
-                     $('#lit_price').html(data.item_price)
-
-                }
-                $('#liters').empty()
-                $('.select-selected').remove()
-                $('.select-items').remove()
-                $('#price_per_liter').html('0')
-                $('#quick_add_to_cart_btn').attr('data-item_id',data.item_id)
-                 $('#quick_add_to_cart_btn').attr('data-item_image',data.item_images[0])
-                 $('#quick_add_to_cart_btn').attr('data-item_name',data.item_name)
-                document.getElementById('item_total').value='1'
-                $('#liters').append('<option value="'+ data.item_volumes[0] +'">'+ data.item_volumes[0] +'</option>');
-                $.each(data.item_volumes,function (i,v) {
-                    console.log(v)
-                     $('#liters').append('<option value="'+ v +'">'+ v +'</option>');
-
-
-                 })
-                customInput()
-                modal.style.display = 'block'
+            });
 
 
 
-
-
-            },
-            error: function () {
-                console.log('ERROR')
-            }
-        });
-
-
-
-    }
+        }
 
 
         let first_subcat = document.getElementById('first_subcat').innerHTML
@@ -294,66 +291,66 @@
             //}
         });
 
-      function customInput() {
-          var x, i, j, selElmnt, a, b, c;
-        /*look for any elements with the class "custom-select":*/
-        x = document.getElementsByClassName("custom-select");
-        for (i = 0; i < x.length; i++) {
-            selElmnt = x[i].getElementsByTagName("select")[0];
-            /*for each element, create a new DIV that will act as the selected item:*/
-            a = document.createElement("DIV");
-            a.setAttribute("class", "select-selected");
-            a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
-            x[i].appendChild(a);
-            /*for each element, create a new DIV that will contain the option list:*/
-            b = document.createElement("DIV");
-            b.setAttribute("class", "select-items select-hide");
-            for (j = 1; j < selElmnt.length; j++) {
-                /*for each option in the original select element,
-                create a new DIV that will act as an option item:*/
-                c = document.createElement("DIV");
-                c.innerHTML = selElmnt.options[j].innerHTML;
-                c.addEventListener("click", function(e) {
-                    console.log('change')
-                    /*when an item is clicked, update the original select box,
-                    and the selected item:*/
-                    var y, i, k, s, h;
-                    s = this.parentNode.parentNode.getElementsByTagName("select")[0];
-                    h = this.parentNode.previousSibling;
-                    for (i = 0; i < s.length; i++) {
-                        if (s.options[i].innerHTML == this.innerHTML) {
-                            s.selectedIndex = i;
-                            h.innerHTML = this.innerHTML;
-                            y = this.parentNode.getElementsByClassName("same-as-selected");
-                            for (k = 0; k < y.length; k++) {
-                                y[k].removeAttribute("class");
+        function customInput() {
+            var x, i, j, selElmnt, a, b, c;
+            /*look for any elements with the class "custom-select":*/
+            x = document.getElementsByClassName("custom-select");
+            for (i = 0; i < x.length; i++) {
+                selElmnt = x[i].getElementsByTagName("select")[0];
+                /*for each element, create a new DIV that will act as the selected item:*/
+                a = document.createElement("DIV");
+                a.setAttribute("class", "select-selected");
+                a.innerHTML = selElmnt.options[selElmnt.selectedIndex].innerHTML;
+                x[i].appendChild(a);
+                /*for each element, create a new DIV that will contain the option list:*/
+                b = document.createElement("DIV");
+                b.setAttribute("class", "select-items select-hide");
+                for (j = 1; j < selElmnt.length; j++) {
+                    /*for each option in the original select element,
+                    create a new DIV that will act as an option item:*/
+                    c = document.createElement("DIV");
+                    c.innerHTML = selElmnt.options[j].innerHTML;
+                    c.addEventListener("click", function(e) {
+                        console.log('change')
+                        /*when an item is clicked, update the original select box,
+                        and the selected item:*/
+                        var y, i, k, s, h;
+                        s = this.parentNode.parentNode.getElementsByTagName("select")[0];
+                        h = this.parentNode.previousSibling;
+                        for (i = 0; i < s.length; i++) {
+                            if (s.options[i].innerHTML == this.innerHTML) {
+                                s.selectedIndex = i;
+                                h.innerHTML = this.innerHTML;
+                                y = this.parentNode.getElementsByClassName("same-as-selected");
+                                for (k = 0; k < y.length; k++) {
+                                    y[k].removeAttribute("class");
+                                }
+                                this.setAttribute("class", "same-as-selected");
+                                break;
                             }
-                            this.setAttribute("class", "same-as-selected");
-                            break;
                         }
-                    }
-                    h.click();
-                    let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
-                    const liter_price = parseFloat(document.getElementById('lit_price').innerHTML)
+                        h.click();
+                        let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
+                        const liter_price = parseFloat(document.getElementById('lit_price').innerHTML)
 
-                     let price_per_liter_span = document.getElementById('price_per_liter')
-                    console.log(parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML))
-                    price_per_liter_span.innerHTML = numberWithCommas((liter_price * selected_liters).toFixed(2))
-                    document.getElementById('item_total').value='1'
+                        let price_per_liter_span = document.getElementById('price_per_liter')
+                        console.log(parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML))
+                        price_per_liter_span.innerHTML = numberWithCommas((liter_price * selected_liters).toFixed(2))
+                        document.getElementById('item_total').value='1'
+                    });
+                    b.appendChild(c);
+                }
+                x[i].appendChild(b);
+                a.addEventListener("click", function(e) {
+                    /*when the select box is clicked, close any other select boxes,
+                    and open/close the current select box:*/
+                    e.stopPropagation();
+                    closeAllSelect(this);
+                    this.nextSibling.classList.toggle("select-hide");
+                    this.classList.toggle("select-arrow-active");
                 });
-                b.appendChild(c);
             }
-            x[i].appendChild(b);
-            a.addEventListener("click", function(e) {
-                /*when the select box is clicked, close any other select boxes,
-                and open/close the current select box:*/
-                e.stopPropagation();
-                closeAllSelect(this);
-                this.nextSibling.classList.toggle("select-hide");
-                this.classList.toggle("select-arrow-active");
-            });
         }
-      }
         function closeAllSelect(elmnt) {
             /*a function that will close all select boxes in the document,
             except the current select box:*/

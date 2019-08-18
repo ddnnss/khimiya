@@ -306,6 +306,18 @@ h3 {
 .bg-gray {
   background: #f7f7f8; }
 
+.img-magnifier-container {
+  position: relative; }
+
+.img-magnifier-glass {
+  position: absolute;
+  border: 3px solid #000;
+  border-radius: 50%;
+  cursor: none;
+  /*Set the size of the magnifier glass:*/
+  width: 100px;
+  height: 100px; }
+
 @-webkit-keyframes focus-in-expand {
   0% {
     letter-spacing: -0.5em;
@@ -1512,7 +1524,7 @@ h3 {
   display: none;
   position: fixed;
   z-index: 1;
-  padding-top: 12%;
+  padding-top: 5%;
   left: 0;
   top: 0;
   width: 100%;
@@ -1538,7 +1550,7 @@ h3 {
   margin: auto;
   padding: 40px;
   border: 1px solid #888;
-  max-width: 320px;
+  max-width: 520px;
   border-radius: 8px; }
 
 .modal-form {
@@ -1563,6 +1575,23 @@ h3 {
     color: #000;
     text-decoration: none;
     cursor: pointer; }
+
+.add-to-cart-item-name img {
+  float: left;
+  width: 70px;
+  margin-right: 20px; }
+
+.add-to-cart-item-name h5 {
+  text-align: start;
+  font-family: "SF UI Display Semibold",sans-serif;
+  font-size: 20px; }
+
+.add-to-cart-item-name .item-presents {
+  text-align: start;
+  margin: 10px; }
+
+.add-to-cart-item-name .item-liter-price {
+  text-align: start; }
 
 @media screen and (max-width: 1540px) {
   .header-cart {
