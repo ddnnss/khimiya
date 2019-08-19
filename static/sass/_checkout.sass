@@ -1,0 +1,54 @@
+.checkout
+  h3
+    margin-bottom: 40px
+.checkout-inner
+  display: flex
+  justify-content: space-between
+
+.checkout-user
+  min-width: 80%
+.checkout-order-items
+  min-width: 19%
+.checkout-user-info__header
+  font-family: "SF UI Display Semibold",sans-serif
+  font-size: 16px
+  color: $text-color
+  display: flex
+  align-items: center
+  background: #f6ebe1
+  padding: 15px
+  span
+    display: inline-block
+    background: #FFFFFF
+    border-radius: 50%
+    padding: 3px 10px
+    margin-right: 10px
+  p
+
+.checkout-user-info__inputs
+  padding: 15px
+  display: flex
+  flex-direction: column
+  border: 1px solid $border
+  margin-bottom: 35px
+
+.checkout-user-info__input
+  display: grid
+  grid-template-columns: 100px 400px
+  margin-bottom: 20px
+  align-items: center
+  label
+    margin-right: 10px
+    font-family: "SF UI Display",sans-serif
+    color: #7a7a7a
+  input
+    width: 320px
+    padding: 15px 5px
+    border: 1px solid $border
+    &::placeholder
+      font-family: "SF UI Display",sans-serif
+      font-size: 14px
+    &:focus
+      outline-width: 0
+      border: 1px solid $secondary-color
+

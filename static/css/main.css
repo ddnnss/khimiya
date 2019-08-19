@@ -1614,6 +1614,88 @@ h3 {
 #add_to_cart_modal .item-info-description-buttons {
   margin-bottom: 20px; }
 
+.checkout h3 {
+  margin-bottom: 40px; }
+
+.checkout-inner {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
+
+.checkout-user {
+  min-width: 80%; }
+
+.checkout-order-items {
+  min-width: 19%; }
+
+.checkout-user-info__header {
+  font-family: "SF UI Display Semibold",sans-serif;
+  font-size: 16px;
+  color: #010101;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: #f6ebe1;
+  padding: 15px; }
+  .checkout-user-info__header span {
+    display: inline-block;
+    background: #FFFFFF;
+    border-radius: 50%;
+    padding: 3px 10px;
+    margin-right: 10px; }
+
+.checkout-user-info__inputs {
+  padding: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  border: 1px solid #e5e5e5;
+  margin-bottom: 35px; }
+
+.checkout-user-info__input {
+  display: grid;
+  grid-template-columns: 100px 400px;
+  margin-bottom: 20px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  .checkout-user-info__input label {
+    margin-right: 10px;
+    font-family: "SF UI Display",sans-serif;
+    color: #7a7a7a; }
+  .checkout-user-info__input input {
+    width: 320px;
+    padding: 15px 5px;
+    border: 1px solid #e5e5e5; }
+    .checkout-user-info__input input::-webkit-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input input::-moz-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input input:-ms-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input input::-ms-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input input::placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input input:focus {
+      outline-width: 0;
+      border: 1px solid #44d4de; }
+
 @media screen and (max-width: 1540px) {
   .header-cart {
     -webkit-box-align: end;
