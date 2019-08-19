@@ -14,8 +14,9 @@
 .modal-header
   display: flex
   margin-bottom: 20px
+  align-items: center
 
-  h3
+  h6
     flex-grow: 1000
     font-family: "SF UI Display Bold",sans-serif
     font-size: 20px
@@ -59,6 +60,7 @@
     cursor: pointer
 
 .add-to-cart-item-name
+  border-bottom: 2px solid $border
   img
     float: left
     width: 70px
@@ -72,3 +74,22 @@
     margin: 10px
   .item-liter-price
     text-align: start
+
+
+.item-total-price-p
+  font-size: 12px
+  font-family: "SF UI Display Medium",sans-serif
+  display: block
+  margin-bottom: 10px
+
+#add_to_cart_modal .item-info-description-price-volume
+  grid-template-columns: 2fr 1fr 2fr
+  align-items: flex-start
+  margin-top: 30px
+  #price_per_liter
+    display: inline-block
+    font-size: 20px
+
+#add_to_cart_modal .item-info-description-buttons
+  margin-bottom: 20px
+

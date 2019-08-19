@@ -1537,8 +1537,11 @@ h3 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  margin-bottom: 20px; }
-  .modal-header h3 {
+  margin-bottom: 20px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center; }
+  .modal-header h6 {
     -webkit-box-flex: 1000;
         -ms-flex-positive: 1000;
             flex-grow: 1000;
@@ -1576,22 +1579,40 @@ h3 {
     text-decoration: none;
     cursor: pointer; }
 
-.add-to-cart-item-name img {
-  float: left;
-  width: 70px;
-  margin-right: 20px; }
+.add-to-cart-item-name {
+  border-bottom: 2px solid #e5e5e5; }
+  .add-to-cart-item-name img {
+    float: left;
+    width: 70px;
+    margin-right: 20px; }
+  .add-to-cart-item-name h5 {
+    text-align: start;
+    font-family: "SF UI Display Semibold",sans-serif;
+    font-size: 20px; }
+  .add-to-cart-item-name .item-presents {
+    text-align: start;
+    margin: 10px; }
+  .add-to-cart-item-name .item-liter-price {
+    text-align: start; }
 
-.add-to-cart-item-name h5 {
-  text-align: start;
-  font-family: "SF UI Display Semibold",sans-serif;
-  font-size: 20px; }
+.item-total-price-p {
+  font-size: 12px;
+  font-family: "SF UI Display Medium",sans-serif;
+  display: block;
+  margin-bottom: 10px; }
 
-.add-to-cart-item-name .item-presents {
-  text-align: start;
-  margin: 10px; }
+#add_to_cart_modal .item-info-description-price-volume {
+  grid-template-columns: 2fr 1fr 2fr;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  margin-top: 30px; }
+  #add_to_cart_modal .item-info-description-price-volume #price_per_liter {
+    display: inline-block;
+    font-size: 20px; }
 
-.add-to-cart-item-name .item-liter-price {
-  text-align: start; }
+#add_to_cart_modal .item-info-description-buttons {
+  margin-bottom: 20px; }
 
 @media screen and (max-width: 1540px) {
   .header-cart {
