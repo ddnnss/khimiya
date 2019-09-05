@@ -1695,6 +1695,29 @@ h3 {
     .checkout-user-info__input input:focus {
       outline-width: 0;
       border: 1px solid #44d4de; }
+  .checkout-user-info__input textarea {
+    width: 320px;
+    height: 200px;
+    padding: 15px 5px;
+    border: 1px solid #e5e5e5; }
+    .checkout-user-info__input textarea::-webkit-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input textarea::-moz-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input textarea:-ms-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input textarea::-ms-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input textarea::placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .checkout-user-info__input textarea:focus {
+      outline-width: 0;
+      border: 1px solid #44d4de; }
 
 @media screen and (max-width: 1540px) {
   .header-cart {
