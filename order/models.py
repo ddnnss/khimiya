@@ -12,11 +12,11 @@ class Wishlist(models.Model):
     item = models.ForeignKey(Item, blank=True, null=True, on_delete=models.SET_NULL, verbose_name='Товар')
 
     def __str__(self):
-        return 'Закладка клиента : %s ' % self.client.email
+        return 'Избранный товар : %s ' % self.client.email
 
     class Meta:
-        verbose_name = "Закладка клиента"
-        verbose_name_plural = "Закладки клиентов"
+        verbose_name = "Избранный товар"
+        verbose_name_plural = "Избранные товары"
 
 
 class OrderStatus(models.Model):
@@ -41,6 +41,7 @@ class OrderPayment(models.Model):
 
 class OrderShipping(models.Model):
     name = models.CharField('Вариант доставки заказа', max_length=100, blank=False)
+    deliveryCost = models.IntegerField('Стоимость доставки', default=0)
 
     def __str__(self):
         return '%s' % self.name

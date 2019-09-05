@@ -10,7 +10,6 @@ import string
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.conf import settings
 from django.utils.safestring import mark_safe
-#from laskshmi import settings
 
 import os
 
@@ -21,6 +20,7 @@ def format_number(num):
     else:
         return num
 
+
 class Category(models.Model):
     name = models.CharField('Название категории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
@@ -30,7 +30,7 @@ class Category(models.Model):
     page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
     short_description = models.TextField('Краткое описание', blank=True)
     description = RichTextUploadingField('Описание категории', blank=True, null=True)
-    views = models.IntegerField('Просмотров',default=0)
+    views = models.IntegerField('Просмотров', default=0)
     is_active = models.BooleanField('Отображать категорию ?', default=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -58,7 +58,7 @@ class SubCategory(models.Model):
     description = RichTextUploadingField('Описание подкатегории', blank=True, null=True)
     short_description = models.TextField('Краткое описание', blank=True)
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
-    views = models.IntegerField('Просмотров',default=0)
+    views = models.IntegerField('Просмотров', default=0)
     is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -79,8 +79,10 @@ class SubCategory(models.Model):
         verbose_name = "Основная подкатегория"
         verbose_name_plural = "Основные подкатегории"
 
+
 class SubSubCategory(models.Model):
-    subcategory = models.ForeignKey(SubCategory, blank=False, null=True, on_delete=models.SET_NULL,verbose_name='Основная подкатегория')
+    subcategory = models.ForeignKey(SubCategory, blank=False, null=True, on_delete=models.SET_NULL,
+                                    verbose_name='Основная подкатегория')
     name = models.CharField('Название подкатегории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=True)
@@ -90,7 +92,7 @@ class SubSubCategory(models.Model):
     description = RichTextUploadingField('Описание подкатегории', blank=True, null=True)
     short_description = models.TextField('Краткое описание', blank=True)
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
-    views = models.IntegerField('Просмотров',default=0)
+    views = models.IntegerField('Просмотров', default=0)
     is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -113,7 +115,8 @@ class SubSubCategory(models.Model):
 
 
 class Filter(models.Model):
-    subcategory = models.ForeignKey(SubSubCategory, blank=True, null=True,on_delete=models.SET_NULL, verbose_name='Подкатегория')
+    subcategory = models.ForeignKey(SubSubCategory, blank=True, null=True, on_delete=models.SET_NULL,
+                                    verbose_name='Подкатегория')
     name = models.CharField('Фильтр', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
 
@@ -130,25 +133,27 @@ class Filter(models.Model):
 
 
 class Item(models.Model):
-    subcategory = models.ManyToManyField(SubSubCategory, blank=True, verbose_name='Подкатегория',db_index=True)
-    filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL,db_index=True, verbose_name='Фильтр')
+    subcategory = models.ManyToManyField(SubSubCategory, blank=True, verbose_name='Подкатегория', db_index=True)
+    filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL, db_index=True,
+                               verbose_name='Фильтр')
     name = models.CharField('Название товара', max_length=255, blank=False, null=True)
-    name_lower = models.CharField(max_length=255, blank=True, null=True,default='')
-    name_slug = models.CharField(max_length=255, blank=True, null=True,db_index=True)
-    price = models.DecimalField('Цена за литр',decimal_places=2, max_digits=6, blank=False, default=0, db_index=True)
+    name_lower = models.CharField(max_length=255, blank=True, null=True, default='')
+    name_slug = models.CharField(max_length=255, blank=True, null=True, db_index=True)
+    price = models.DecimalField('Цена за литр', decimal_places=2, max_digits=6, blank=False, default=0, db_index=True)
     discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
     page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
-    page_description = models.TextField('Описание страницы SEO',  blank=True, null=True)
+    page_description = models.TextField('Описание страницы SEO', blank=True, null=True)
     page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
     description = models.TextField('Описание товара (отображается на странице товара)', blank=True, null=True)
-    short_description = models.TextField('Краткое описание товара (отображается в карточке товара) (если оставить пустым, то будет взято 15 первых слов из описания товара)',
-                                         blank=True, null=True)
+    short_description = models.TextField(
+        'Краткое описание товара (отображается в карточке товара) (если оставить пустым, то будет взято 15 первых слов из описания товара)',
+        blank=True, null=True)
     volume = models.CharField('Доступные объемы(например 0,5;1;3)', max_length=100, default='1')
     good_time = models.CharField('Срок годности', max_length=15, default='1 год')
-    weight = models.CharField('Вес',  max_length=15, default='не указано')
+    weight = models.CharField('Вес', max_length=15, default='не указано')
     ph = models.CharField('pH', max_length=15, blank=True, default='0')
     fasovka = models.CharField('Фасовка', max_length=50, blank=True, null=True, default='не указано')
-    zapah =  models.CharField('Запах', max_length=50, blank=True, null=True, default='не указано')
+    zapah = models.CharField('Запах', max_length=50, blank=True, null=True, default='не указано')
     is_active = models.BooleanField('Отображать товар ?', default=True, db_index=True)
     is_present = models.BooleanField('Товар в наличии ?', default=True, db_index=True)
     buys = models.IntegerField('Покупок', default=0)
@@ -160,7 +165,7 @@ class Item(models.Model):
         self.name_slug = slugify(self.name)
         self.name_lower = self.name.lower()
 
-        self.volume = self.volume.replace(',','.')
+        self.volume = self.volume.replace(',', '.')
         if self.description:
             if not self.short_description:
                 self.short_description = Truncator(self.description).words(15, truncate='...')
@@ -182,8 +187,6 @@ class Item(models.Model):
 
     image_tag.short_description = 'Основная картинка'
 
-
-
     @property
     def discount_value(self):
         if self.discount > 0:
@@ -191,7 +194,6 @@ class Item(models.Model):
         else:
             dis_val = 0
         return (format_number(dis_val))
-
 
     def __str__(self):
         if self.filter:
@@ -204,10 +206,7 @@ class Item(models.Model):
         verbose_name_plural = "Товары"
 
 
-
 class ItemImage(models.Model):
-
-
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
     image = models.ImageField('Изображение товара', upload_to='items', blank=False)
     image_small = models.CharField(max_length=255, blank=True, default='')
@@ -231,34 +230,9 @@ class ItemImage(models.Model):
 
     image_tag.short_description = 'Картинка'
 
-
     def save(self, *args, **kwargs):
         fill_color = '#fff'
         image = Image.open(self.image).convert('RGB')
-
-        # if base_image.mode in ('RGBA', 'LA'):
-        #     background = Image.new(base_image.mode[:-1], base_image.size, fill_color)
-        #     background.paste(base_image, base_image.split()[-1])
-        #     base_image = background
-        os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
-        # watermark = Image.open('static/images/watermark30.png')
-        # width, height = base_image.size
-        # transparent = Image.new('RGB', (width, height), (0, 0, 0, 0))
-        # transparent.paste(base_image, (0, 0))
-        # transparent.paste(watermark, (291, 386), mask=watermark)
-        # # transparent.show()
-        # image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_watermarked.jpg')
-        # if settings.DEBUG:
-        #     transparent.save(image_url, 'JPEG', quality=80)
-        # else:
-        #     transparent.save('laskshmi/' + image_url, 'JPEG', quality=80)
-        # original_image_url = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '_original.jpg')
-        # if settings.DEBUG:
-        #     base_image.save(original_image_url, 'JPEG', quality=80)
-        # else:
-        #     base_image.save('laskshmi/' + original_image_url, 'JPEG', quality=80)
-        # # transparent.save(image_url, 'JPEG', quality=80)
-        # self.image = '/' + image_url
 
 
         if image.mode in ('RGBA', 'LA'):
@@ -268,17 +242,19 @@ class ItemImage(models.Model):
         image.thumbnail((200, 240), Image.ANTIALIAS)
         small_name = 'media/items/{}/{}'.format(self.item.id, str(uuid.uuid4()) + '.jpg')
         if settings.DEBUG:
+            os.makedirs('media/items/{}'.format(self.item.id), exist_ok=True)
             image.save(small_name, 'JPEG', quality=75)
         else:
-            image.save('laskshmi/' + small_name, 'JPEG', quality=75)
+            os.makedirs('C:/inetpub/wwwroot/khimiya/media/items/{}'.format(self.item.id), exist_ok=True)
+            image.save('C:/inetpub/wwwroot/khimiya/' + small_name, 'JPEG', quality=75)
         self.image_small = '/' + small_name
 
         super(ItemImage, self).save(*args, **kwargs)
 
 
-
 class PromoCode(models.Model):
-    promo_code = models.CharField('Промокод (для создания рандомного значения оставить пустым)', max_length=255, blank=True, null=True)
+    promo_code = models.CharField('Промокод (для создания рандомного значения оставить пустым)', max_length=255,
+                                  blank=True, null=True)
     promo_discount = models.IntegerField('Скидка на заказ', blank=False, default=0)
     use_counts = models.IntegerField('Кол-во использований', blank=True, default=1)
     is_unlimited = models.BooleanField('Неограниченное кол-во использований', default=False)
@@ -287,9 +263,11 @@ class PromoCode(models.Model):
 
     def __str__(self):
         if self.is_unlimited:
-            return 'Неограниченный промокод со скидкой : %s . Срок действия до : %s' % (self.promo_discount, self.expiry)
+            return 'Неограниченный промокод со скидкой : %s . Срок действия до : %s' % (
+            self.promo_discount, self.expiry)
         else:
-            return 'Ограниченный промокод со скидкой : %s . Оставшееся кол-во использований : %s' % (self.promo_discount, self.use_counts)
+            return 'Ограниченный промокод со скидкой : %s . Оставшееся кол-во использований : %s' % (
+            self.promo_discount, self.use_counts)
 
     class Meta:
         verbose_name = "Промокод"
@@ -298,19 +276,16 @@ class PromoCode(models.Model):
     def save(self, *args, **kwargs):
         if self.is_unlimited:
             if not self.promo_code:
-                self.promo_code = "PR-U-"+''.join(choices(string.ascii_uppercase + string.digits, k=5))
+                self.promo_code = "PR-U-" + ''.join(choices(string.ascii_uppercase + string.digits, k=5))
                 self.use_counts = 0
         else:
             if not self.promo_code:
                 self.promo_code = "PR-O-" + ''.join(choices(string.ascii_uppercase + string.digits, k=5))
 
-
         super(PromoCode, self).save(*args, **kwargs)
 
 
-
-
-def ItemImage_post_save(sender,instance,**kwargs):
+def ItemImage_post_save(sender, instance, **kwargs):
     base_image = Image.open(instance.image)
     fill_color = '#fff'
     os.remove(instance.image.url)
@@ -343,4 +318,4 @@ def ItemImage_post_save(sender,instance,**kwargs):
         image.save('laskshmi/' + small_name, 'JPEG', quality=75)
     instance.image_small = '/' + small_name
 
-#post_save.connect(ItemImage_post_save, sender=ItemImage)
+# post_save.connect(ItemImage_post_save, sender=ItemImage)
