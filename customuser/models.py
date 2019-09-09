@@ -57,7 +57,7 @@ class User(AbstractUser):
     comment = models.TextField('Комментарий к пользователю(видно только админу)', blank=True, null=True)
     is_allow_email = models.BooleanField('Согласен на рассылку', default=True)
     is_use_promo = models.BooleanField('Использовал промо-код?', default=False)
-    
+
     bonuses = models.DecimalField('Бонусы', decimal_places=2, max_digits=6, blank=True, default=0, db_index=True)
     used_promo = models.ForeignKey(PromoCode, blank=True, null=True, on_delete=models.SET_NULL,
                                    verbose_name='Использованный промо-код при текущей корзине')
