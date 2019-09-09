@@ -24,7 +24,7 @@
  {% for subcat in category.subcategory_set.all %}
             <ul class="categories-nav-dropdown-subcategory-items">
 
-                         <li><a href="{% url 'subcategory' category.name_slug subcat.name_slug %}">{{ subcat.name }} 1234566</a></li>
+                         <li><a href="{% url 'subcategory' category.name_slug subcat.name_slug %}">{{ subcat.name }}</a></li>
 
                         {% for subsubcat in subcat.subsubcategory_set.all %}
                             <li><a href="{% url 'subsubcategory' category.name_slug subcat.name_slug subsubcat.name_slug %}">{{ subsubcat.name }}</a></li>
