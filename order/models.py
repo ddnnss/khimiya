@@ -75,7 +75,7 @@ class Order(models.Model):
 
 
     def __str__(self):
-        
+
         if self.client:
             if self.promo_code:
                 return 'Заказ № %s. Создан : %s  . Клиент: %s . Сумма заказа : %s' % (
