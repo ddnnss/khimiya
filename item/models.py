@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.utils.text import Truncator
 from pytils.translit import slugify
 from PIL import Image
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete, pre_save
 import uuid
 from random import choices
 import string
@@ -12,6 +12,8 @@ from django.conf import settings
 from django.utils.safestring import mark_safe
 
 import os
+
+from khimiya.settings import BASE_DIR
 
 
 def format_number(num):
@@ -139,16 +141,15 @@ class Item(models.Model):
     name = models.CharField('Название товара', max_length=255, blank=False, null=True)
     name_lower = models.CharField(max_length=255, blank=True, null=True, default='')
     name_slug = models.CharField(max_length=255, blank=True, null=True, db_index=True)
-    price = models.DecimalField('Цена за литр', decimal_places=2, max_digits=6, blank=False, default=0, db_index=True)
     discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
     page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
     page_description = models.TextField('Описание страницы SEO', blank=True, null=True)
     page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
     description = models.TextField('Описание товара (отображается на странице товара)', blank=True, null=True)
     short_description = models.TextField(
-        'Краткое описание товара (отображается в карточке товара) (если оставить пустым, то будет взято 15 первых слов из описания товара)',
+        'Краткое описание товара (отображается в карточке товара) (если оставить пустым, то будет взято 10 первых слов из описания товара)',
         blank=True, null=True)
-    volume = models.CharField('Доступные объемы(например 0,5;1;3)', max_length=100, default='1')
+
     good_time = models.CharField('Срок годности', max_length=15, default='1 год')
     weight = models.CharField('Вес', max_length=15, default='не указано')
     ph = models.CharField('pH', max_length=15, blank=True, default='0')
@@ -165,10 +166,10 @@ class Item(models.Model):
         self.name_slug = slugify(self.name)
         self.name_lower = self.name.lower()
 
-        self.volume = self.volume.replace(',', '.')
+        # self.volume = self.volume.replace(',', '.')
         if self.description:
             if not self.short_description:
-                self.short_description = Truncator(self.description).words(15, truncate='...')
+                self.short_description = Truncator(self.description).words(10, truncate='...')
         super(Item, self).save(*args, **kwargs)
 
     def getfirstimage(self):
@@ -187,13 +188,13 @@ class Item(models.Model):
 
     image_tag.short_description = 'Основная картинка'
 
-    @property
-    def discount_value(self):
-        if self.discount > 0:
-            dis_val = self.price - (self.price * self.discount / 100)
-        else:
-            dis_val = 0
-        return (format_number(dis_val))
+    # @property
+    # def discount_value(self):
+    #     if self.discount > 0:
+    #         dis_val = self.price - (self.price * self.discount / 100)
+    #     else:
+    #         dis_val = 0
+    #     return (format_number(dis_val))
 
     def __str__(self):
         if self.filter:
@@ -205,6 +206,22 @@ class Item(models.Model):
         verbose_name = "Товар"
         verbose_name_plural = "Товары"
 
+class ItemPrice(models.Model):
+    item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
+    volume = models.DecimalField('Объем', decimal_places=2, max_digits=4, blank=False, default=0, db_index=True)
+    price = models.DecimalField('Цена', decimal_places=2, max_digits=6, blank=False, default=0, db_index=True)
+
+    # @property
+    # def discount_value(self):
+    #     if self.discount > 0:
+    #         dis_val = self.price - (self.price * self.discount / 100)
+    #     else:
+    #         dis_val = 0
+    #     return (format_number(dis_val))
+
+    class Meta:
+        verbose_name = "Объем и цену"
+        verbose_name_plural = "Объем и цену"
 
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
@@ -319,3 +336,28 @@ def ItemImage_post_save(sender, instance, **kwargs):
     instance.image_small = '/' + small_name
 
 # post_save.connect(ItemImage_post_save, sender=ItemImage)
+
+def auto_delete_file_on_delete(sender, instance, **kwargs):
+    if instance.image:
+        os.remove(instance.image.path)
+        os.remove(BASE_DIR + instance.image_small)
+
+def auto_delete_file_on_change_itemimage(sender, instance, **kwargs):
+    if not instance.pk:
+        return False
+
+    try:
+        old_file = ItemImage.objects.get(pk=instance.pk).image
+        image_small = ItemImage.objects.get(pk=instance.pk).image_small
+    except ItemImage.DoesNotExist:
+        return False
+
+    new_file = instance.image
+    if not old_file == new_file:
+        if os.path.isfile(old_file.path):
+            os.remove(old_file.path)
+            os.remove(BASE_DIR + image_small)
+
+
+post_delete.connect(auto_delete_file_on_delete, sender=ItemImage)
+pre_save.connect(auto_delete_file_on_change_itemimage, sender=ItemImage)

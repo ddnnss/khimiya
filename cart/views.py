@@ -51,7 +51,7 @@ def add_to_cart(request):
     if request.user.is_authenticated:
         print('User is_authenticated')
         addtocart, created = Cart.objects.get_or_create(client=request.user,
-                                                        item_id=item_id, volume=item_volume, defaults={'number': item_number})
+                                                        item_id=item_id, defaults={'number': item_number})
 
 
         if not created:
@@ -73,7 +73,7 @@ def add_to_cart(request):
             print('Guest created')
 
         addtocart, created = Cart.objects.get_or_create(guest=guest,
-                                                           item_id=item_id, volume=item_volume, defaults={'number': item_number})
+                                                           item_id=item_id, defaults={'number': item_number})
         if not created:
             addtocart.number += int(item_number)
             addtocart.save(force_update=True)
@@ -88,13 +88,13 @@ def add_to_cart(request):
         total_cart_price += item.total_price
         item_dict = dict()
         item_dict['id'] = item.id
-        item_dict['name'] = item.item.name
-        item_dict['name_slug'] = item.item.name_slug
+        item_dict['name'] = item.item.item.name
+        item_dict['name_slug'] = item.item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
-        item_dict['volume'] = item.volume
+        item_dict['volume'] = item.item.volume
         item_dict['number'] = item.number
-        item_dict['image'] = item.item.itemimage_set.first().image_small
+        item_dict['image'] = item.item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
 
     return_dict['total_cart_price'] = total_cart_price
@@ -127,13 +127,13 @@ def delete_from_cart(request):
         total_cart_price += item.total_price
         item_dict = dict()
         item_dict['id'] = item.id
-        item_dict['name'] = item.item.name
-        item_dict['volume'] = item.volume
-        item_dict['name_slug'] = item.item.name_slug
+        item_dict['name'] = item.item.item.name
+        item_dict['name_slug'] = item.item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
+        item_dict['volume'] = item.item.volume
         item_dict['number'] = item.number
-        item_dict['image'] = item.item.itemimage_set.first().image_small
+        item_dict['image'] = item.item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
 
     return_dict['total_cart_price'] = total_cart_price
@@ -180,16 +180,13 @@ def update_cart(request):
         total_cart_price += item.total_price
         item_dict = dict()
         item_dict['id'] = item.id
-        item_dict['name'] = item.item.name
-
-        item_dict['volume'] = item.volume
-        item_dict['name_slug'] = item.item.name_slug
+        item_dict['name'] = item.item.item.name
+        item_dict['name_slug'] = item.item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
+        item_dict['volume'] = item.item.volume
         item_dict['number'] = item.number
-        item_dict['discount'] = item.item.discount
-
-        item_dict['image'] = item.item.itemimage_set.first().image_small
+        item_dict['image'] = item.item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
     total_cart_price_with_discount = total_cart_price
     if used_promo:
@@ -252,16 +249,13 @@ def delete_from_main_cart(request):
         total_cart_price += item.total_price
         item_dict = dict()
         item_dict['id'] = item.id
-        item_dict['name'] = item.item.name
-        item_dict['volume'] = item.volume
-
-        item_dict['name_slug'] = item.item.name_slug
+        item_dict['name'] = item.item.item.name
+        item_dict['name_slug'] = item.item.item.name_slug
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
+        item_dict['volume'] = item.item.volume
         item_dict['number'] = item.number
-        item_dict['discount'] = item.item.discount
-
-        item_dict['image'] = item.item.itemimage_set.first().image_small
+        item_dict['image'] = item.item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
 
     return_dict['total_cart_price'] = total_cart_price

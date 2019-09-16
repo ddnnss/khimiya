@@ -6,8 +6,12 @@ from .models import *
 class ImagesInline (admin.TabularInline):
     model = ItemImage
     readonly_fields = ('image_tag', )
+    exclude = ('image_small',)
     extra = 0
 
+class PriceInline (admin.TabularInline):
+    model = ItemPrice
+    extra = 0
 
 class ItemsInline (admin.TabularInline):
     model = Item.subcategory.through
@@ -22,12 +26,13 @@ class FilterInline(admin.TabularInline):
     extra = 0
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ['image_tag','name','price','discount']
+    list_display = ['image_tag','name']
     #list_display = [field.name for field in Item._meta.fields]
-    inlines = [ImagesInline]
+    inlines = [PriceInline,ImagesInline]
     search_fields = ('name_lower',)
     list_filter = ('subcategory', 'is_active', 'is_present',)
-    exclude = ['name_slug','name_lower','zapah','views','buys',] #не отображать на сранице редактирования
+    exclude = ['name_slug', 'name_lower', 'zapah', 'views', 'buys',
+               'discount', 'page_title', 'page_description', 'page_keywords'] #не отображать на сранице редактирования
     class Meta:
         model = Item
 

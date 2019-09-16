@@ -7,7 +7,7 @@
     {% if item.discount > 0 %}
         <span id="lit_price">{{ item.discount_value }}</span>
     {% else %}
-        <span id="lit_price">{{ item.price }}</span>
+        <span id="item_price">{{ item.itemprice_set.first.price }}</span>
     {% endif %}
     <section class="item">
         <div class="container">
@@ -41,18 +41,19 @@
                     {% if item.is_present %}
                         <p class="item-presents">Есть в наличии</p>
                     {% endif %}
-                    <p class="item-liter-price">Цена за литр:
-                        {% if item.discount > 0 %}
-                            <del>{{ item.price | intcomma }} &#8381;  </del> <span> {{ item.discount_value | intcomma }} &#8381;</span>
-                        {% else %}
-                            <span>{{ item.price | intcomma }} &#8381;</span>
-                        {% endif %}
-                    </p>
+                    {#                    <p class="item-liter-price">Цена за литр:#}
+                    {#                        {% if item.discount > 0 %}#}
+                    {#                            <del>{{ item.price | intcomma }} &#8381;  </del> <span> {{ item.discount_value | intcomma }} &#8381;</span>#}
+                    {#                        {% else %}#}
+                    {#                            <span>{{ item.price | intcomma }} &#8381;</span>#}
+                    {#                        {% endif %}#}
+                    {#                    </p>#}
+
                     <div class="item-info-description-price-volume">
 
                         <div class="item-info-description-volume">
                        <span>
-                           Количество штук:
+                           Количество :
                        </span>
                             <div class="custom-input">
                                 <button class="custom-input-minus"  onclick="minusItem(this)">-</button>
@@ -63,16 +64,16 @@
                         </div>
                         <div class="item-info-description-volume">
                        <span>
-                           Количество литров:
+                           Объем - Цена:
                        </span>
                             <div class="custom-select" style="width:150px;">
                                 <select id="liters">
                                     {% for vol in volumes %}
                                         {% if forloop.first %}
-                                            <option value="{{ vol }}">{{ vol }}</option>
-                                            <option value="{{ vol }}">{{ vol }}</option>
+                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} - {{ vol.price }} &#8381;</option>
+                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} - {{ vol.price }} &#8381;</option>
                                         {% else %}
-                                            <option value="{{ vol }}">{{ vol }}</option>
+                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} - {{ vol.price }} &#8381;</option>
                                         {% endif %}
                                     {% endfor %}
                                 </select>
@@ -90,8 +91,8 @@
 
                     </div>
                     <div class="item-info-description-buttons">
-                        <a href="javascript:void(0)" class="btn btn-md"
-                           data-item_id="{{ item.id }}"
+                        <a id="add_to_cart_btn" href="javascript:void(0)" class="btn btn-md"
+                           data-item_id="{{ item.itemprice_set.first.id }}"
                            data-item_image="{{ item.itemimage_set.first.image.url }}"
                            data-item_name="{{ item.name }}" onclick="add_to_cart(this)">добавить в корзину</a>
                         <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>
@@ -236,9 +237,9 @@
 
 {% block js %}
     <script>
-        const liter_price = parseFloat(document.getElementById('lit_price').innerHTML)
-
+        const liter_price = parseFloat(document.getElementById('item_price').innerHTML)
         let price_per_liter_span = document.getElementById('price_per_liter')
+
         document.getElementById('first-tab').click()
 
         function imageClick(i) {
@@ -282,8 +283,12 @@
                 create a new DIV that will act as an option item:*/
                 c = document.createElement("DIV");
                 c.innerHTML = selElmnt.options[j].innerHTML;
+                console.log(selElmnt.options[j].dataset.id)
+                c.setAttribute('data-id',selElmnt.options[j].dataset.id)
+                c.setAttribute('data-price',selElmnt.options[j].dataset.price)
                 c.addEventListener("click", function(e) {
                     console.log('change')
+
                     /*when an item is clicked, update the original select box,
                     and the selected item:*/
                     var y, i, k, s, h;
@@ -298,13 +303,15 @@
                                 y[k].removeAttribute("class");
                             }
                             this.setAttribute("class", "same-as-selected");
+                            document.getElementById('add_to_cart_btn').dataset.item_id = this.dataset.id
+                            document.getElementById('item_price').innerText = this.dataset.price
+                            price_per_liter_span.innerHTML =  this.dataset.price
+                            console.log(this)
                             break;
                         }
                     }
                     h.click();
-                    let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
-                    console.log(parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML))
-                    price_per_liter_span.innerHTML = numberWithCommas((liter_price * selected_liters).toFixed(2))
+
                     document.getElementById('item_total').value='1'
                 });
                 b.appendChild(c);
@@ -315,6 +322,7 @@
                 and open/close the current select box:*/
                 e.stopPropagation();
                 closeAllSelect(this);
+
                 this.nextSibling.classList.toggle("select-hide");
                 this.classList.toggle("select-arrow-active");
             });
@@ -343,11 +351,15 @@
         document.addEventListener("click", closeAllSelect);
 
         document.addEventListener('DOMContentLoaded', function(){
-            let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
-            price_per_liter_span.innerHTML = numberWithCommas((liter_price * selected_liters).toFixed(2))
+
+            price_per_liter_span.innerHTML = liter_price
         });
 
-
+  function calculatePrice() {
+      const liter_price = parseFloat(document.getElementById('item_price').innerHTML)
+      let item_number = document.getElementById('item_total').value
+      document.getElementById('price_per_liter').innerHTML = numberWithCommas((item_number * liter_price).toFixed(2))
+    }
 
     </script>
 

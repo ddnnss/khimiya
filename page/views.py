@@ -33,35 +33,30 @@ def is_email(string):
     return True
 
 def showitem(request, cat_slug,subcat_slug,subsubcat_slug,item_slug):
-   # try:
-    item = Item.objects.get(name_slug=item_slug)
-    item.views += 1
-    item.save(force_update=True)
-    cat = Category.objects.get(name_slug=cat_slug)
+    try:
+        item = Item.objects.get(name_slug=item_slug)
+        item.views += 1
+        item.save(force_update=True)
+        cat = Category.objects.get(name_slug=cat_slug)
 
 
-    images = ItemImage.objects.filter(item=item)
-    # cat.views += 1
-    # cat.save()
-    volumes = item.volume.split(';')
-    title = item.page_title
-    description = item.page_description
-   # keywords = item.key
-    subcat = SubCategory.objects.get(name_slug=subcat_slug)
-    subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
-   # recomended = Item.objects.filter(subcategory_id=item.subcategory_id).order_by('-views')[:12]
-    # title = item.name
-    # description = item.description
-
-
-   # except:
-  #      raise Http404
+        images = ItemImage.objects.filter(item=item)
+        # cat.views += 1
+        # cat.save()
+        volumes = item.itemprice_set.all()
+        title = 'Купить {} в - интернет-магазин САЙТ'.format(item.name)
+        description = 'В нашем интернет магазине Вы можете купить {} в ГОРОДЕ с бесплатной доставкой.'.format(item.name)
+        keywords = '{} купить, {} цена, {} интернет магазин, {} доставка'.format(item.name,item.name,item.name,item.name)
+        subcat = SubCategory.objects.get(name_slug=subcat_slug)
+        subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
+       # recomended = Item.objects.filter(subcategory_id=item.subcategory_id).order_by('-views')[:12]
+        print(request.META['HTTP_HOST'])
+        return render(request, 'page/item.html', locals())
+    except:
+       raise Http404
         # return render(request, '404.html', locals())
-    title = '{}  - купить оптом в Москве'.format(item.name)
-    description = 'Заказывайте оптом {} ' \
-                  ' Большой выбор товаров на различную тематику по доступным ценам. Доставка по России.'.format(
-        item.name)
-    return render(request, 'page/item.html', locals())
+
+
 
 def check_email(request):
     return_dict = {}

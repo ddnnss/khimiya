@@ -3,7 +3,7 @@ import decimal
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from customuser.models import User, Guest
-from item.models import Item, PromoCode
+from item.models import Item, ItemPrice, PromoCode
 from django.utils.safestring import mark_safe
 
 class Wishlist(models.Model):
@@ -117,28 +117,26 @@ class Order(models.Model):
 class ItemsInOrder(models.Model):
     order = models.ForeignKey(Order, blank=False, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='В заказе')
-    item = models.ForeignKey(Item, blank=False, null=True, default=None, on_delete=models.CASCADE,
+    item = models.ForeignKey(ItemPrice, blank=False, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Товар')
     number = models.IntegerField('Кол-во', blank=True, null=True, default=0)
-    volume = models.DecimalField('Объем', decimal_places=2,max_digits=3, blank=True, null=True, default=0)
-    current_price = models.DecimalField('Цена за ед.',decimal_places=2,max_digits=10, default=0)
     total_price = models.DecimalField('Общая стоимость',decimal_places=2,max_digits=10, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        if self.item.discount > 0:
-            self.current_price = self.item.price - (self.item.price * self.item.discount / 100)
+        if self.item.item.discount > 0:
+            self.current_price = self.item.price - (self.item.price * self.item.item.discount / 100)
             print(self.current_price)
         else:
             self.current_price = self.item.price
-        self.total_price = self.number * (decimal.Decimal(self.current_price) * self.volume)
+        self.total_price = self.number * (decimal.Decimal(self.item.price) * self.item.volume)
 
         super(ItemsInOrder, self).save(*args, **kwargs)
 
 
     def __str__(self):
-        return 'Товар : %s . В заказе № %s .' % (self.item.name, self.order.id)
+        return 'Товар : %s . В заказе № %s .' % (self.item.item.name, self.order.id)
 
     class Meta:
         verbose_name = "Товар в заказе"
@@ -146,7 +144,7 @@ class ItemsInOrder(models.Model):
 
     def getfirstimage(self):
         url = None
-        for img in self.item.itemimage_set.all():
+        for img in self.item.item.itemimage_set.all():
             if img.is_main:
                 url = img.image_small
         return url
@@ -159,14 +157,10 @@ class ItemsInOrder(models.Model):
             return mark_safe('<span>НЕТ МИНИАТЮРЫ</span>')
 
     def name_tag(self):
-        name = self.item.name
+        name = self.item.item.name
         return name
 
-    def article_tag(self):
-        name = self.item.article
-        return name
 
-    article_tag.short_description = 'Артикул'
     name_tag.short_description = 'Название товара'
     image_tag.short_description = 'Основная картинка'
 

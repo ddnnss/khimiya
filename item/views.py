@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse, Http404
-from item.models import Item,ItemImage
+from item.models import Item,ItemPrice,ItemImage
 from cart.models import Cart
 from customuser.models import User, Guest
 
@@ -11,23 +11,30 @@ def quick_add_to_cart(request):
     item_id = int(data.get('item_id'))
     item = Item.objects.get(id=item_id)
     images = ItemImage.objects.filter(item_id=item_id)
-    volumes = item.volume.split(';')
+    volumes = ItemPrice.objects.filter(item=item)
+    print(volumes)
     if item.discount > 0:
         return_dict['item_price_discount'] = item.discount_value
     return_dict['item_id'] = item.id
     return_dict['item_name'] = item.name
     return_dict['item_name_slug'] = item.name_slug
     return_dict['item_description'] = item.description
-    return_dict['item_price'] = item.price
+    # return_dict['item_price'] = item.price
     return_dict['item_discount'] = item.discount
     return_dict['item_present'] = item.is_present
 
     return_dict['item_images'] = list()
     return_dict['item_volumes'] = list()
+
     for image in images:
         return_dict['item_images'].append(image.image_small)
     for vol in volumes:
-        return_dict['item_volumes'].append(vol)
+        item_volume = dict()
+        item_volume['id'] = vol.id
+        item_volume['volume'] = vol.volume
+        item_volume['price'] = vol.price
+
+        return_dict['item_volumes'].append(item_volume)
     return JsonResponse(return_dict)
 
 

@@ -31,7 +31,7 @@ SECRET_KEY = 'n98ym0!rpmc=58i0dgfq5yxah*6af$+(i^3rc&316w(t33ho&x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

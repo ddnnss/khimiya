@@ -92,11 +92,11 @@
                     <div style="border-bottom: 2px solid #e5e5e5;" class="add-to-cart-item-name">
                         <img id="preview_img" src=""><h5 id="item_name"></h5>
                         <p class="item-presents">Есть в наличии</p>
-                        <p class="item-liter-price">Цена за литр:
+                        <!--p class="item-liter-price">Цена за литр:
                             <del id="old_price">33 &#8381;  </del> <span id="new_price">100  &#8381;</span>
-                        </p>
+                        </p-->
                     </div>
-                    <span id="lit_price"></span>
+                    <span style="display: none" id="item_price"></span>
                     <div class="item-info-description-price-volume">
 
                         <div class="item-info-description-volume">
@@ -155,7 +155,8 @@
     <script>
         let close_modal = document.getElementsByClassName("close")[0];
         let modal = document.getElementById('add_to_cart_modal')
-
+        let price_per_liter_span = document.getElementById('price_per_liter')
+        let liter_price = document.getElementById('item_price')
         close_modal.onclick = function () {
             modal.style.display = "none";
         }
@@ -177,12 +178,12 @@
 
                     if (data.item_discount > 0){
                         $('#old_price').html(numberWithCommas(data.item_price) + ' &#8381;');
-                        $('#new_price').html(numberWithCommas(data.item_price_discount) + ' &#8381;');
+                    //    $('#new_price').html(numberWithCommas(data.item_price_discount) + ' &#8381;');
                         $('#lit_price').html(data.item_price_discount)
                     }
                     else {
                         $('#old_price').html('');
-                        $('#new_price').html(numberWithCommas(data.item_price) + ' &#8381;');
+                     //   $('#new_price').html(numberWithCommas(data.item_price) + ' &#8381;');
                         $('#lit_price').html(data.item_price)
 
                     }
@@ -196,10 +197,12 @@
                     $('#quick_add_to_cart_btn').attr('data-item_image',data.item_images[0])
                     $('#quick_add_to_cart_btn').attr('data-item_name',data.item_name)
                     document.getElementById('item_total').value='1'
-                    $('#liters').append('<option value="'+ data.item_volumes[0] +'">'+ data.item_volumes[0] +'</option>');
+                    $('#liters').append(` <option data-price="${data.item_volumes[0]['price']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} - ${data.item_volumes[0]['price']} &#8381;</option>`);
+                    price_per_liter_span.innerHTML = data.item_volumes[0]['price']
+                    liter_price.innerHTML = data.item_volumes[0]['price']
                     $.each(data.item_volumes,function (i,v) {
-                        console.log(v)
-                        $('#liters').append('<option value="'+ v +'">'+ v +'</option>');
+                        console.log(i)
+                        $('#liters').append(` <option data-price="${data.item_volumes[i]['price']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} - ${data.item_volumes[i]['price']} &#8381;</option>`);
 
 
                     })
@@ -310,6 +313,8 @@
                     create a new DIV that will act as an option item:*/
                     c = document.createElement("DIV");
                     c.innerHTML = selElmnt.options[j].innerHTML;
+                    c.setAttribute('data-id',selElmnt.options[j].dataset.id)
+                    c.setAttribute('data-price',selElmnt.options[j].dataset.price)
                     c.addEventListener("click", function(e) {
                         console.log('change')
                         /*when an item is clicked, update the original select box,
@@ -326,16 +331,14 @@
                                     y[k].removeAttribute("class");
                                 }
                                 this.setAttribute("class", "same-as-selected");
+                                document.getElementById('quick_add_to_cart_btn').dataset.item_id = this.dataset.id
+                                document.getElementById('item_price').innerText = this.dataset.price
+                                price_per_liter_span.innerHTML =  this.dataset.price
                                 break;
                             }
                         }
                         h.click();
-                        let selected_liters = parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML)
-                        const liter_price = parseFloat(document.getElementById('lit_price').innerHTML)
 
-                        let price_per_liter_span = document.getElementById('price_per_liter')
-                        console.log(parseFloat(document.getElementsByClassName('select-selected')[0].innerHTML))
-                        price_per_liter_span.innerHTML = numberWithCommas((liter_price * selected_liters).toFixed(2))
                         document.getElementById('item_total').value='1'
                     });
                     b.appendChild(c);
@@ -373,5 +376,11 @@
         /*if the user clicks anywhere outside the select box,
         then close all select boxes:*/
         document.addEventListener("click", closeAllSelect);
+
+        function calculatePrice() {
+      const liter_price = parseFloat(document.getElementById('item_price').innerHTML)
+      let item_number = document.getElementById('item_total').value
+      document.getElementById('price_per_liter').innerHTML = numberWithCommas((item_number * liter_price).toFixed(2))
+    }
     </script>
 {% endblock %}
