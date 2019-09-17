@@ -48,7 +48,7 @@
         <h3>Оформление заказа</h3>
 
         <div class="checkout-inner">
-            <form  action="{% url 'checkout' %}" method="post">
+            <form id="customer_form"  action="{% url 'checkout' %}" method="post">
                 <div class="checkout-user">
 
 
@@ -61,11 +61,11 @@
                         <div class="checkout-user-info__inputs">
                             <div class="checkout-user-info__input">
                                 <label >Ваше имя <sup>*</sup> </label>
-                                <input  required="required" name="{{ form.name.name }}" type="text" class="form-control"  placeholder="Ваше имя" value="{% if not guest.name %}{% else %}{{ guest.name }}{% endif %}">
+                                <input id="name_input"  required="required" name="{{ form.name.name }}" type="text" class="form-control"  placeholder="Ваше имя" value="{% if not guest.name %}{% else %}{{ guest.name }}{% endif %}">
                             </div>
                             <div class="checkout-user-info__input">
                                 <label for="InputName">Ваша фамилия <sup>*</sup> </label>
-                                <input  required="required" name="{{ form.family.name }}" type="text" class="form-control"  placeholder="Ваша фамилия" value="{% if not guest.family %}{% else %}{{ guest.family }}{% endif %}">
+                                <input id="family_input" required="required" name="{{ form.family.name }}" type="text" class="form-control"  placeholder="Ваша фамилия" value="{% if not guest.family %}{% else %}{{ guest.family }}{% endif %}">
                             </div>
                             <div class="checkout-user-info__input">
                                 <label for="InputName">Ваше отчество  </label>
@@ -79,30 +79,30 @@
                             </div>
                             <div class="checkout-user-info__input">
                                 <label for="InputEmail">Ваш телефон <sup>*</sup></label>
-                                <input  type="tel" required="required" name="{{ form.phone.name }}" class="form-control"  placeholder="Ваш телефон" value="{% if not guest.phone %}{% else %}{{ guest.phone }}{% endif %}">
+                                <input id="phone_input" type="tel" required="required" name="{{ form.phone.name }}" class="form-control"  placeholder="Ваш телефон" value="{% if not guest.phone %}{% else %}{{ guest.phone }}{% endif %}">
                             </div>
 
                             <div class="checkout-user-info__input">
                                 <label for="InputEmail">Страна <sup>*</sup></label>
-                                <input  type="text" required="required" name="{{ form.country.name }}" class="form-control"  placeholder="Страна" value="{% if not guest.country %}{% else %}{{ guest.country }}{% endif %}">
+                                <input id="country_input" type="text" required="required" name="{{ form.country.name }}" class="form-control"  placeholder="Страна" value="{% if not guest.country %}{% else %}{{ guest.country }}{% endif %}">
                             </div>
                             <div class="checkout-user-info__input">
                                 <label for="InputEmail">Город <sup>*</sup></label>
-                                <input  type="text" required="required" name="{{ form.city.name }}" class="form-control"  placeholder="Город" value="{% if not guest.city %}{% else %}{{ guest.city }}{% endif %}">
+                                <input id="city_input" type="text" required="required" name="{{ form.city.name }}" class="form-control"  placeholder="Город" value="{% if not guest.city %}{% else %}{{ guest.city }}{% endif %}">
                             </div>
                             <div class="checkout-user-info__input">
                                 <label for="InputEmail">Индекс <sup>*</sup></label>
-                                <input  type="number" required="required" name="{{ form.post_code.name }}" class="form-control"  placeholder="Индекс" value="{% if not guest.post_code %}{% else %}{{ guest.post_code }}{% endif %}">
+                                <input id="post_code_input" type="number" required="required" name="{{ form.post_code.name }}" class="form-control"  placeholder="Индекс" value="{% if not guest.post_code %}{% else %}{{ guest.post_code }}{% endif %}">
                             </div>
                             <div class="checkout-user-info__input">
                                 <label for="InputEmail">Адрес доставки <sup>*</sup></label>
-                                <textarea  required="required" name="{{ form.address.name }}" class="form-control" rows="5"  placeholder="Адрес доставки">{% if not guest.address %}{% else %}{{ guest.address }}{% endif %}</textarea>
+                                <textarea id="address_input" required="required" name="{{ form.address.name }}" class="form-control" rows="5"  placeholder="Адрес доставки">{% if not guest.address %}{% else %}{{ guest.address }}{% endif %}</textarea>
                             </div>
 
 
 
                             <label class="custom-checkbox"><span>Создать аккаунт на сайте ? <strong>Скидка 10% на покупку</strong></span>
-                                <input name="with_register" checked  id="with_register" type="checkbox">
+                                <input name="with_register" checked onchange="use_register()"  id="with_register" type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
 
@@ -117,28 +117,50 @@
 
                     <div class="checkout-user-info" >
                         <div class="checkout-user-info__header">
-                            <span>1</span>
-                            <p>Введите Ваши данные</p>
+                            <span>2</span>
+                            <p>Выберите вариант оплаты товара</p>
                         </div>
-                        <div class="checkout-user-info__inputs">
-                            <div class="checkout-user-info__input">
-                                <label for="user-name">Имя</label>
-                                <input id="user-name" name="" value="" placeholder="Ваше имя">
-                            </div>
-                            <div class="checkout-user-info__input">
-                                <label for="user-name">Имя</label>
-                                <input id="user-name" name="" value="" placeholder="Ваше имя">
-                            </div>
-                            <div class="checkout-user-info__input">
-                                <label for="user-address">Адрес</label>
-                                <textarea id="user-address" name=""  placeholder="Ваше имя"></textarea>
-                            </div>
+                         <div class="checkout-user-info__inputs">
+                            <label class="custom-checkbox"><span>Создать аккаунт на сайте ? <strong>Скидка 10% на покупку</strong></span>
+                                <input id="payment_1" name="payment" checked  type="radio">
+                                <span class="checkmark"></span>
+                            </label>
+                          <label class="custom-checkbox"><span>Создать аккаунт на сайте ? <strong>Скидка 10% на покупку</strong></span>
+                                <input id="payment_1" name="payment"    type="radio">
+                                <span class="checkmark"></span>
+                            </label>
+                          <label class="custom-checkbox"><span>Создать аккаунт на сайте ? <strong>Скидка 10% на покупку</strong></span>
+                                <input id="payment_1" name="payment"    type="radio">
+                                <span class="checkmark"></span>
+                            </label>
+                         </div>
+                    </div><!--/checkout-user-info -->
+
+                 <div class="checkout-user-info" >
+                        <div class="checkout-user-info__header">
+                            <span>3</span>
+                            <p>Выберите вариант доставки товара</p>
                         </div>
+                         <div class="checkout-user-info__inputs">
+                            <label class="custom-checkbox"><span>Создать аккаунт на сайте ? <strong>Скидка 10% на покупку</strong></span>
+                                <input id="shipping_1" checked name="shipping" type="radio">
+                                <span class="checkmark"></span>
+                            </label>
+                          <label class="custom-checkbox"><span>Создать аккаунт на сайте ? <strong>Скидка 10% на покупку</strong></span>
+                                <input id="shipping_1" name="shipping" type="radio">
+                                <span class="checkmark"></span>
+                            </label>
+                          <label class="custom-checkbox"><span>Создать аккаунт на сайте ? <strong>Скидка 10% на покупку</strong></span>
+                                <input id="shipping_1" name="shipping" type="radio">
+                                <span class="checkmark"></span>
+                            </label>
+                         </div>
                     </div><!--/checkout-user-info -->
 
                     <input type="hidden" name="form_type" value="checkout_guest">
 
-                    <button id="checkout_btn"   type="submit" class="btn ">ОФОРМИТЬ ЗАКАЗ</button>
+                    <button  type="submit" id="checkout_btn"     class="btn ">ОФОРМИТЬ ЗАКАЗ</button>
+
 
 
 
@@ -186,7 +208,7 @@
                             <input type="text"  id="promo_code" value=""  >
 
                         </div>
-                        <a style="margin: 0 auto;" href="javascript:void(0)" class="btn-outline">Использовать</a>
+                        <a style="margin: 0 auto;" href="javascript:void(0)" class="btn-outline">проверить промо-код</a>
                     </div>
                 </div>
                 <div class="checkout-order-info" >
@@ -200,7 +222,7 @@
                             <p><span id="order_price">30404</span> <span>&#8381;</span></p>
 
                         </div>
-                        <div class="checkout-order-total">
+                        <div id="register_div" class="checkout-order-total">
                             <span>Скидка при регистрации</span>
                             <p><span id="register_discount">10</span> <span>%</span></p>
 
@@ -218,8 +240,8 @@
                         <div class="checkout-order-total-price">
                             <span>ИТОГО К ОПЛАТЕ</span>
                             <p><span id="order_total_price">453454354</span> <span>&#8381;</span></p>
-
                         </div>
+                          <!--a style="margin: 0 auto;" id="checkout_btn" href="javascript:void(0)" onclick="submit_form()"    class="btn ">ОФОРМИТЬ ЗАКАЗ</a-->
                     </div>
                 </div>
             </aside>
@@ -294,6 +316,10 @@
 <script>
 function use_bonuse() {
     document.getElementById('bonuses_div').classList.toggle('not-visible')
+    document.getElementById('how_much_bonuses_use').value = 0
+}
+function use_register() {
+    document.getElementById('register_div').classList.toggle('not-visible')
     document.getElementById('how_much_bonuses_use').value = 0
 }
 </script>

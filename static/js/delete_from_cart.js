@@ -58,6 +58,7 @@ function delete_from_cart(del){
                 $('.cart_table').append(` <tr>
                           <td style="width: 100% !important;"> Корзина пуста</td>
                           </tr>`);
+                location.reload()
 
             }
         },

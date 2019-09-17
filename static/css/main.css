@@ -1795,12 +1795,16 @@ h3 {
       outline-width: 0;
       border: 1px solid #44d4de; }
 
+.error-field {
+  border: 1px solid red !important; }
+
 .checkout-order-total-price {
   border-top: 2px solid #e5e5e5;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
   padding-top: 15px;
+  margin-bottom: 15px;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center; }
