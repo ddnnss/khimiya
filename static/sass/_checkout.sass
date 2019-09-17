@@ -1,14 +1,16 @@
+#checkout_btn
+  border: none
 .checkout
+  margin-bottom: 40px
   h3
     margin-bottom: 40px
 .checkout-inner
-  display: flex
-  justify-content: space-between
+  display: grid
+  grid-template-columns: 2fr 1fr
+  grid-gap: 10px
 
-.checkout-user
-  min-width: 80%
-.checkout-order-items
-  min-width: 19%
+
+
 .checkout-user-info__header
   font-family: "SF UI Display Semibold",sans-serif
   font-size: 16px
@@ -23,7 +25,15 @@
     border-radius: 50%
     padding: 3px 10px
     margin-right: 10px
-  p
+
+.checkout-order-info__header
+  font-family: "SF UI Display Semibold",sans-serif
+  font-size: 16px
+  color: $text-color
+  display: flex
+  align-items: center
+  background: #f6ebe1
+  padding: 18px
 
 .checkout-user-info__inputs
   padding: 15px
@@ -32,9 +42,16 @@
   border: 1px solid $border
   margin-bottom: 35px
 
+.checkout-order-info-items
+  padding: 15px
+  display: flex
+  flex-direction: column
+  border: 1px solid $border
+  margin-bottom: 35px
+
 .checkout-user-info__input
   display: grid
-  grid-template-columns: 100px 400px
+  grid-template-columns: 20% 80%
   margin-bottom: 20px
   align-items: center
   label
@@ -42,7 +59,7 @@
     font-family: "SF UI Display",sans-serif
     color: #7a7a7a
   input
-    width: 320px
+    //width: 320px
     padding: 15px 5px
     border: 1px solid $border
     &::placeholder
@@ -52,7 +69,7 @@
       outline-width: 0
       border: 1px solid $secondary-color
   textarea
-    width: 320px
+    //width: 320px
     height: 200px
     padding: 15px 5px
     border: 1px solid $border
@@ -64,3 +81,100 @@
       border: 1px solid $secondary-color
 
 
+
+.custom-checkbox
+  padding: 6px 35px
+  font-size: 14px
+  font-family: "SF UI Display",sans-serif
+  color: #7a7a7a
+  display: block
+  position: relative
+  padding-left: 35px
+  margin-bottom: 12px
+  cursor: pointer
+  -webkit-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+  input
+
+    position: absolute
+    opacity: 0
+    cursor: pointer
+    height: 0
+    width: 0
+
+.checkout-order-total
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-gap: 10px
+  margin-bottom: 20px
+  align-items: center
+  span
+    display: inline-block
+    font-size: 18px
+    font-family: "SF UI Display Semibold",sans-serif
+  input
+    padding: 15px 5px
+    border: 1px solid $border
+    &::placeholder
+      font-family: "SF UI Display",sans-serif
+      font-size: 14px
+    &:focus
+      outline-width: 0
+      border: 1px solid $secondary-color
+
+
+.checkout-order-total-price
+  border-top: 2px solid $border
+  display: grid
+  grid-template-columns: 1fr 1fr
+  grid-gap: 10px
+  padding-top: 15px
+  align-items: center
+  span
+    display: inline-block
+    font-size: 18px
+    font-family: "SF UI Display Semibold",sans-serif
+.checkmark
+  position: absolute
+  top: 0
+  left: 0
+  height: 25px
+  width: 25px
+  background-color: #ffffff
+  border: 1px solid $border
+
+  &:after
+    content: ""
+    position: absolute
+    display: none
+
+.not-visible
+  display: none
+
+.custom-checkbox:hover input ~ .checkmark
+  background-color: #ccc
+
+
+
+.custom-checkbox input:checked ~ .checkmark
+  background-color: #ffffff
+  border: 1px solid $border
+
+.custom-checkbox input:checked ~ .checkmark:after
+  display: block
+
+
+
+.custom-checkbox .checkmark:after
+  left: 9px
+  top: 5px
+  width: 5px
+  height: 10px
+  border: solid $secondary-color
+  border-width: 0 3px 3px 0
+  -webkit-transform: rotate(45deg)
+  -ms-transform: rotate(45deg)
+  transform: rotate(45deg)

@@ -1,0 +1,165 @@
+{% load static %}
+<section class="checkout">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="{% url 'show_cart' %}">Корзина</a></li>
+                <li><span>Оформление заказа</span></li>
+            </ul>
+        </div>
+        <h3>Оформление заказа</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<form class="checkout-inner "action="{% url 'checkout' %}" method="post">{% csrf_token %}
+<div class="checkout-user">
+
+
+                    <div class="checkout-user-info" >
+                        <div class="checkout-user-info__header">
+                            <span>1</span>
+                            <p>Введите Ваши данные</p>
+                        </div>
+
+                        <div class="checkout-user-info__inputs">
+                            <div class="checkout-user-info__input">
+                                <label >Ваше имя <sup>*</sup> </label>
+                                <input  required="required" name="{{ form.name.name }}" type="text" class="form-control"  placeholder="Ваше имя" value="{% if not guest.name %}{% else %}{{ guest.name }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputName">Ваша фамилия <sup>*</sup> </label>
+                                <input  required="required" name="{{ form.family.name }}" type="text" class="form-control"  placeholder="Ваша фамилия" value="{% if not guest.family %}{% else %}{{ guest.family }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputName">Ваше отчество  </label>
+                                <input   name="{{ form.otchestvo.name }}" type="text" class="form-control"  placeholder="Ваше отчество" value="{% if not guest.otchestvo %}{% else %}{{ guest.otchestvo }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Ваш E-Mail <sup>*</sup> <span style="color: #f2486e;font-size: 13px;"
+                                                                                      id="checkout_email_error"></span>
+                                </label>
+                                <input id="checkout_email" onblur="checkout()"  type="email" required="required" name="{{ form.email.name }}" class="form-control"  placeholder="Ваш E-Mail" value="{% if not guest.email %}{% else %}{{ guest.email }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Ваш телефон <sup>*</sup></label>
+                                <input  type="tel" required="required" name="{{ form.phone.name }}" class="form-control"  placeholder="Ваш телефон" value="{% if not guest.phone %}{% else %}{{ guest.phone }}{% endif %}">
+                            </div>
+
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Страна <sup>*</sup></label>
+                                <input  type="text" required="required" name="{{ form.country.name }}" class="form-control"  placeholder="Страна" value="{% if not guest.country %}{% else %}{{ guest.country }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Город <sup>*</sup></label>
+                                <input  type="text" required="required" name="{{ form.city.name }}" class="form-control"  placeholder="Город" value="{% if not guest.city %}{% else %}{{ guest.city }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Индекс <sup>*</sup></label>
+                                <input  type="number" required="required" name="{{ form.post_code.name }}" class="form-control"  placeholder="Индекс" value="{% if not guest.post_code %}{% else %}{{ guest.post_code }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Адрес доставки <sup>*</sup></label>
+                                <textarea  required="required" name="{{ form.address.name }}" class="form-control" rows="5"  placeholder="Адрес доставки">{% if not guest.address %}{% else %}{{ guest.address }}{% endif %}</textarea>
+                            </div>
+
+                            <div class="checkout-user-info__input">
+                                <input  type="checkbox" name="with_register"  id="with_register" style="position: absolute; opacity: 0;">
+
+                                <label for="with_register">Создать аккаунт на сайте ?</label>
+                            </div>
+
+                        </div>
+                    </div><!--/checkout-user-info -->
+
+
+
+
+                    <div class="checkout-user-info" >
+                        <div class="checkout-user-info__header">
+                            <span>1</span>
+                            <p>Введите Ваши данные</p>
+                        </div>
+                        <div class="checkout-user-info__inputs">
+                            <div class="checkout-user-info__input">
+                                <label for="user-name">Имя</label>
+                                <input id="user-name" name="" value="" placeholder="Ваше имя">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="user-name">Имя</label>
+                                <input id="user-name" name="" value="" placeholder="Ваше имя">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="user-address">Адрес</label>
+                                <textarea id="user-address" name=""  placeholder="Ваше имя"></textarea>
+                            </div>
+                        </div>
+                    </div><!--/checkout-user-info -->
+
+             <input type="hidden" name="form_type" value="checkout_guest">
+
+            <button id="checkout_btn"   type="submit" class="btn ">ОФОРМИТЬ ЗАКАЗ</button>
+
+
+
+            </div><!--/checkout-user -->
+</form>
+    </div>
+            <aside class="checkout-order-items">
+                werewrew
+            </aside>
+ </div>
+
+
+
+</section>
+<script>
+    function checkout() {
+        email_input =$('#checkout_email');
+        span_error = $('#checkout_email_error');
+
+        email =email_input.val();
+        email_input.attr('disabled','disabled');
+        csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+        $.ajax({
+            type:"POST",
+            url:'/check_email/',
+            data:{
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'email':email,
+                },
+            success : function(data){
+                console.log('OK');
+                console.log(data);
+                if(data['result']){
+                    console.log('OK');
+                    email_input.css('border-color','#29902a');
+                    email_input.removeAttr('disabled');
+                    span_error.html('');
+                    $('#checkout_btn').removeAttr('disabled');
+
+                }
+                else{
+
+                    email_input.css('border-color','#f2486e');
+                    email_input.removeAttr('disabled');
+                    $('#checkout_btn').attr('disabled','disabled');
+                    span_error.html(data.email_error);
+
+                 }
+            }
+        });
+}
+</script>

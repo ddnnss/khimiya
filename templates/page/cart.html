@@ -5,7 +5,8 @@
 {% block content %}
     {% include 'header_grey.html' %}
 
-    <section class="item">
+    {% if total_cart_price %}
+        <section class="item">
     <div class="container">
         <div class="breadcrumbs">
             <ul>
@@ -146,6 +147,11 @@
     </div>
 
 </section>
+    {% else %}
+        {% include 'page/empty_cart.html' %}
+    {% endif %}
+
+
 
 
 {% endblock %}
