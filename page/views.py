@@ -90,7 +90,7 @@ def order(request, order_code):
         order=None
 
     if order:
-        return render(request, 'page/order_complete.html', locals())
+        return render(request, 'page/order.html', locals())
     else:
         raise Http404
         # return render(request, '404.html', locals())
@@ -279,7 +279,7 @@ def checkout(request):
             with_register=request.POST.get('with_register')
             user = None
             order_code = create_password()
-
+            register = False
 
 
 
@@ -292,13 +292,14 @@ def checkout(request):
 
             if request.POST.get('with_register') == 'on':
                 print('With register')
+                register = True
                 password = create_password()
                 user = User.objects.create_user(email=email, name=name, family=family, otchestvo=otchestvo, country=country,
                                          city=city, post_code=post_code, phone=phone, address=address, profile_ok=True,
                                          password=password)
-                msg_html = render_to_string('email/register.html', {'login': email, 'password': password})
-                send_mail('Регистрация на сайте LAKSHMI888', None, 'info@lakshmi888.ru', [email],
-                          fail_silently=False, html_message=msg_html)
+                # msg_html = render_to_string('email/register.html', {'login': email, 'password': password})
+                # send_mail('Регистрация на сайте LAKSHMI888', None, 'info@lakshmi888.ru', [email],
+                #           fail_silently=False, html_message=msg_html)
             else:
                 guest.email = email
                 guest.name = name
@@ -322,19 +323,21 @@ def checkout(request):
             order.save(force_update=True)
             all_cart_items = Cart.objects.filter(guest_id=guest.id)
             for item in all_cart_items:
-                ItemsInOrder.objects.create(order_id=order.id, item_id=item.item.id, number=item.number,
-                                            current_price=item.item.price)
-                item.item.buys = item.item.buys + 1
-                item.item.save(force_update=True)
+                ItemsInOrder.objects.create(order_id=order.id, item_id=item.item.item.id, number=item.number)
+                item.item.item.buys = item.item.item.buys + 1
+                item.item.item.save(force_update=True)
             all_cart_items.delete()
+
             guest.used_promo = None
             guest.save(force_update=True)
             new_order = Order.objects.get(id=order.id)
-            msg_html = render_to_string('email/new_order.html', {'order': new_order})
-            send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [email],
-                      fail_silently=False, html_message=msg_html)
-            send_mail('Новый заказ', None, 'norply@lakshmi888.ru', ['info@lakshmi888.ru'],
-                      fail_silently=False, html_message=msg_html)
+            print('total_cart_price', new_order.total_price)
+            
+            # msg_html = render_to_string('email/new_order.html', {'order': new_order})
+            # send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [email],
+            #           fail_silently=False, html_message=msg_html)
+            # send_mail('Новый заказ', None, 'norply@lakshmi888.ru', ['info@lakshmi888.ru'],
+            #           fail_silently=False, html_message=msg_html)
             print('Email sent')
             return HttpResponseRedirect('/order/{}'.format(new_order.order_code))
 

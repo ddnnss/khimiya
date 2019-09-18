@@ -218,6 +218,8 @@ class ItemPrice(models.Model):
     #     else:
     #         dis_val = 0
     #     return (format_number(dis_val))
+    def __str__(self):
+        return 'Товар {} объемом {} цена {}'.format(self.item.name,self.volume,self.price)
 
     class Meta:
         verbose_name = "Объем и цену"
@@ -263,7 +265,7 @@ class ItemImage(models.Model):
             image.save(small_name, 'JPEG', quality=75)
         else:
             os.makedirs('C:/inetpub/wwwroot/khimiya/media/items/{}'.format(self.item.id), exist_ok=True)
-            image.save('C:/inetpub/wwwroot/khimiya/' + small_name, 'JPEG', quality=75)
+            image.save('khimiya/' + small_name, 'JPEG', quality=75)
         self.image_small = '/' + small_name
 
         super(ItemImage, self).save(*args, **kwargs)

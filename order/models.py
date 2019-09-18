@@ -104,9 +104,10 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         if self.promo_code:
-            self.total_price_with_code = self.total_price - (self.total_price * self.promo_code.promo_discount / 100)
+            self.total_price_with_code = (self.total_price - (self.total_price * self.promo_code.promo_discount / 100)) - self.bonuses
         else:
-            self.total_price_with_code = self.total_price
+            self.total_price_with_code = self.total_price - self.bonuses
+
 
 
         super(Order, self).save(*args, **kwargs)
@@ -125,12 +126,12 @@ class ItemsInOrder(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        if self.item.item.discount > 0:
-            self.current_price = self.item.price - (self.item.price * self.item.item.discount / 100)
-            print(self.current_price)
-        else:
-            self.current_price = self.item.price
-        self.total_price = self.number * (decimal.Decimal(self.item.price) * self.item.volume)
+        # if self.item.item.discount > 0:
+        #     self.current_price = self.item.price - (self.item.price * self.item.item.discount / 100)
+        #     print(self.current_price)
+        # else:
+        #     self.current_price = self.item.price
+        self.total_price = self.number * decimal.Decimal(self.item.price)
 
         super(ItemsInOrder, self).save(*args, **kwargs)
 

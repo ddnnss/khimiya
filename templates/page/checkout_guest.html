@@ -68,8 +68,8 @@
 
 
 
-                            <label class="custom-checkbox"><span>Создать аккаунт на сайте ? <strong>Скидка 10% на покупку</strong></span>
-                                <input name="with_register" checked onchange="use_register()"  id="with_register" type="checkbox">
+                            <label class="custom-checkbox"><span>Создать аккаунт на сайте ?</span>
+                                <input name="with_register" checked  id="with_register" type="checkbox">
                                 <span class="checkmark"></span>
                             </label>
 
@@ -166,11 +166,11 @@
                     <div id="promo_div" class="checkout-order-info-items">
                           <div  class="checkout-order-total ">
                             <span>Введите промо-код</span>
-                            <input type="text"  id="promo_code" value="" placeholder="Промо-код"  >
+                            <input type="text"  id="promo_code" value=" {% if used_promo %}{{ used_promo.promo_code }}{% endif %}" {% if used_promo %}disabled{% endif %} placeholder="Промо-код"  >
 
                         </div>
                         {% if not used_promo %}
-                             <a style="margin: 0 auto;" href="javascript:void(0)" onclick="use_promo()" class="btn-outline">проверить промо-код</a>
+                             <a style="margin: 0 auto;" href="javascript:void(0)" id="use_promo_btn" onclick="use_promo()" class="btn-outline">проверить промо-код</a>
                             {% else %}
                                <a style="margin: 0 auto;" href="javascript:void(0)"  class="btn-outline">промо-код использован</a>
                           {% endif %}
@@ -188,7 +188,7 @@
                             <p><span id="order_price">{{ total_cart_price | intcomma }}</span> <span>&#8381;</span></p>
 
                         </div>
-                        <div id="register_div" class="checkout-order-total">
+                        <div id="register_div" class="checkout-order-total not-visible">
                             <span>Скидка при регистрации</span>
                             <p><span id="register_discount">10</span> <span>%</span></p>
 
@@ -245,11 +245,10 @@
 
                 if (data.result){
 
-                 if (useReg){
-                    calculateTotalPrice(10 + data.promo_discount_value)
-                }else{
                     calculateTotalPrice(data.promo_discount_value)
-                }
+                    $('#promo_code').attr('disabled','disabled')
+                    $('#use_promo_btn').attr('onclick','')
+                $('#use_promo_btn').html('промо-код использован')
                 $('#promo_discount').html(data.promo_discount_value);
                   $('#used_promo_discount').html(data.promo_discount_value);
                     document.getElementById('promocode_div').classList.toggle('not-visible')
@@ -351,8 +350,10 @@ function use_bonuse() {
     document.getElementById('how_much_bonuses_use').value = 0
 }
 function use_register() {
+    promoDiscount = parseInt(document.getElementById('promo_discount').innerText)
     document.getElementById('register_div').classList.toggle('not-visible')
     if (useReg){
+
         useReg = false
         calculateTotalPrice(promoDiscount)
     }else{
@@ -361,7 +362,7 @@ function use_register() {
     }
 }
 document.addEventListener('DOMContentLoaded', function(){
-    calculateTotalPrice(10 + promoDiscount)
+    calculateTotalPrice(promoDiscount)
 });
 
 function calculateTotalPrice(discount) {

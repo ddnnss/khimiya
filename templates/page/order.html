@@ -1,0 +1,98 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+    {% include 'header_grey.html' %}
+
+   <section class="order">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><span>Ваш заказ</span></li>
+            </ul>
+        </div>
+        <div class="order-inner">
+            <h3>Спасибо за Ваш заказ.</h3>
+            <div class="order-info">
+
+             <p>Код заказа : <strong>{{ order.order_code }}</strong></p>
+                <p>Статус заказа: <strong>{% if order.status %}{{ order.status.name }}{% else %}ОТПРАВЛЕН МЕНЕДЖЕРУ{% endif %}</strong></p>
+            </div>
+
+
+
+
+
+            <h3>Вы заказали:</h3>
+
+              <div class="cart">
+            <table class="main-cart-items">
+
+                <tbody>
+                {% for orderItem in order.itemsinorder_set.all %}
+                <tr class="main-cart-item">
+                    <td>
+                        <div class="main-cart-item-name">
+                            <img src="{{ orderItem.item.item.itemimage_set.first.image_small }}" alt="">
+                            <span>{{ orderItem.item.item.name }} {{ orderItem.item.volume }} л</span>
+                        </div>
+
+                    </td>
+                    <td class="main-cart-item-price">
+                       {{ orderItem.number }} ед.
+                    </td>
+                    <td class="main-cart-item-price">{{ orderItem.item.price }} &#8381;</td>
+                    <td class="main-cart-item-total-price">{{ orderItem.total_price }} &#8381;</td>
+                </tr>
+                {% endfor %}
+                {% if order.bonuses or order.promo_code %}
+                 <tr class="main-cart-footer">
+                    <td class="main-cart-footer__total">Сумма заказа</td>
+                    <td></td>
+                    <td></td>
+                    <td class="main-cart-footer__total-price">{{ order.total_price }} &#8381;</td>
+                </tr>
+                {% endif %}
+                {% if order.promo_code %}
+                 <tr class="main-cart-footer">
+                    <td class="main-cart-footer__total">Скидка по промо-коду</td>
+                    <td></td>
+                    <td></td>
+                    <td class="main-cart-footer__total-price">{{ order.promo_code.promo_discount }} %</td>
+                </tr>
+                {% endif %}
+                {% if order.bonuses %}
+                 <tr class="main-cart-footer">
+                    <td class="main-cart-footer__total">Использовано бонусов</td>
+                    <td></td>
+                    <td></td>
+                    <td class="main-cart-footer__total-price">{{ order.bonuses }} &#8381;</td>
+                </tr>
+                {% endif %}
+                <tr class="main-cart-footer">
+                    <td class="main-cart-footer__total">Итого</td>
+                    <td></td>
+                    <td></td>
+                    <td class="main-cart-footer__total-price">{{ order.total_price_with_code }} &#8381;</td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
+
+
+        </div>
+
+
+    </div>
+</section>
+
+{% endblock %}
+
+{% block js %}
+{% endblock %}
