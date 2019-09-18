@@ -23,7 +23,9 @@
 
                 </div>
                 <div class="item-card-price">
-                    <p> {{ item.itemprice_set.first.volume }} - {{ item.itemprice_set.first.price}} р </p>
+                    <p> {{ item.itemprice_set.first.volume.normalize }} {{ item.itemprice_set.first.unit }}
+
+                        - {{ item.itemprice_set.first.price.normalize}} РУБ </p>
                     <a class="btn btn-sm" href="javascript:void(0)" onclick="quick_add_to_cart({{ item.id }})">в корзину</a>
                 </div>
             </div><!--item-card-->

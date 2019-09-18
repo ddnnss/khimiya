@@ -197,12 +197,12 @@
                     $('#quick_add_to_cart_btn').attr('data-item_image',data.item_images[0])
                     $('#quick_add_to_cart_btn').attr('data-item_name',data.item_name)
                     document.getElementById('item_total').value='1'
-                    $('#liters').append(` <option data-price="${data.item_volumes[0]['price']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} - ${data.item_volumes[0]['price']} &#8381;</option>`);
+                    $('#liters').append(` <option data-price="${data.item_volumes[0]['price']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} ${data.item_volumes[0]['unit']} - ${data.item_volumes[0]['price']} &#8381;</option>`);
                     price_per_liter_span.innerHTML = data.item_volumes[0]['price']
                     liter_price.innerHTML = data.item_volumes[0]['price']
                     $.each(data.item_volumes,function (i,v) {
                         console.log(i)
-                        $('#liters').append(` <option data-price="${data.item_volumes[i]['price']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} - ${data.item_volumes[i]['price']} &#8381;</option>`);
+                        $('#liters').append(` <option data-price="${data.item_volumes[i]['price']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} ${data.item_volumes[i]['unit']} - ${data.item_volumes[i]['price']} &#8381;</option>`);
 
 
                     })
@@ -380,7 +380,7 @@
         function calculatePrice() {
       const liter_price = parseFloat(document.getElementById('item_price').innerHTML)
       let item_number = document.getElementById('item_total').value
-      document.getElementById('price_per_liter').innerHTML = numberWithCommas((item_number * liter_price).toFixed(2))
+      document.getElementById('price_per_liter').innerHTML = (item_number * liter_price).toFixed(2)
     }
     </script>
 {% endblock %}

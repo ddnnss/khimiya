@@ -207,6 +207,19 @@ class Item(models.Model):
         verbose_name_plural = "Товары"
 
 class ItemPrice(models.Model):
+    LITER = 'л.'
+    UNIT = 'шт.'
+
+    ITEM_UNITS = [
+        (LITER, 'Литры'),
+        (UNIT, 'Штуки'),
+
+    ]
+    unit = models.CharField('Еденица измерения',
+        max_length=5,
+        choices=ITEM_UNITS,
+        default=LITER,
+    )
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
     volume = models.DecimalField('Объем', decimal_places=2, max_digits=4, blank=False, default=0, db_index=True)
     price = models.DecimalField('Цена', decimal_places=2, max_digits=6, blank=False, default=0, db_index=True)
@@ -218,8 +231,16 @@ class ItemPrice(models.Model):
     #     else:
     #         dis_val = 0
     #     return (format_number(dis_val))
+
+    # def save(self, *args, **kwargs):
+    #
+    #     self.volume = self.volume.replace(',', '.')
+    #     self.price = self.price.replace(',', '.')
+    #
+    #     super(ItemPrice, self).save(*args, **kwargs)
+
     def __str__(self):
-        return 'Товар {} объемом {} цена {}'.format(self.item.name,self.volume,self.price)
+        return 'Товар {} объемом {} цена {}'.format(self.item.name, self.volume, self.price)
 
     class Meta:
         verbose_name = "Объем и цену"
