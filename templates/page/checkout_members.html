@@ -1,0 +1,422 @@
+{% load static %}
+{% load humanize %}
+<span id="cart_start_price" >{{ total_cart_price }}</span>
+<span id="promo_discount" >{{ promo_discount_value }}</span>
+<span id="order_total" >{{ total_cart_price_with_discount }}</span>
+<section class="checkout">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="{% url 'show_cart' %}">Корзина</a></li>
+                <li><span>Оформление заказа</span></li>
+            </ul>
+        </div>
+        <h3>Оформление заказа</h3>
+
+
+        <div class="checkout-inner">
+            <form id="customer_form"  action="{% url 'checkout' %}" method="post">{% csrf_token %}
+                <div class="checkout-user">
+
+
+                    <div class="checkout-user-info" >
+                        <div class="checkout-user-info__header">
+                            <span>1</span>
+                            <p>Введите Ваши данные</p>
+                        </div>
+
+                        <div class="checkout-user-info__inputs">
+                            <div class="checkout-user-info__input">
+                                <label for="name_input" >Ваше имя <sup>*</sup> </label>
+                                <input oninput="checkout_form_change();" id="name_input"  required="required" name="{{ form.name.name }}" type="text" class="form-control"  placeholder="Ваше имя" value="{% if not client.name %}{% else %}{{ client.name }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="family_input">Ваша фамилия <sup>*</sup> </label>
+                                <input oninput="checkout_form_change();" id="family_input" required="required" name="{{ form.family.name }}" type="text" class="form-control"  placeholder="Ваша фамилия" value="{% if not client.family %}{% else %}{{ client.family }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputName">Ваше отчество  </label>
+                                <input oninput="checkout_form_change();"  name="{{ form.otchestvo.name }}" type="text" class="form-control"  placeholder="Ваше отчество" value="{% if not client.otchestvo %}{% else %}{{ client.otchestvo }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="checkout_email">Ваш E-Mail <sup>*</sup> <span style="color: #f2486e;font-size: 13px;"
+                                                                                          id="checkout_email_error"></span>
+                                </label>
+                                <input oninput="checkout_form_change();" id="checkout_email" onblur="checkout()"  type="email" required="required" name="{{ form.email.name }}" class="form-control"  placeholder="Ваш E-Mail" value="{% if not client.email %}{% else %}{{ client.email }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Ваш телефон <sup>*</sup></label>
+                                <input oninput="checkout_form_change();" id="phone_input" type="tel" required="required" name="{{ form.phone.name }}" class="form-control"  placeholder="Ваш телефон" value="{% if not client.phone %}{% else %}{{ client.phone }}{% endif %}">
+                            </div>
+
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Страна <sup>*</sup></label>
+                                <input oninput="checkout_form_change();" id="country_input" type="text" required="required" name="{{ form.country.name }}" class="form-control"  placeholder="Страна" value="{% if not client.country %}{% else %}{{ client.country }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Город <sup>*</sup></label>
+                                <input oninput="checkout_form_change();" id="city_input" type="text" required="required" name="{{ form.city.name }}" class="form-control"  placeholder="Город" value="{% if not client.city %}{% else %}{{ client.city }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label for="InputEmail">Индекс <sup>*</sup></label>
+                                <input oninput="checkout_form_change();" id="post_code_input" type="number" required="required" name="{{ form.post_code.name }}" class="form-control"  placeholder="Индекс" value="{% if not client.post_code %}{% else %}{{ client.post_code }}{% endif %}">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label oninput="checkout_form_change();" for="InputEmail">Адрес доставки <sup>*</sup></label>
+                                <textarea id="address_input" required="required" name="{{ form.address.name }}" class="form-control" rows="5"  placeholder="Адрес доставки">{% if not client.address %}{% else %}{{ client.address }}{% endif %}</textarea>
+                            </div>
+
+
+                        </div>
+                    </div><!--/checkout-user-info -->
+
+
+
+
+                    <div class="checkout-user-info" >
+                        <div class="checkout-user-info__header">
+                            <span>2</span>
+                            <p>Выберите вариант оплаты товара</p>
+                        </div>
+                        <div class="checkout-user-info__inputs">
+                            {% for pay in payment %}
+
+                                <label class="custom-checkbox">{{ pay.name }}
+                                    <input id="payment_{{ pay.id }}"  {% if forloop.first %}checked{% endif %} name="payment" value="{{ pay.id }}"  type="radio">
+                                    <span class="checkmark"></span>
+                                </label>
+                            {% endfor %}
+                        </div>
+
+
+
+                    </div><!--/checkout-user-info -->
+
+                    <div class="checkout-user-info" >
+                        <div class="checkout-user-info__header">
+                            <span>3</span>
+                            <p>Выберите вариант доставки товара</p>
+                        </div>
+                        <div class="checkout-user-info__inputs">
+                            {% for ship in shipping %}
+
+                                <label class="custom-checkbox">{{ ship.name }}
+                                    <input id="shipping_{{ ship.id }}"  {% if forloop.first %}checked{% endif %} name="shipping" value="{{ ship.id }}"  type="radio">
+                                    <span class="checkmark"></span>
+                                </label>
+                            {% endfor %}
+
+                        </div>
+                    </div><!--/checkout-user-info -->
+
+                    <input id="form_type" type="hidden"  name="form_type" value="checkout">
+                <input id="form_use_bonuses" type="hidden" name="form_use_bonuses" value="0">
+
+                    <button id="checkout_user_info_btn"  style="display: none; border: none; cursor: pointer;"  type="submit" class="btn ">ВЫ ИЗМЕНИЛИ ПЕРСОНАЛЬНЫЕ ДАННЫЕ, ИХ НЕОБХОДИМО СОХРАНИТЬ</button>
+                    <button  type="submit" id="checkout_btn"     class="btn ">ОФОРМИТЬ ЗАКАЗ</button>
+
+
+
+
+                </div><!--/checkout-user -->
+            </form>
+
+
+            <aside class="checkout-order-items">
+                <div class="checkout-order-info {% if not all_bonuses %}not-visible{% endif %}" >
+                    <div class="checkout-order-info__header">
+
+                        <p>Использовать бонусы</p>
+                    </div>
+                    <div class="checkout-order-info-items">
+                        <div class="checkout-order-total">
+                            <span>Ваши бонусы</span>
+                            <p><span id="total_bonuses">{{ all_bonuses }}</span></p>
+
+                        </div>
+                        <div class="checkout-order-total">
+                            <span>Вы можете использовать</span>
+                            <p><span id="bonuses_for_use">{{ use_bonuses }}</span></p>
+
+                        </div>
+                        <label class="custom-checkbox"><span>Использовать все бонусы?</span>
+                            <input name="with_register"  onchange="use_all_bonuses()" id="with_register" type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>
+                        <div id="bonuses_div" class="checkout-order-total ">
+                            <span>Сколько бонусов использовать?</span>
+                            <input onchange="use_some_bonuses(this)" type="number" min="1" max="{{ use_bonuses }}" id="how_much_bonuses_use" value="0"  >
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="checkout-order-info" >
+                    <div class="checkout-order-info__header">
+
+                        <p>Использовать промо-код</p>
+                    </div>
+                    <div id="promo_div" class="checkout-order-info-items">
+                        <div  class="checkout-order-total ">
+                            <span>Введите промо-код</span>
+                            <input type="text"  id="promo_code" value="{% if used_promo %}{{ used_promo.promo_code }}{% endif %}" {% if used_promo %}disabled{% endif %} placeholder="Промо-код"  >
+
+                        </div>
+                        {% if not used_promo %}
+                            <a style="margin: 0 auto;" href="javascript:void(0)" id="use_promo_btn" onclick="use_promo()" class="btn-outline">проверить промо-код</a>
+                        {% else %}
+                            <a style="margin: 0 auto;" href="javascript:void(0)"  class="btn-outline">промо-код использован</a>
+                        {% endif %}
+
+                    </div>
+                </div>
+                <div class="checkout-order-info" >
+                    <div class="checkout-order-info__header">
+
+                        <p>Ваш заказ</p>
+                    </div>
+                    <div class="checkout-order-info-items">
+                        <div class="checkout-order-total">
+                            <span>Сумма заказа</span>
+                            <p><span id="order_price">{{ total_cart_price.normalize }}</span> <span>&#8381;</span></p>
+
+                        </div>
+                        <div id="register_div" class="checkout-order-total not-visible">
+                            <span>Скидка при регистрации</span>
+                            <p><span id="register_discount">10</span> <span>%</span></p>
+
+                        </div>
+                        <div id="promocode_div" class="checkout-order-total {% if not used_promo %}not-visible{% endif %}">
+                            <span>Скидка по промо-коду</span>
+                            <p><span id="used_promo_discount">{{ promo_discount_value }}</span> <span>%</span></p>
+
+                        </div>
+                        <div id="bonuses_use_div" class="checkout-order-total not-visible">
+                            <span>Использовано бонусов</span>
+                            <p><span id="use_bonuses">10</span></p>
+
+                        </div>
+                        <div class="checkout-order-total-price">
+                            <span>ИТОГО К ОПЛАТЕ</span>
+                            <p><span id="order_total_price"></span> <span>&#8381;</span></p>
+                        </div>
+                        <!--a style="margin: 0 auto;" id="checkout_btn" href="javascript:void(0)" onclick="submit_form()"    class="btn ">ОФОРМИТЬ ЗАКАЗ</a-->
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+
+
+    </div>
+</section>
+<script>
+    let useReg = true
+    let promoDiscount = parseInt(document.getElementById('promo_discount').innerText)
+    let startPrice = parseFloat(document.getElementById('cart_start_price').innerText)
+    let order_total = parseFloat(document.getElementById('order_total_price').innerText)
+    let all_bonuses = parseInt(document.getElementById('bonuses_for_use').innerText)
+    let all_bonuses_use = false
+    console.log(order_total)
+
+    function checkout_form_change() {
+        $('#checkout_user_info_btn').css('margin-bottom','20px');
+        $('#form_type').val('user_info')
+
+        $('#checkout_user_info_btn').css('display','block');
+
+        $('#checkout_btn').css('display','none');
+
+
+    }
+
+    function use_promo() {
+        var promo_code = $('#promo_code').val();
+
+        if (promo_code){
+
+            var url = '/cart/use_promo/';
+            var csrf_token = $('#dummy_form [name="csrfmiddlewaretoken"]').val();
+
+            var data = {};
+            data.promo_code = promo_code;
+            data['csrfmiddlewaretoken'] = csrf_token;
+            console.log(data);
+            $.ajax({
+                url:url,
+                type:'POST',
+                data: data,
+                cache:true,
+                success: function (data) {
+                    console.log('OK');
+                    console.log(data.result);
+
+                    if (data.result){
+
+                        calculateTotalPrice(data.promo_discount_value)
+                        $('#promo_code').attr('disabled','disabled')
+                        $('#use_promo_btn').attr('onclick','')
+                        $('#use_promo_btn').html('промо-код использован')
+                        $('#promo_discount').html(data.promo_discount_value);
+                        $('#used_promo_discount').html(data.promo_discount_value);
+                        $('#order_total').html(data.total_cart_price_with_discount);
+                        document.getElementById('promocode_div').classList.toggle('not-visible')
+                        $.amaran({
+                            'theme'     :'colorful',
+                            'content'   :{
+                                bgcolor:'#21f26a',
+                                color:'#fff',
+                                message:'ПРОМО-КОД УСПЕШНО ПРИМЕНЕН !'
+                            },
+                            'position'  :'bottom right',
+                            'outEffect' :'slideBottom'
+                        });
+
+
+                    }
+                    else
+                    {
+                        $.amaran({
+                            'theme'     :'colorful',
+                            'content'   :{
+                                bgcolor:'#F26663',
+                                color:'#fff',
+                                message:'ПРОМО-КОД НЕ НАЙДЕН, ЗАКОНЧЕН СРОК ДЕЙСТВИЯ ИЛИ УЖЕ ПРИМЕНЕН !'
+                            },
+                            'position'  :'bottom right',
+                            'outEffect' :'slideBottom'
+                        });
+
+                    }
+
+                    //  $('.cart_total_lg').html(data.total_cart_price);
+                    // $('#cart_subtotal_price_side').html(data.total_cart_price + ' &#8381;');
+                    //  $('#cart_total_price_side').html(data.total_cart_price_with_discount + ' &#8381;');
+                    //   $('#promo_value').html(data.promo_discount_value + ' %');
+
+                },
+                error: function () {
+                    console.log('ERROR')
+                }
+            });
+        }
+        else{
+            $.amaran({
+                'theme'     :'colorful',
+                'content'   :{
+                    bgcolor:'#F26663',
+                    color:'#fff',
+                    message:'ВВЕДИТЕ ПРОМО-КОД !'
+                },
+                'position'  :'bottom right',
+                'outEffect' :'slideBottom'
+            });
+
+        }
+
+    }
+
+    function checkout() {
+        email_input =$('#checkout_email');
+        span_error = $('#checkout_email_error');
+
+        email =email_input.val();
+        email_input.attr('disabled','disabled');
+        csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+
+        $.ajax({
+            type:"POST",
+            url:'/check_email/',
+            data:{
+                'csrfmiddlewaretoken': csrfmiddlewaretoken,
+                'email':email,
+            },
+            success : function(data){
+                console.log('OK');
+                console.log(data);
+                if(data['result']){
+                    console.log('OK');
+                    email_input.css('border-color','#29902a');
+                    email_input.removeAttr('disabled');
+                    span_error.html('');
+                    $('#checkout_btn').removeAttr('disabled');
+
+                }
+                else{
+
+                    email_input.css('border-color','#f2486e');
+                    email_input.removeAttr('disabled');
+                    $('#checkout_btn').attr('disabled','disabled');
+                    span_error.html(data.email_error);
+
+                }
+            }
+        });
+    }
+
+    function use_all_bonuses() {
+        console.log(parseFloat(document.getElementById('order_total').innerText))
+        if (all_bonuses_use){
+            all_bonuses_use = false
+            document.getElementById('form_use_bonuses').value = 0
+            document.getElementById('use_bonuses').innerText = '0'
+            document.getElementById('order_total_price').innerText = numberWithCommas(parseFloat(document.getElementById('order_total').innerText) .toFixed(2) )
+        }
+        else{
+            all_bonuses_use = true
+
+            document.getElementById('use_bonuses').innerText = all_bonuses
+            document.getElementById('form_use_bonuses').value = all_bonuses
+             document.getElementById('order_total_price').innerText = numberWithCommas((parseFloat(document.getElementById('order_total').innerText) - all_bonuses).toFixed(2) )
+        }
+        document.getElementById('bonuses_use_div').classList.toggle('not-visible')
+        document.getElementById('bonuses_div').classList.toggle('not-visible')
+        document.getElementById('how_much_bonuses_use').value = 0
+
+    }
+
+    function use_some_bonuses() {
+        if (parseInt(document.getElementById('how_much_bonuses_use').value === 0 )){
+          document.getElementById('bonuses_use_div').style.display = 'none'
+        }
+        else {
+           document.getElementById('bonuses_use_div').style.display = 'grid'
+        }
+
+        if (parseInt(document.getElementById('how_much_bonuses_use').value) > all_bonuses){
+             document.getElementById('form_use_bonuses').value = all_bonuses
+            document.getElementById('how_much_bonuses_use').value = all_bonuses
+            document.getElementById('use_bonuses').innerText = all_bonuses
+            document.getElementById('order_total_price').innerText = numberWithCommas(parseFloat(document.getElementById('order_total').innerText) - all_bonuses )
+        }else {
+
+            document.getElementById('use_bonuses').innerText = document.getElementById('how_much_bonuses_use').value
+             document.getElementById('form_use_bonuses').value = document.getElementById('how_much_bonuses_use').value
+          document.getElementById('order_total_price').innerText = (numberWithCommas((parseFloat(document.getElementById('order_total').innerText) - parseInt(document.getElementById('how_much_bonuses_use').value) ).toFixed(2)))
+        }
+
+
+
+    }
+    function use_register() {
+        promoDiscount = parseInt(document.getElementById('promo_discount').innerText)
+        document.getElementById('register_div').classList.toggle('not-visible')
+        if (useReg){
+
+            useReg = false
+            calculateTotalPrice(promoDiscount)
+        }else{
+            useReg = true
+            calculateTotalPrice(10 + promoDiscount)
+        }
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+        calculateTotalPrice(promoDiscount)
+    });
+
+    function calculateTotalPrice(discount) {
+        document.getElementById('order_total_price').innerText = numberWithCommas(startPrice - (startPrice * discount / 100).toFixed(2))
+
+    }
+</script>

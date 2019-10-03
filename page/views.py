@@ -243,19 +243,39 @@ def checkout(request):
             order.save(force_update=True)
             all_cart_items = Cart.objects.filter(client_id=request.user.id)
             for item in all_cart_items:
-                ItemsInOrder.objects.create(order_id=order.id, item_id=item.item.id, number=item.number,
-                                            current_price=item.item.price)
-                item.item.buys = item.item.buys + 1
-                item.item.save(force_update=True)
+                ItemsInOrder.objects.create(order_id=order.id, item_id=item.item.id, number=item.number)
+                item.item.item.buys = item.item.item.buys + 1
+                item.item.item.save(force_update=True)
             all_cart_items.delete()
             request.user.used_promo = None
-            request.user.save(force_update=True)
+
             new_order = Order.objects.get(id=order.id)
-            msg_html = render_to_string('email/new_order.html', {'order': new_order})
-            send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [request.user.email],
-                      fail_silently=False, html_message=msg_html)
-            send_mail('Новый заказ', None, 'norply@lakshmi888.ru', ['info@lakshmi888.ru'],
-                      fail_silently=False, html_message=msg_html)
+
+            want_to_use_bonuse = int(request.POST.get('form_use_bonuses'))
+            print('want_to_use_bonuse',want_to_use_bonuse)
+            print('user avaialble bonese /2',request.user.bonuses / 2)
+            print('request.user.bonuses1', request.user.bonuses)
+            if want_to_use_bonuse > 0 and want_to_use_bonuse <= int(request.user.bonuses / 2):
+                request.user.bonuses -= want_to_use_bonuse
+                new_order.bonuses = want_to_use_bonuse
+                request.user.save(force_update=True)
+                print('request.user.bonuses2', request.user.bonuses)
+            print('cart cost before',new_order.total_price_with_code)
+            new_order.save(force_update=True)
+            print('cart cost after', new_order.total_price_with_code)
+            print('request.user.bonuses3', request.user.bonuses)
+            request.user.bonuses += int(float(new_order.total_price_with_code) * (3/100))
+            request.user.save(force_update=True)
+            print('int(float(new_order.total_price_with_code) * (3/100))', int(float(new_order.total_price_with_code) * (3/100)))
+            print('request.user.bonuses4', request.user.bonuses)
+
+
+
+            # msg_html = render_to_string('email/new_order.html', {'order': new_order})
+            # send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [request.user.email],
+            #           fail_silently=False, html_message=msg_html)
+            # send_mail('Новый заказ', None, 'norply@lakshmi888.ru', ['info@lakshmi888.ru'],
+            #           fail_silently=False, html_message=msg_html)
             return HttpResponseRedirect('/order/{}'.format(new_order.order_code))
 
 
@@ -323,16 +343,17 @@ def checkout(request):
             order.save(force_update=True)
             all_cart_items = Cart.objects.filter(guest_id=guest.id)
             for item in all_cart_items:
-                ItemsInOrder.objects.create(order_id=order.id, item_id=item.item.item.id, number=item.number)
+                ItemsInOrder.objects.create(order_id=order.id, item_id=item.item.id, number=item.number)
                 item.item.item.buys = item.item.item.buys + 1
                 item.item.item.save(force_update=True)
             all_cart_items.delete()
+
 
             guest.used_promo = None
             guest.save(force_update=True)
             new_order = Order.objects.get(id=order.id)
             print('total_cart_price', new_order.total_price)
-            
+
             # msg_html = render_to_string('email/new_order.html', {'order': new_order})
             # send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [email],
             #           fail_silently=False, html_message=msg_html)
@@ -348,6 +369,8 @@ def checkout(request):
 
     if request.user.is_authenticated:
         client = request.user
+        all_bonuses = client.bonuses
+        use_bonuses = round(all_bonuses / 2)
         form = UpdateForm(instance=client)
         return render(request, 'page/checkout.html', locals())
     else:

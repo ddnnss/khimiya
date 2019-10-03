@@ -166,7 +166,7 @@
                     <div id="promo_div" class="checkout-order-info-items">
                           <div  class="checkout-order-total ">
                             <span>Введите промо-код</span>
-                            <input type="text"  id="promo_code" value=" {% if used_promo %}{{ used_promo.promo_code }}{% endif %}" {% if used_promo %}disabled{% endif %} placeholder="Промо-код"  >
+                            <input type="text"  id="promo_code" value="{% if used_promo %}{{ used_promo.promo_code }}{% endif %}" {% if used_promo %}disabled{% endif %} placeholder="Промо-код"  >
 
                         </div>
                         {% if not used_promo %}
