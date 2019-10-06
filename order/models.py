@@ -63,10 +63,11 @@ class Order(models.Model):
                                verbose_name='Оплата заказа')
     shipping = models.ForeignKey(OrderShipping, blank=True, null=True, default=None, on_delete=models.SET_NULL,
                                 verbose_name='Доставка заказа')
-    total_price = models.IntegerField('Общая стоимость заказа', default=0)
+    total_price = models.DecimalField('Общая стоимость заказа', decimal_places=2,
+                                                max_digits=10, default=0)
     total_price_with_code = models.DecimalField('Общая стоимость заказа с учетом промо-кода', decimal_places=2,
                                                 max_digits=10, default=0)
-    bonuses = models.DecimalField('Бонус с заказа', decimal_places=2, max_digits=6, blank=True, default=0, db_index=True)
+    bonuses = models.IntegerField('Бонус с заказа', blank=True, default=0, db_index=True)
     track_code = models.CharField('Трек код', max_length=50, blank=True, null=True)
     order_code = models.CharField('Код заказа', max_length=10, blank=True, null=True)
     is_complete = models.BooleanField('Заказ выполнен ?', default=False)

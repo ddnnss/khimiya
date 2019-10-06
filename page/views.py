@@ -349,11 +349,15 @@ def checkout(request):
             all_cart_items.delete()
 
 
+
+
             guest.used_promo = None
             guest.save(force_update=True)
             new_order = Order.objects.get(id=order.id)
             print('total_cart_price', new_order.total_price)
-
+            if user:
+                user.bonuses += int(float(new_order.total_price_with_code) * (3 / 100))
+                user.save(force_update=True)
             # msg_html = render_to_string('email/new_order.html', {'order': new_order})
             # send_mail('Заказ успешно размещен', None, 'info@lakshmi888.ru', [email],
             #           fail_silently=False, html_message=msg_html)
@@ -551,94 +555,7 @@ def subcategory1(request, subcat_slug):
     return render(request, 'page/subcategory.html', locals())
 
 
-def collection(request, collection_slug):
-    try:
-        collection = Collection.objects.get(name_slug=collection_slug)
-        all_items = collection.item_set.filter(is_active=True, is_present=True).order_by('-created_at')
-        not_present = collection.item_set.filter(is_active=True, is_present=False)
-        title = collection.page_title
-        description = collection.page_description
-        keywords = collection.page_keywords
-       # all_items = Item.objects.filter(collection__name_slug=collection_slug)
-    except:
-        return render(request, '404.html', locals())
-    data = request.GET
-    print(request.GET)
-    search = data.get('search')
-    filter = data.get('filter')
-    order = data.get('order')
-    count = data.get('count')
-    page = request.GET.get('page')
-    search_qs = None
-    filter_sq = None
-    if search:
-        items = all_items.filter(name_lower__contains=search.lower())
 
-        if not items:
-            items = all_items.filter(article__contains=search)
-        search_qs = items
-
-        param_search = search
-
-    if filter == 'new':
-        print('Поиск по фильтру туц')
-        if search_qs:
-            items = search_qs.filter(is_new=True)
-            filter_sq = items
-            param_filter = filter
-        else:
-            items = all_items.filter(is_new=True)
-            filter_sq = items
-            param_filter = filter
-
-        param_filter = 'new'
-
-    if filter and filter != 'new':
-        print('Поиск по фильтру')
-
-        if search_qs:
-            items = search_qs.filter(filter__name_slug=filter)
-            filter_sq = items
-            param_filter = filter
-        else:
-            items = all_items.filter(filter__name_slug=filter)
-            filter_sq = items
-            param_filter = filter
-
-    if order:
-        if search_qs and filter_sq:
-            items = filter_sq.order_by(order)
-        elif filter_sq:
-            items = filter_sq.order_by(order)
-        elif search_qs:
-            items = search_qs.order_by(order)
-        else:
-            items = all_items.order_by(order)
-        param_order = order
-
-    if not search and not order and not filter:
-        items = all_items
-        # subcat.views = subcat.views + 1
-        # subcat.save()
-        param_order = '-created_at'
-
-    if count:
-        items_paginator = Paginator(items, int(count))
-        param_count = count
-    else:
-        items_paginator = Paginator(items, 12)
-
-    if page:
-        canonical_link = '/collection/' + collection.name_slug
-
-    try:
-        items = items_paginator.get_page(page)
-    except PageNotAnInteger:
-        items = items_paginator.page(1)
-    except EmptyPage:
-        items = items_paginator.page(items_paginator.num_pages)
-    show_tags = False
-    return render(request, 'page/collection.html', locals())
 
 
 def search(request):

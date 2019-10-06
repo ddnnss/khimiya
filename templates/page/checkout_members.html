@@ -416,7 +416,7 @@
     });
 
     function calculateTotalPrice(discount) {
-        document.getElementById('order_total_price').innerText = numberWithCommas(startPrice - (startPrice * discount / 100).toFixed(2))
+        document.getElementById('order_total_price').innerText = numberWithCommas((startPrice - (startPrice * discount / 100)).toFixed(2))
 
     }
 </script>

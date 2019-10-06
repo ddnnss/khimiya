@@ -111,7 +111,7 @@
                         </div>
                         <div class="item-info-description-volume">
                        <span>
-                           Количество литров:
+                           Доступные варианты:
                        </span>
                             <div class="custom-select" style="width:150px;">
                                 <select id="liters">
@@ -194,7 +194,7 @@
                     $('#preview_img').attr('src',data.item_images[0])
                     $('#item_name').text(data.item_name)
                     $('#price_per_liter').html('0')
-                    $('#quick_add_to_cart_btn').attr('data-item_id',data.item_id)
+                    $('#quick_add_to_cart_btn').attr('data-item_id',data.item_volumes[0]['id'])
                     $('#quick_add_to_cart_btn').attr('data-item_image',data.item_images[0])
                     $('#quick_add_to_cart_btn').attr('data-item_name',data.item_name)
                     document.getElementById('item_total').value='1'
