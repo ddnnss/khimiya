@@ -30,7 +30,7 @@
                 <tr class="main-cart-item">
                     <td>
                         <div class="main-cart-item-name">
-                            <img src="{{ cart_item.item.item.itemimage_set.first.image_small }}" alt=""> <span>{{ cart_item.item.item.name }} {{ cart_item.item.volume }} л</span>
+                            <img src="{{ cart_item.item.item.itemimage_set.first.image_small }}" alt=""> <span>{{ cart_item.item.item.name }} {{ cart_item.item.volume }} {{ cart_item.item.unit }}</span>
                         </div>
 
                     </td>
@@ -42,8 +42,8 @@
 
                         </div>
                     </td>
-                    <td class="main-cart-item-price">{{ cart_item.current_price | intcomma}} &#8381;</td>
-                    <td class="main-cart-item-total-price">{{ cart_item.total_price | intcomma }} &#8381;</td>
+                    <td class="main-cart-item-price">{{ cart_item.current_price}} &#8381;</td>
+                    <td class="main-cart-item-total-price">{{ cart_item.total_price }} &#8381;</td>
                     <td class="main-cart-item-action"><a class="cart-delete-btn" onclick="delete_from_main_cart({{ cart_item.id }})" href="javascript:void(0)"><span>&#10006;</span></a></td>
                 </tr>
                 {% endfor %}
@@ -51,7 +51,7 @@
                     <td class="main-cart-footer__total">Итого</td>
                     <td></td>
                     <td></td>
-                    <td colspan="2" class="main-cart-footer__total-price">{{ total_cart_price | intcomma }} &#8381;</td>
+                    <td colspan="2" class="main-cart-footer__total-price">{{ total_cart_price }} &#8381;</td>
 
                 </tr>
 

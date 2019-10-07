@@ -1,5 +1,3 @@
-import decimal
-
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from customuser.models import User, Guest
@@ -21,20 +19,16 @@ class Wishlist(models.Model):
 
 class OrderStatus(models.Model):
     name = models.CharField('Статус для заказа', max_length=100, blank=False)
-
     def __str__(self):
         return '%s' % self.name
-
     class Meta:
         verbose_name = "Статус для заказа"
         verbose_name_plural = "Статусы для заказов"
 
 class OrderPayment(models.Model):
     name = models.CharField('Вариант оплаты заказа', max_length=100, blank=False)
-
     def __str__(self):
         return '%s' % self.name
-
     class Meta:
         verbose_name = "Вариант оплаты заказа"
         verbose_name_plural = "Варианты оплаты заказов"
@@ -42,10 +36,8 @@ class OrderPayment(models.Model):
 class OrderShipping(models.Model):
     name = models.CharField('Вариант доставки заказа', max_length=100, blank=False)
     deliveryCost = models.IntegerField('Стоимость доставки', default=0)
-
     def __str__(self):
         return '%s' % self.name
-
     class Meta:
         verbose_name = "Вариант доставки заказа"
         verbose_name_plural = "Варианты доставки заказов"
@@ -63,10 +55,8 @@ class Order(models.Model):
                                verbose_name='Оплата заказа')
     shipping = models.ForeignKey(OrderShipping, blank=True, null=True, default=None, on_delete=models.SET_NULL,
                                 verbose_name='Доставка заказа')
-    total_price = models.DecimalField('Общая стоимость заказа', decimal_places=2,
-                                                max_digits=10, default=0)
-    total_price_with_code = models.DecimalField('Общая стоимость заказа с учетом промо-кода', decimal_places=2,
-                                                max_digits=10, default=0)
+    total_price = models.IntegerField('Общая стоимость заказа', default=0)
+    total_price_with_code = models.IntegerField('Общая стоимость заказа с учетом промо-кода', default=0)
     bonuses = models.IntegerField('Бонус с заказа', blank=True, default=0, db_index=True)
     track_code = models.CharField('Трек код', max_length=50, blank=True, null=True)
     order_code = models.CharField('Код заказа', max_length=10, blank=True, null=True)
@@ -108,13 +98,7 @@ class Order(models.Model):
             self.total_price_with_code = (self.total_price - (self.total_price * self.promo_code.promo_discount / 100)) - self.bonuses
         else:
             self.total_price_with_code = self.total_price - self.bonuses
-
-
-
         super(Order, self).save(*args, **kwargs)
-
-
-
 
 class ItemsInOrder(models.Model):
     order = models.ForeignKey(Order, blank=False, null=True, default=None, on_delete=models.CASCADE,
@@ -127,13 +111,7 @@ class ItemsInOrder(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # if self.item.item.discount > 0:
-        #     self.current_price = self.item.price - (self.item.price * self.item.item.discount / 100)
-        #     print(self.current_price)
-        # else:
-        #     self.current_price = self.item.price
-        self.total_price = self.number * decimal.Decimal(self.item.price)
-
+        self.total_price = self.number * self.item.price
         super(ItemsInOrder, self).save(*args, **kwargs)
 
 
@@ -179,7 +157,6 @@ def ItemsInOrder_post_save(sender,instance,**kwargs):
 
         for item in all_items_in_order:
             order_total_price += item.total_price
-
         instance.order.total_price = order_total_price
         instance.order.save(force_update=True)
 

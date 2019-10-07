@@ -47,18 +47,15 @@ def add_to_cart(request):
     s_key = request.session.session_key
     item_id = int(data.get('item_id'))
     item_number = int(data.get('item_number'))
-    item_volume = decimal.Decimal(data.get('item_volume'))
+    item_volume = data.get('item_volume')
     if request.user.is_authenticated:
         print('User is_authenticated')
         addtocart, created = Cart.objects.get_or_create(client=request.user,
                                                         item_id=item_id, defaults={'number': item_number})
-
-
         if not created:
             addtocart.number += int(item_number)
             addtocart.save(force_update=True)
         all_items_in_cart = Cart.objects.filter(client=request.user)
-
     else:
         print('User is_not authenticated')
         try:
@@ -66,12 +63,10 @@ def add_to_cart(request):
             print('Guest already created')
         except:
             guest = None
-
         if not guest:
             guest = Guest.objects.create(session=s_key)
             guest.save()
             print('Guest created')
-
         addtocart, created = Cart.objects.get_or_create(guest=guest,
                                                            item_id=item_id, defaults={'number': item_number})
         if not created:
@@ -93,10 +88,10 @@ def add_to_cart(request):
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
         item_dict['volume'] = item.item.volume
+        item_dict['unit'] = item.item.unit
         item_dict['number'] = item.number
         item_dict['image'] = item.item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
-
     return_dict['total_cart_price'] = total_cart_price
 
     return JsonResponse(return_dict)
@@ -132,6 +127,7 @@ def delete_from_cart(request):
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
         item_dict['volume'] = item.item.volume
+        item_dict['unit'] = item.item.unit
         item_dict['number'] = item.number
         item_dict['image'] = item.item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
@@ -143,7 +139,6 @@ def delete_from_cart(request):
 
 def update_cart(request):
     return_dict = {}
-
     data = request.POST
     print(data)
     item_id = int(data.get('item_id'))
@@ -152,7 +147,7 @@ def update_cart(request):
     item = Cart.objects.get(id=item_id)
     item.number = item_number
     item.save(force_update=True)
-
+    promo_discount_value = 0
     s_key = request.session.session_key
 
     if request.user.is_authenticated:
@@ -185,6 +180,7 @@ def update_cart(request):
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
         item_dict['volume'] = item.item.volume
+        item_dict['unit'] = item.item.unit
         item_dict['number'] = item.number
         item_dict['image'] = item.item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)
@@ -211,7 +207,7 @@ def delete_from_main_cart(request):
     item_id = int(data.get('item_id'))
 
     Cart.objects.get(id=item_id).delete()
-
+    promo_discount_value = 0
     s_key = request.session.session_key
 
     if request.user.is_authenticated:
@@ -254,6 +250,7 @@ def delete_from_main_cart(request):
         item_dict['price'] = item.current_price
         item_dict['total_price'] = item.total_price
         item_dict['volume'] = item.item.volume
+        item_dict['unit'] = item.item.unit
         item_dict['number'] = item.number
         item_dict['image'] = item.item.item.itemimage_set.first().image_small
         return_dict['all_items'].append(item_dict)

@@ -33,9 +33,9 @@ def quick_add_to_cart(request):
     for vol in volumes:
         item_volume = dict()
         item_volume['id'] = vol.id
-        item_volume['volume'] = '%g'%(float(decimal.Decimal(vol.volume).normalize()))
+        item_volume['volume'] = vol.volume
 
-        item_volume['price'] = '%g'%(float(decimal.Decimal(vol.price).normalize()))
+        item_volume['price'] = vol.price
         item_volume['unit'] = vol.unit
 
         return_dict['item_volumes'].append(item_volume)

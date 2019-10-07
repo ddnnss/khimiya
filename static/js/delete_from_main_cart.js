@@ -29,10 +29,10 @@ function delete_from_main_cart(i_id) {
                                 <img  src="${v.image}" alt="">
                             </td>
                             <td>
-                                ${v.name} ${v.volume} л
+                                ${v.name} ${v.volume} ${v.unit}
                             </td>
                             <td>
-                                <span id="cart_item_number">${v.number} шт</span> x  <span id="cart_item_price">${numberWithCommas(v.price)} &#8381;</span> = <span id="cart_item_total_price">${numberWithCommas(v.total_price)} &#8381;</span>
+                                <span id="cart_item_number">${v.number} шт</span> x  <span id="cart_item_price">${v.price} &#8381;</span> = <span id="cart_item_total_price">${v.total_price} &#8381;</span>
                             </td>
                         <td>
                             <a class="cart-delete-btn" href="javascript:void(0)"
@@ -43,7 +43,7 @@ function delete_from_main_cart(i_id) {
 
                 });
                 $('.cart_table').append(` <tr class="cart-footer">
-                            <td colspan="4">Итого: ${numberWithCommas(data.total_cart_price)} &#8381;</td>
+                            <td colspan="4">Итого: ${data.total_cart_price} &#8381;</td>
                         </tr>
                         <tr>
                             <td colspan="4">
@@ -56,7 +56,7 @@ function delete_from_main_cart(i_id) {
                     $('#cart_body').append(`   <tr class="main-cart-item">
                     <td>
                         <div class="main-cart-item-name">
-                            <img src="${v.image}" alt=""> <span>${v.name} ${v.volume} л</span>
+                            <img src="${v.image}" alt=""> <span>${v.name} ${v.volume} ${v.unit}</span>
                         </div>
 
                     </td>
@@ -68,8 +68,8 @@ function delete_from_main_cart(i_id) {
 
                         </div>
                     </td>
-                    <td class="main-cart-item-price">${numberWithCommas(v.price)} &#8381;</td>
-                    <td class="main-cart-item-total-price">${numberWithCommas(v.total_price)} &#8381;</td>
+                    <td class="main-cart-item-price">${v.price} &#8381;</td>
+                    <td class="main-cart-item-total-price">${v.total_price} &#8381;</td>
                     <td class="main-cart-item-action"><a class="cart-delete-btn" onclick="delete_from_main_cart(${v.id})" href="javascript:void(0)"><span>&#10006;</span></a></td>
                 </tr>`)
                 });
@@ -77,7 +77,7 @@ function delete_from_main_cart(i_id) {
                     <td class="main-cart-footer__total">Итого</td>
                     <td></td>
                     <td></td>
-                    <td colspan="2" class="main-cart-footer__total-price">${numberWithCommas(data.total_cart_price)} &#8381;</td>
+                    <td colspan="2" class="main-cart-footer__total-price">${data.total_cart_price} &#8381;</td>
 
                 </tr>`)
                 jQuery('.cart').hideLoading()

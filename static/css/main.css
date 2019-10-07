@@ -1871,3 +1871,8 @@ h3 {
     -webkit-box-align: end;
         -ms-flex-align: end;
             align-items: flex-end; } }
+
+
+#shopping_bag_menu  img{
+  width: 45px;
+}

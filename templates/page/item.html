@@ -70,10 +70,10 @@
                                 <select id="liters">
                                     {% for vol in volumes %}
                                         {% if forloop.first %}
-                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} - {{ vol.price }} &#8381;</option>
-                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} - {{ vol.price }} &#8381;</option>
+                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} {{ vol.unit }} - {{ vol.price }} &#8381;</option>
+                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} {{ vol.unit }} - {{ vol.price }} &#8381;</option>
                                         {% else %}
-                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} - {{ vol.price }} &#8381;</option>
+                                            <option data-price="{{ vol.price }}" data-id="{{ vol.id }}" value="{{ vol.volume }}">{{ vol.volume }} {{ vol.unit }} - {{ vol.price }} &#8381;</option>
                                         {% endif %}
                                     {% endfor %}
                                 </select>
@@ -94,7 +94,8 @@
                         <a id="add_to_cart_btn" href="javascript:void(0)" class="btn btn-md"
                            data-item_id="{{ item.itemprice_set.first.id }}"
                            data-item_image="{{ item.itemimage_set.first.image.url }}"
-                           data-item_name="{{ item.name }}" onclick="add_to_cart(this)">добавить в корзину</a>
+                           data-item_name="{{ item.name }}"
+                           data-item_unit= "{{ item.itemprice_set.first.unit }}" onclick="add_to_cart(this)">добавить в корзину</a>
                         <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>
 
                     </div>
@@ -237,7 +238,7 @@
 
 {% block js %}
     <script>
-        const liter_price = parseFloat(document.getElementById('item_price').innerHTML)
+        const liter_price = parseInt(document.getElementById('item_price').innerHTML)
         let price_per_liter_span = document.getElementById('price_per_liter')
 
         document.getElementById('first-tab').click()
@@ -358,7 +359,7 @@
   function calculatePrice() {
       const liter_price = parseFloat(document.getElementById('item_price').innerHTML)
       let item_number = document.getElementById('item_total').value
-      document.getElementById('price_per_liter').innerHTML = numberWithCommas((item_number * liter_price).toFixed(2))
+      document.getElementById('price_per_liter').innerHTML = (item_number * liter_price).toFixed(0)
     }
 
     </script>

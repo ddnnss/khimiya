@@ -27,10 +27,10 @@ function delete_from_cart(del){
                                 <img  src="${v.image}" alt="">
                             </td>
                             <td>
-                                ${v.name} ${v.volume} л
+                                ${v.name} ${v.volume} ${v.unit}
                             </td>
                             <td>
-                                <span id="cart_item_number">${v.number} шт</span> x  <span id="cart_item_price">${numberWithCommas(v.price)} &#8381;</span> = <span id="cart_item_total_price">${numberWithCommas(v.total_price)} &#8381;</span>
+                                <span id="cart_item_number">${v.number} шт</span> x  <span id="cart_item_price">${v.price} &#8381;</span> = <span id="cart_item_total_price">${v.total_price} &#8381;</span>
                             </td>
                         <td>
                             <a class="cart-delete-btn" href="javascript:void(0)"
@@ -42,7 +42,7 @@ function delete_from_cart(del){
 
                 });
                 $('.cart_table').append(` <tr class="cart-footer">
-                            <td colspan="4">Итого: ${numberWithCommas(data.total_cart_price)} &#8381;</td>
+                            <td colspan="4">Итого: ${data.total_cart_price} &#8381;</td>
                         </tr>
                         <tr>
                             <td colspan="4">

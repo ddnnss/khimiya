@@ -38,8 +38,6 @@ def showitem(request, cat_slug,subcat_slug,subsubcat_slug,item_slug):
         item.views += 1
         item.save(force_update=True)
         cat = Category.objects.get(name_slug=cat_slug)
-
-
         images = ItemImage.objects.filter(item=item)
         # cat.views += 1
         # cat.save()

@@ -120,7 +120,7 @@
 
                     <input type="hidden" name="form_type" value="checkout_guest">
 
-                    <button  type="submit" id="checkout_btn"     class="btn ">ОФОРМИТЬ ЗАКАЗ</button>
+
 
 
 
@@ -130,34 +130,7 @@
 
 
             <aside class="checkout-order-items">
-                <div class="checkout-order-info not-visible" >
-                    <div class="checkout-order-info__header">
 
-                        <p>Использовать бонусы</p>
-                    </div>
-                    <div class="checkout-order-info-items">
-                        <div class="checkout-order-total">
-                            <span>Ваши бонусы</span>
-                            <p><span id="total_bonuses">30404</span> <span>&#8381;</span></p>
-
-                        </div>
-                         <div class="checkout-order-total">
-                            <span>Вы можете использовать</span>
-                            <p><span id="bonuses_for_use">30404</span> <span>&#8381;</span></p>
-
-                        </div>
-                         <label class="custom-checkbox"><span>Использовать все бонусы?</span>
-                                <input name="with_register" checked onchange="use_bonuse()" id="with_register" type="checkbox">
-                                <span class="checkmark"></span>
-                            </label>
-                          <div id="bonuses_div" class="checkout-order-total not-visible">
-                            <span>Сколько бонусов использовать?</span>
-                            <input type="number" min="1" max="500" id="how_much_bonuses_use" value="0"  >
-
-                        </div>
-
-                    </div>
-                </div>
                 <div class="checkout-order-info" >
                     <div class="checkout-order-info__header">
 
@@ -185,7 +158,7 @@
                     <div class="checkout-order-info-items">
                         <div class="checkout-order-total">
                             <span>Сумма заказа</span>
-                            <p><span id="order_price">{{ total_cart_price | intcomma }}</span> <span>&#8381;</span></p>
+                            <p><span id="order_price">{{ total_cart_price }}</span> <span>&#8381;</span></p>
 
                         </div>
                         <div id="register_div" class="checkout-order-total not-visible">
@@ -210,6 +183,7 @@
                           <!--a style="margin: 0 auto;" id="checkout_btn" href="javascript:void(0)" onclick="submit_form()"    class="btn ">ОФОРМИТЬ ЗАКАЗ</a-->
                     </div>
                 </div>
+            <button  type="button" id="checkout_btn"  onclick="submitForm()"   class="btn ">ОФОРМИТЬ ЗАКАЗ</button>
             </aside>
 
         </div>
@@ -219,8 +193,18 @@
 </section>
 <script>
     let useReg = true
+    let form = document.getElementById('customer_form')
     let promoDiscount = parseInt(document.getElementById('promo_discount').innerText)
     let startPrice = parseFloat(document.getElementById('cart_start_price').innerText)
+
+    function submitForm(){
+        if (form.checkValidity()){
+            form.submit();
+        }else{
+            alert('Форма не заполнена')
+        }
+
+    }
 
     function use_promo() {
     var promo_code = $('#promo_code').val();
@@ -366,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function(){
 });
 
 function calculateTotalPrice(discount) {
-    document.getElementById('order_total_price').innerText = numberWithCommas(startPrice - (startPrice * discount / 100).toFixed(2))
+    document.getElementById('order_total_price').innerText = startPrice - (startPrice * discount / 100).toFixed(0)
     
 }
 </script>

@@ -134,7 +134,9 @@
                         <a id="quick_add_to_cart_btn" href="javascript:void(0)" class="btn btn-md"
                            data-item_id=""
                            data-item_image=""
-                           data-item_name="" onclick="add_to_cart(this)">добавить в корзину</a>
+                           data-item_name=""
+                           data-item_unit=""
+                           onclick="add_to_cart(this)">добавить в корзину</a>
                         <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>
 
                     </div>
@@ -178,7 +180,7 @@
                     console.log(data);
 
                     if (data.item_discount > 0){
-                        $('#old_price').html(numberWithCommas(data.item_price) + ' &#8381;');
+                        $('#old_price').html(data.item_price + ' &#8381;');
                     //    $('#new_price').html(numberWithCommas(data.item_price_discount) + ' &#8381;');
                         $('#lit_price').html(data.item_price_discount)
                     }
@@ -197,6 +199,7 @@
                     $('#quick_add_to_cart_btn').attr('data-item_id',data.item_volumes[0]['id'])
                     $('#quick_add_to_cart_btn').attr('data-item_image',data.item_images[0])
                     $('#quick_add_to_cart_btn').attr('data-item_name',data.item_name)
+                    $('#quick_add_to_cart_btn').attr('data-item_unit',data.item_volumes[0]['unit'])
                     document.getElementById('item_total').value='1'
                     $('#liters').append(` <option data-price="${data.item_volumes[0]['price']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} ${data.item_volumes[0]['unit']} - ${data.item_volumes[0]['price']} &#8381;</option>`);
                     price_per_liter_span.innerHTML = data.item_volumes[0]['price']
@@ -379,9 +382,9 @@
         document.addEventListener("click", closeAllSelect);
 
         function calculatePrice() {
-      const liter_price = parseFloat(document.getElementById('item_price').innerHTML)
+      const liter_price = parseInt(document.getElementById('item_price').innerHTML)
       let item_number = document.getElementById('item_total').value
-      document.getElementById('price_per_liter').innerHTML = (item_number * liter_price).toFixed(2)
+      document.getElementById('price_per_liter').innerHTML = (item_number * liter_price).toFixed(0)
     }
     </script>
 {% endblock %}

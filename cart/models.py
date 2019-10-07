@@ -1,5 +1,3 @@
-import decimal
-
 from django.db import models
 from customuser.models import User, Guest
 from item.models import ItemPrice
@@ -12,9 +10,8 @@ class Cart(models.Model):
     item = models.ForeignKey(ItemPrice, blank=True, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Товар')
     number = models.IntegerField('Кол-во', blank=True, null=True, default=0)
-
-    current_price = models.DecimalField('Цена за текущий товар',max_digits=10, decimal_places=2, default=0)
-    total_price = models.DecimalField('Общая стоимость',max_digits=10, decimal_places=2, default=0)
+    current_price = models.IntegerField('Цена за текущий товар', default=0)
+    total_price = models.IntegerField('Общая стоимость', default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -32,10 +29,8 @@ class Cart(models.Model):
 
     def save(self, *args, **kwargs):
         if self.item.item.discount > 0:
-            self.current_price = (self.item.price - (self.item.price * self.item.item.discount / 100)) * self.volume
+            self.current_price = (self.item.price - (self.item.price * self.item.item.discount / 100)) * self.number
         else:
             self.current_price = self.item.price
-
-       # self.total_price = self.number * (self.current_price * self.volume)
         self.total_price = self.number * self.current_price
         super(Cart, self).save(*args, **kwargs)

@@ -42,7 +42,7 @@ class Category(models.Model):
         super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
-        return 'Основная категория %s ' % self.name
+        return '%s ' % self.name
 
     class Meta:
         verbose_name = "Основная категория"
@@ -50,7 +50,7 @@ class Category(models.Model):
 
 
 class SubCategory(models.Model):
-    category = models.ForeignKey(Category, blank=False, null=True, on_delete=models.SET_NULL)
+    category = models.ForeignKey(Category, blank=False, null=True, on_delete=models.SET_NULL,verbose_name='Основная категория')
     name = models.CharField('Название подкатегории', max_length=255, blank=False, null=True)
     name_slug = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField('Изображение подкатегории', upload_to='sub_category_img/', blank=True)
@@ -75,7 +75,7 @@ class SubCategory(models.Model):
         super(SubCategory, self).save(*args, **kwargs)
 
     def __str__(self):
-        return 'Основная подкатегория %s ' % self.name
+        return '%s ' % self.name
 
     class Meta:
         verbose_name = "Основная подкатегория"
@@ -109,7 +109,7 @@ class SubSubCategory(models.Model):
         super(SubSubCategory, self).save(*args, **kwargs)
 
     def __str__(self):
-        return 'Подкатегория %s ' % self.name
+        return '%s ' % self.name
 
     class Meta:
         verbose_name = "Подкатегория"
@@ -221,8 +221,8 @@ class ItemPrice(models.Model):
         default=LITER,
     )
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
-    volume = models.DecimalField('Объем', decimal_places=2, max_digits=4, blank=False, default=0, db_index=True)
-    price = models.DecimalField('Цена', decimal_places=2, max_digits=6, blank=False, default=0, db_index=True)
+    volume = models.CharField('Объем', max_length=6, blank=False, default=0, db_index=True)
+    price = models.IntegerField('Цена', blank=False, default=0, db_index=True)
 
     # @property
     # def discount_value(self):
@@ -232,12 +232,9 @@ class ItemPrice(models.Model):
     #         dis_val = 0
     #     return (format_number(dis_val))
 
-    # def save(self, *args, **kwargs):
-    #
-    #     self.volume = self.volume.replace(',', '.')
-    #     self.price = self.price.replace(',', '.')
-    #
-    #     super(ItemPrice, self).save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        self.volume = self.volume.replace(',', '.')
+        super(ItemPrice, self).save(*args, **kwargs)
 
     def __str__(self):
         return 'Товар {} объемом {} цена {}'.format(self.item.name, self.volume, self.price)

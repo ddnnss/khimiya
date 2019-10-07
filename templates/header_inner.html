@@ -38,10 +38,10 @@
                                 <img  src="{{ cart_item.item.item.itemimage_set.first.image_small }}" alt="">
                             </td>
                             <td>
-                                {{ cart_item.item.item.name }} {{ cart_item.item.volume.normalize}} {{ cart_item.item.unit }}
+                                {{ cart_item.item.item.name }} {{ cart_item.item.volume}} {{ cart_item.item.unit }}
                             </td>
                             <td>
-                                <span id="cart_item_number">{{ cart_item.number }}</span> x  <span id="cart_item_price">{{ cart_item.current_price.normalize }} &#8381;</span> = <span id="cart_item_total_price">{{ cart_item.total_price.normalize  }} &#8381;</span>
+                                <span id="cart_item_number">{{ cart_item.number }}</span> x  <span id="cart_item_price">{{ cart_item.current_price }} &#8381;</span> = <span id="cart_item_total_price">{{ cart_item.total_price  }} &#8381;</span>
                             </td>
                         <td>
                             <a class="cart-delete-btn" href="javascript:void(0)"
@@ -52,7 +52,7 @@
                         {% endfor %}
                       {% if count_items_in_cart > 0 %}
                         <tr class="cart-footer">
-                            <td colspan="4">Итого: {{ total_cart_price.normalize  }} &#8381;</td>
+                            <td colspan="4">Итого: {{ total_cart_price }} &#8381;</td>
                         </tr>
                         <tr>
                             <td colspan="4">
