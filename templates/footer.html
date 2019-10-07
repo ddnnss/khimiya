@@ -5,17 +5,12 @@
         <h3>Хотите подробнее узнать о нашем товаре?</h3>
         <p>Оставьте заявку на бесплатную консультацию</p>
         <div class="mailform-form">
-
             <input type="text" class="mailform-imput" placeholder="Ваше имя" value="" required>
             <input type="email" class="mailform-imput" placeholder="Email" value="" required>
             <input type="text" class="mailform-imput no-m" placeholder="Сотовый номер" value="" required>
             <button type="submit" class="mailform-button">Заказать звонок</button>
-
         </div>
-
     </div>
-
-
 </section><!--mailform-->
     <div class="container">
         <div class="footer-top">
@@ -46,11 +41,155 @@
                       <a href="#"><img src="{% static 'img/icons-viber.png' %}" alt=""></a>
                       <a href="#"><img src="{% static 'img/icons-vk.png' %}" alt=""></a>
                       <a href="#" class="no-m"><img src="{% static 'img/icons-whatsapp.png' %}" alt=""></a>
-
                  </div>
-
             </div>
         </div>
-
-
 </footer>
+
+<div id="loginModal" class="modal">
+    <span id="n1">{{ num1 }}</span>
+    <span id="n2">{{ num2 }}</span>
+    <div class="modal-content">
+        <div class="modal-form offer-form-wrapper">
+            <div class="offer-form-inner">
+                <div class="modal-header">
+                    <h6 id="form_header">Форма входа</h6> <span class="close loginModalClose">&times;</span>
+                </div>
+                <div id="user-form-wrapper">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     let close_modal = document.getElementsByClassName("loginModalClose")[0];
+    let modal = document.getElementById('loginModal')
+    let modalContent = document.getElementById('user-form-wrapper')
+    let formHeader = document.getElementById('form_header')
+    let formStatus = 'login'
+     let n1 = document.getElementById('n1').innerText
+     let n2 = document.getElementById('n2').innerText
+    function openUserModal(){
+            modal.style.display = 'block'
+            formHeader.innerText = 'Форма входа'
+            modalContent.innerHTML = ''
+            modalContent.classList.remove('scale-in')
+            modalContent.classList.remove('scale-out')
+            modalContent.innerHTML = ` <form onsubmit="return false;">
+                                        <div class="user-form-inputs">
+                                            <div class="checkout-user-info__input">
+                                                <label >E-Mail<sup>*</sup> </label>
+                                                <input name="log" id="login-email"  required="required"  type="email" class="form-control"  placeholder="Ваш EMail, указанный при регистрации" value="">
+                                            </div>
+                                            <div class="checkout-user-info__input">
+                                                <label >Пароль<sup>*</sup> </label>
+                                                <input name="password" id="login-password"  required="required"  type="password" class="form-control"  placeholder="Ваш пароль" value="">
+                                            </div>
+                                        </div>
+                                        <div   id="errorlogin" style="color: red; margin-bottom: 5px;"></div>
+                                        <div class="user-form-buttons">
+                                            <a href="javascript:void(0)" class="btn-outline btn-sm" onclick="openRegModal()">Регистрация</a>
+                                            <a href="javascript:void(0)" class="btn btn-sm " onclick="login()">Вход</a>
+                                            <a href="javascript:void(0)" class="btn-outline btn-sm" onclick="openPassModal()">Забыли пароль?</a>
+                                       </div>
+                                   </form>`
+    }
+
+    close_modal.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    function openRegModal() {
+        formStatus = 'register'
+        formHeader.innerText = 'Форма входа'
+         modalContent.classList.remove('scale-in')
+        modalContent.classList.add('scale-out')
+    }
+
+     function openPassModal() {
+        formHeader.innerText = 'Восстановление пароля'
+        formStatus = 'pass'
+         modalContent.classList.remove('scale-in')
+        modalContent.classList.add('scale-out')
+    }
+
+    modalContent.addEventListener("webkitAnimationEnd", function () {
+        modalContent.classList.remove('scale-out')
+        if (formStatus==='register'){
+            formHeader.innerText = 'Регистрация'
+            modalContent.innerHTML = ''
+            modalContent.innerHTML = `<form onsubmit="return false;">
+                        <div class="user-form-inputs">
+                            <div id="erroremail" style="color:red;margin-bottom: 5px;"></div>
+                            <div class="checkout-user-info__input">
+
+                                <label >E-Mail<sup>*</sup> </label>
+                                <input name="log" id="reg_email"  required="required"  type="email" class="form-control"  placeholder="Ваш EMail" value="">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label >Пароль<sup>*</sup> </label>
+                                <input name="password" id="reg_pass1"  required="required"  type="password" class="form-control"  placeholder="Ваш пароль" value="">
+                            </div>
+                            <div class="checkout-user-info__input">
+                                <label >Повторите пароль<sup>*</sup> </label>
+                                <input name="password" id="reg_pass2"  required="required"  type="password" class="form-control"  placeholder="Ваш пароль" value="">
+                            </div>
+                            <input style="display: none" type="checkbox" name="agree">
+                            <div id="errorpass" style="color:red;margin-bottom: 5px;"></div>
+                            <div class="captcha">
+                                <p class="user-form-p">Антиспам :</p>
+                                <span id="reg_n1" data-n1="${n1}" style="background: url('static/img/capthca/${n1}.png')"></span>
+                                 <span style="background: url('static/img/capthca/plus.png')"></span>
+                                 <span id="reg_n2" data-n2="${n2}" style="background: url('static/img/capthca/${n2}.png')"></span>
+                                 <span style="background: url('static/img/capthca/eqal.png')"></span>
+                                <input id="reg_answer" type="text"  placeholder="ответ" required="required">
+                            </div>
+                             <div id="errorother" class="error-msg" style="color:red;margin-bottom: 5px;"></div>
+                        </div>
+                        <div class="user-form-buttons">
+
+                            <a href="javascript:void(0)" class="btn btn-sm " onclick="signup()">Регистрация</a>
+
+                        </div>
+                    </form>`
+        }
+        if (formStatus==='pass'){
+            modalContent.innerHTML = ''
+            modalContent.innerHTML = ` <form onsubmit="return false;">
+                                       <div class="user-form-inputs">
+                                           <div class="checkout-user-info__input">
+                                               <label >E-Mail<sup>*</sup> </label>
+                                               <input name="log" id="restore-email"  required="required"  type="email" class="form-control"  placeholder="Ваш EMail, указанный при регистрации" value="">
+                                           </div>
+                                       </div>
+                                       <div class="user-form-buttons">
+                                           <a href="javascript:void(0)" class="btn btn-sm " onclick="restore()">Восстановить пароль</a>
+                                        </div>
+                                    </form>`
+        }
+        if (formStatus==='login'){
+            modalContent.innerHTML = ''
+            modalContent.innerHTML = ` <form onsubmit="return false;">
+                                        <div class="user-form-inputs">
+                                            <div class="checkout-user-info__input">
+                                                <label >E-Mail<sup>*</sup> </label>
+                                                <input name="log" id="login-email"  required="required"  type="email" class="form-control"  placeholder="Ваш EMail, указанный при регистрации" value="">
+                                            </div>
+                                            <div class="checkout-user-info__input">
+                                                <label >Пароль<sup>*</sup> </label>
+                                                <input name="password" id="login-password"  required="required"  type="password" class="form-control"  placeholder="Ваш пароль" value="">
+                                            </div>
+                                        </div>
+                                        <div class="user-form-buttons">
+                                            <a href="javascript:void(0)" class="btn-outline btn-sm" onclick="openRegModal()">Регистрация</a>
+                                            <a href="javascript:void(0)" class="btn btn-sm " onclick="login()">Вход</a>
+                                            <a href="javascript:void(0)" class="btn-outline btn-sm" onclick="openPassModal()">Забыли пароль?</a>
+                                       </div>
+                                   </form>`
+        }
+
+        modalContent.classList.add('scale-in')
+    });
+</script>

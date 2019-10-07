@@ -7,9 +7,9 @@
                     <li><a href="#">доставка</a></li>
                     <li><a href="#">контакты</a></li>
                     {% if request.user.is_authenticated %}
-                         <li><a href="#">Личный кабинет</a></li>
+                         <li><a href="javascript:void(0)" onclick="openUserModal()">Личный кабинет</a></li>
                         {% else %}
-                         <li><a href="#">вход / регистрация</a></li>
+                         <li><a href="javascript:void(0)" onclick="openUserModal()">вход / регистрация</a></li>
                     {% endif %}
                 </ul>
             </nav>

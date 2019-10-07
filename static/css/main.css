@@ -561,6 +561,9 @@ h3 {
 .cart_table tbody tr td:first-child {
   width: 40px; }
 
+#shopping_bag_menu img {
+  width: 45px; }
+
 .offer {
   background: url("../img/index_offer_bg.jpg");
   height: 609px; }
@@ -1525,15 +1528,14 @@ h3 {
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
-  padding-top: 5%;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
   overflow: hidden;
   background-color: black;
-  background-color: rgba(0, 0, 0, 0.4); }
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100; }
 
 .modal-header {
   display: -webkit-box;
@@ -1551,11 +1553,14 @@ h3 {
     font-size: 20px; }
 
 .modal-content {
+  position: relative;
   background: #ffffff;
   margin: auto;
   padding: 40px;
   border: 1px solid #888;
   max-width: 520px;
+  top: 25%;
+  bottom: 25%;
   border-radius: 8px; }
 
 .modal-form {
@@ -1615,6 +1620,117 @@ h3 {
 
 #add_to_cart_modal .item-info-description-buttons {
   margin-bottom: 20px; }
+
+.user-form-inputs {
+  border-bottom: 2px solid #e5e5e5;
+  margin-bottom: 20px; }
+  .user-form-inputs .checkout-user-info__input {
+    grid-template-columns: 20% 78%; }
+
+.user-form-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly; }
+
+.user-form-p {
+  margin: 0 !important;
+  font-size: 16px !important; }
+
+.captcha {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  .captcha span:nth-child(odd) {
+    display: inline-block;
+    width: 18px;
+    height: 20px;
+    margin-left: 5px; }
+  .captcha span:nth-child(even) {
+    display: inline-block;
+    width: 18px;
+    height: 34px;
+    margin-left: 5px; }
+  .captcha input {
+    padding: 15px 5px;
+    border: 1px solid #e5e5e5;
+    width: 40px; }
+    .captcha input::-webkit-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .captcha input::-moz-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .captcha input:-ms-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .captcha input::-ms-input-placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .captcha input::placeholder {
+      font-family: "SF UI Display",sans-serif;
+      font-size: 14px; }
+    .captcha input:focus {
+      outline-width: 0;
+      border: 1px solid #44d4de; }
+
+.scale-out {
+  -webkit-animation: scale-out-vertical 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+          animation: scale-out-vertical 0.5s cubic-bezier(0.55, 0.085, 0.68, 0.53) both; }
+
+.scale-in {
+  -webkit-animation: scale-in-ver-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+          animation: scale-in-ver-center 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both; }
+
+@-webkit-keyframes scale-out-vertical {
+  0% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    opacity: 1; }
+  100% {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+    opacity: 1; } }
+
+@keyframes scale-out-vertical {
+  0% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    opacity: 1; }
+  100% {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+    opacity: 1; } }
+
+@-webkit-keyframes scale-in-ver-center {
+  0% {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+    opacity: 1; }
+  100% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    opacity: 1; } }
+
+@keyframes scale-in-ver-center {
+  0% {
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+    opacity: 1; }
+  100% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    opacity: 1; } }
 
 #checkout_btn {
   border: none; }
@@ -1871,8 +1987,3 @@ h3 {
     -webkit-box-align: end;
         -ms-flex-align: end;
             align-items: flex-end; } }
-
-
-#shopping_bag_menu  img{
-  width: 45px;
-}

@@ -28,8 +28,8 @@ function login(){
 
 function signup(){
             email = document.getElementById("reg_email").value;
-            user_name = document.getElementById("reg_name").value;
-            phone = document.getElementById("reg_phone").value;
+        //    user_name = document.getElementById("reg_name").value;
+        //   phone = document.getElementById("reg_phone").value;
             password1 = document.getElementById("reg_pass1").value;
             password2 = document.getElementById("reg_pass2").value;
             n1 = $('#reg_n1').data('n1');
@@ -45,8 +45,8 @@ function signup(){
             data:{
                 'csrfmiddlewaretoken': csrfmiddlewaretoken,
                 'email':email,
-                'name':user_name,
-                'phone':phone,
+           //     'name':user_name,
+           //     'phone':phone,
                 'password1':password1,
                 'password2':password2,
                 'n1':n1,
@@ -78,43 +78,7 @@ function signup(){
 
 }
 
-function checkout() {
-        email_input =$('#checkout_email');
-        span_error = $('#checkout_email_error');
 
-        email =email_input.val();
-        email_input.attr('disabled','disabled');
-        csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
-
-        $.ajax({
-            type:"POST",
-            url:'/check_email/',
-            data:{
-                'csrfmiddlewaretoken': csrfmiddlewaretoken,
-                'email':email,
-                },
-            success : function(data){
-                console.log('OK');
-                console.log(data);
-                if(data['result']){
-                    console.log('OK');
-                    email_input.css('border-color','#29902a');
-                    email_input.removeAttr('disabled');
-                    span_error.html('');
-                    $('#checkout_btn').removeAttr('disabled');
-
-                }
-                else{
-
-                    email_input.css('border-color','#f2486e');
-                    email_input.removeAttr('disabled');
-                    $('#checkout_btn').attr('disabled','disabled');
-                    span_error.html(data.email_error);
-
-                 }
-            }
-        });
-}
 
 function restore(){
         email = document.getElementById("restore-email").value;
