@@ -45,7 +45,7 @@
             </div>
         </div>
 </footer>
-
+{% if not request.user.is_authenticated %}
 <div id="loginModal" class="modal">
     <span id="n1">{{ num1 }}</span>
     <span id="n2">{{ num2 }}</span>
@@ -62,7 +62,7 @@
         </div>
     </div>
 </div>
-
+{% endif %}
 <script>
      let close_modal = document.getElementsByClassName("loginModalClose")[0];
     let modal = document.getElementById('loginModal')

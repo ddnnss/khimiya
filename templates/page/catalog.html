@@ -20,6 +20,7 @@
                     <i style="display: none" id="first_subcat">{{ subcategory.name_slug }}</i>
                     <i style="display: none" id="first_subsubcat">{{ subcategory.subsubcategory_set.first.name_slug }}</i>
                     {% for subcategory in cat.subcategory_set.all %}
+
                         <button id="subcat_{{ subcategory.name_slug }}" class="accordion">{{ subcategory.name }}</button>
                         <div class="panel">
                             <ul>
@@ -36,6 +37,19 @@
                 </aside>
                 <div class="catalog-items-wrappper">
                     <div id="item_filter" class="catalog-items-filter">
+                    {% if request.user.is_authenticated and  request.user.is_staff%}
+                       <div class="dropdown">
+                            <button style="color: red" onclick="customDropDown(this)" data-target="home" class="dropbtn "><strong>АДМИН</strong></button>
+                            <div id="home" style="min-width: 260px !important;" class="dropdown-content">
+                                <a href="/admin/item/subcategory/{{ subcategory.id }}/change/">редактировать эту категорию</a>
+                                <a href="/admin/item/subsubcategory/{{subsubcat.id}}/change/">редактировать эту подкатегорию</a>
+                                <hr>
+                                    <a href="/admin/item/subcategory/add/">добавить категорию</a>
+                                    <a href="/admin/item/subsubcategory/add/">добавить подкатегорию</a>
+                                    <a href="/admin/item/item/add/">добавить товар</a>
+                            </div>
+                        </div>
+                    {% endif %}
                         <div class="dropdown">
                             <button onclick="customDropDown(this)" data-target="price" class="dropbtn">Сортировка</button>
                             <div id="price" class="dropdown-content">
@@ -54,15 +68,27 @@
                             </div>
                         </div>
                         <div class="dropdown">
-                            <button onclick="customDropDown(this)" data-target="home" class="dropbtn">Для дома</button>
-                            <div id="home" class="dropdown-content">
+                            <button onclick="customDropDown(this)" data-target="admin" class="dropbtn">Для дома</button>
+                            <div id="admin" class="dropdown-content">
                                 <a href="#">Цена выше</a>
                                 <a href="#">Цена ниже</a>
                                 <a href="#">Цена выше</a>
                                 <a href="#">Цена ниже</a>
                             </div>
                         </div>
-
+                    {% if request.user.is_authenticated and  request.user.is_staff%}
+                       <div class="dropdown">
+                            <button onclick="customDropDown(this)" data-target="home" class="dropbtn">АДМИН</button>
+                            <div id="home" style="min-width: 260px !important;" class="dropdown-content">
+                                <a href="/admin/item/subcategory/{{ subcategory.id }}/change/">редактировать эту категорию</a>
+                                <a href="/admin/item/subsubcategory/{{subsubcat.id}}/change/">редактировать эту подкатегорию</a>
+                                <hr>
+                                    <a href="/admin/item/subcategory/add/">добавить категорию</a>
+                                    <a href="/admin/item/subsubcategory/add/">добавить подкатегорию</a>
+                                    <a href="/admin/item/item/add/">добавить товар</a>
+                            </div>
+                        </div>
+                    {% endif %}
 
                     </div>
                     <div class="catalog-items">
@@ -155,12 +181,12 @@
 
 {% block js %}
     <script>
-        let close_modal = document.getElementsByClassName("close")[0];
-        let modal = document.getElementById('add_to_cart_modal')
+        let close_modal_cart = document.getElementsByClassName("close")[0];
+        let modal_cart = document.getElementById('add_to_cart_modal')
         let price_per_liter_span = document.getElementById('price_per_liter')
         let liter_price = document.getElementById('item_price')
-        close_modal.onclick = function () {
-            modal.style.display = "none";
+        close_modal_cart.onclick = function () {
+            modal_cart.style.display = "none";
         }
 
         function quick_add_to_cart(item_id) {
@@ -211,7 +237,7 @@
 
                     })
                     customInput()
-                    modal.style.display = 'block'
+                    modal_cart.style.display = 'block'
 
 
 

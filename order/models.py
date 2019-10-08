@@ -106,7 +106,7 @@ class ItemsInOrder(models.Model):
     item = models.ForeignKey(ItemPrice, blank=False, null=True, default=None, on_delete=models.CASCADE,
                               verbose_name='Товар')
     number = models.IntegerField('Кол-во', blank=True, null=True, default=0)
-    total_price = models.DecimalField('Общая стоимость',decimal_places=2,max_digits=10, default=0)
+    total_price = models.IntegerField('Общая стоимость', default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

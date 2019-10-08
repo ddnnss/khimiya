@@ -152,7 +152,7 @@
 
                     </div>
                 </div>
-                <div class="checkout-order-info" >
+                <div class="checkout-order-info not-visible" >
                     <div class="checkout-order-info__header">
 
                         <p>Использовать промо-код</p>
@@ -179,14 +179,10 @@
                     <div class="checkout-order-info-items">
                         <div class="checkout-order-total">
                             <span>Сумма заказа</span>
-                            <p><span id="order_price">{{ total_cart_price.normalize }}</span> <span>&#8381;</span></p>
+                            <p><span id="order_price">{{ total_cart_price }}</span> <span>&#8381;</span></p>
 
                         </div>
-                        <div id="register_div" class="checkout-order-total not-visible">
-                            <span>Скидка при регистрации</span>
-                            <p><span id="register_discount">10</span> <span>%</span></p>
 
-                        </div>
                         <div id="promocode_div" class="checkout-order-total {% if not used_promo %}not-visible{% endif %}">
                             <span>Скидка по промо-коду</span>
                             <p><span id="used_promo_discount">{{ promo_discount_value }}</span> <span>%</span></p>
@@ -361,14 +357,14 @@
             all_bonuses_use = false
             document.getElementById('form_use_bonuses').value = 0
             document.getElementById('use_bonuses').innerText = '0'
-            document.getElementById('order_total_price').innerText = numberWithCommas(parseFloat(document.getElementById('order_total').innerText) .toFixed(2) )
+            document.getElementById('order_total_price').innerText = parseFloat(document.getElementById('order_total').innerText) .toFixed(0)
         }
         else{
             all_bonuses_use = true
 
             document.getElementById('use_bonuses').innerText = all_bonuses
             document.getElementById('form_use_bonuses').value = all_bonuses
-             document.getElementById('order_total_price').innerText = numberWithCommas((parseFloat(document.getElementById('order_total').innerText) - all_bonuses).toFixed(2) )
+             document.getElementById('order_total_price').innerText = (parseFloat(document.getElementById('order_total').innerText) - all_bonuses).toFixed(0)
         }
         document.getElementById('bonuses_use_div').classList.toggle('not-visible')
         document.getElementById('bonuses_div').classList.toggle('not-visible')
@@ -388,12 +384,12 @@
              document.getElementById('form_use_bonuses').value = all_bonuses
             document.getElementById('how_much_bonuses_use').value = all_bonuses
             document.getElementById('use_bonuses').innerText = all_bonuses
-            document.getElementById('order_total_price').innerText = numberWithCommas(parseFloat(document.getElementById('order_total').innerText) - all_bonuses )
+            document.getElementById('order_total_price').innerText = parseFloat(document.getElementById('order_total').innerText) - all_bonuses
         }else {
 
             document.getElementById('use_bonuses').innerText = document.getElementById('how_much_bonuses_use').value
              document.getElementById('form_use_bonuses').value = document.getElementById('how_much_bonuses_use').value
-          document.getElementById('order_total_price').innerText = (numberWithCommas((parseFloat(document.getElementById('order_total').innerText) - parseInt(document.getElementById('how_much_bonuses_use').value) ).toFixed(2)))
+          document.getElementById('order_total_price').innerText = (parseFloat(document.getElementById('order_total').innerText) - parseInt(document.getElementById('how_much_bonuses_use').value) ).toFixed(0)
         }
 
 
@@ -416,7 +412,7 @@
     });
 
     function calculateTotalPrice(discount) {
-        document.getElementById('order_total_price').innerText = numberWithCommas((startPrice - (startPrice * discount / 100)).toFixed(2))
+        document.getElementById('order_total_price').innerText = (startPrice - (startPrice * discount / 100)).toFixed(0)
 
     }
 </script>
