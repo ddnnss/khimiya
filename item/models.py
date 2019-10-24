@@ -145,9 +145,9 @@ class Item(models.Model):
     page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
     page_description = models.TextField('Описание страницы SEO', blank=True, null=True)
     page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
-    description = models.TextField('Описание товара (отображается на странице товара)', blank=True, null=True)
+    description = RichTextUploadingField('Описание товара (отображается на странице товара)', blank=True, null=True)
     short_description = models.TextField(
-        'Краткое описание товара (отображается в карточке товара) (если оставить пустым, то будет взято 10 первых слов из описания товара)',
+        'Краткое описание товара (отображается в карточке товара)',
         blank=True, null=True)
 
     good_time = models.CharField('Срок годности', max_length=15, default='1 год')
@@ -167,9 +167,9 @@ class Item(models.Model):
         self.name_lower = self.name.lower()
 
         # self.volume = self.volume.replace(',', '.')
-        if self.description:
-            if not self.short_description:
-                self.short_description = Truncator(self.description).words(10, truncate='...')
+        # if self.description:
+        #     if not self.short_description:
+        #         self.short_description = Truncator(self.description).words(10, truncate='...')
         super(Item, self).save(*args, **kwargs)
 
     def getfirstimage(self):

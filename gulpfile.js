@@ -1,13 +1,15 @@
 var gulp = require('gulp');
     sass        = require('gulp-sass');
     browserSync = require('browser-sync');
-    autoprefixer = require('gulp-autoprefixer')
+    autoprefixer = require('gulp-autoprefixer');
+ //   mq = require('gulp-group-css-media-queries');
 gulp.task('sass', function(){
     return gulp.src('static/sass/**/*.sass')
         .pipe(sass())
         .pipe(autoprefixer({
             browsers: ['last 4 versions']
         }))
+       // .pipe(mq())
         .pipe(gulp.dest('static/css'))
         .pipe(browserSync.reload({stream: true}))
 });

@@ -47,8 +47,8 @@
 </footer>
 {% if not request.user.is_authenticated %}
 <div id="loginModal" class="modal">
-    <span id="n1">{{ num1 }}</span>
-    <span id="n2">{{ num2 }}</span>
+    <span style="display: none;" id="n1">{{ num1 }}</span>
+    <span style="display: none;" id="n2">{{ num2 }}</span>
     <div class="modal-content">
         <div class="modal-form offer-form-wrapper">
             <div class="offer-form-inner">
@@ -65,12 +65,13 @@
 {% endif %}
 <script>
      let close_modal = document.getElementsByClassName("loginModalClose")[0];
-    let modal = document.getElementById('loginModal')
-    let modalContent = document.getElementById('user-form-wrapper')
-    let formHeader = document.getElementById('form_header')
-    let formStatus = 'login'
+     let modal = document.getElementById('loginModal')
+     let modalContent = document.getElementById('user-form-wrapper')
+     let formHeader = document.getElementById('form_header')
+     let formStatus = 'login'
      let n1 = document.getElementById('n1').innerText
      let n2 = document.getElementById('n2').innerText
+
     function openUserModal(){
             modal.style.display = 'block'
             formHeader.innerText = 'Форма входа'
@@ -88,7 +89,8 @@
                                                 <input name="password" id="login-password"  required="required"  type="password" class="form-control"  placeholder="Ваш пароль" value="">
                                             </div>
                                         </div>
-                                        <div   id="errorlogin" style="color: red; margin-bottom: 5px;"></div>
+                                         <input style="display: none" type="checkbox" name="agree">
+                                        <div class='form-error-message'  id="errorlogin" style="color: red; margin-bottom: 5px;"></div>
                                         <div class="user-form-buttons">
                                             <a href="javascript:void(0)" class="btn-outline btn-sm" onclick="openRegModal()">Регистрация</a>
                                             <a href="javascript:void(0)" class="btn btn-sm " onclick="login()">Вход</a>
@@ -122,12 +124,11 @@
             modalContent.innerHTML = ''
             modalContent.innerHTML = `<form onsubmit="return false;">
                         <div class="user-form-inputs">
-                            <div id="erroremail" style="color:red;margin-bottom: 5px;"></div>
                             <div class="checkout-user-info__input">
-
                                 <label >E-Mail<sup>*</sup> </label>
                                 <input name="log" id="reg_email"  required="required"  type="email" class="form-control"  placeholder="Ваш EMail" value="">
                             </div>
+                             <div class='form-error-message' id="erroremail" style="color:red;margin-bottom: 5px;"></div>
                             <div class="checkout-user-info__input">
                                 <label >Пароль<sup>*</sup> </label>
                                 <input name="password" id="reg_pass1"  required="required"  type="password" class="form-control"  placeholder="Ваш пароль" value="">
@@ -137,7 +138,7 @@
                                 <input name="password" id="reg_pass2"  required="required"  type="password" class="form-control"  placeholder="Ваш пароль" value="">
                             </div>
                             <input style="display: none" type="checkbox" name="agree">
-                            <div id="errorpass" style="color:red;margin-bottom: 5px;"></div>
+                            <div class='form-error-message' id="errorpass" style="color:red;margin-bottom: 5px;"></div>
                             <div class="captcha">
                                 <p class="user-form-p">Антиспам :</p>
                                 <span id="reg_n1" data-n1="${n1}" style="background: url('static/img/capthca/${n1}.png')"></span>
@@ -146,12 +147,11 @@
                                  <span style="background: url('static/img/capthca/eqal.png')"></span>
                                 <input id="reg_answer" type="text"  placeholder="ответ" required="required">
                             </div>
-                             <div id="errorother" class="error-msg" style="color:red;margin-bottom: 5px;"></div>
+                             <div class='form-error-message' id="errorother" class="error-msg" style="color:red;margin-bottom: 5px;"></div>
                         </div>
                         <div class="user-form-buttons">
 
                             <a href="javascript:void(0)" class="btn btn-sm " onclick="signup()">Регистрация</a>
-
                         </div>
                     </form>`
         }
@@ -167,6 +167,7 @@
                                        <div class="user-form-buttons">
                                            <a href="javascript:void(0)" class="btn btn-sm " onclick="restore()">Восстановить пароль</a>
                                         </div>
+                                         <input style="display: none" type="checkbox" name="agree">
                                     </form>`
         }
         if (formStatus==='login'){
