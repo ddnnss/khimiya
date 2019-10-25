@@ -269,7 +269,7 @@ class ItemImage(models.Model):
 
     def save(self, *args, **kwargs):
         fill_color = '#fff'
-        image = Image.open(self.image).convert('RGB')
+        image = Image.open(self.image)
 
 
         if image.mode in ('RGBA', 'LA'):
