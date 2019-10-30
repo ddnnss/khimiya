@@ -1982,6 +1982,22 @@ h3 {
   .order-info strong {
     font-family: "SF UI Display Semibold",sans-serif; }
 
+.item-full-description ul{
+  display: block !important;
+  margin-left: 15px;
+}
+.item-full-description ul li{
+  list-style: disc !important;
+  font-family: "SF UI Display Medium",sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  color: #666666;
+}
+.item-full-description p{
+  margin: 0 !important;
+}
+
+
 @media screen and (max-width: 1540px) {
   .header-cart {
     -webkit-box-align: end;

@@ -163,7 +163,16 @@ class Item(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.name_slug = slugify(self.name)
+        print('save')
+        slug = slugify(self.name)
+        testSlug = Item.objects.filter(name_slug=slug)
+        slugRandom = ''
+        if not self.name_slug:
+            if testSlug:
+                slugRandom = '-' + ''.join(choices(string.ascii_lowercase + string.digits, k=2))
+                self.name_slug = slug + slugRandom
+            else:
+                self.name_slug = slug
         self.name_lower = self.name.lower()
 
         # self.volume = self.volume.replace(',', '.')
