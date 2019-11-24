@@ -34,6 +34,7 @@ class Category(models.Model):
     description = RichTextUploadingField('Описание категории', blank=True, null=True)
     views = models.IntegerField('Просмотров', default=0)
     is_active = models.BooleanField('Отображать категорию ?', default=True, db_index=True)
+    cat_id = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -62,11 +63,21 @@ class SubCategory(models.Model):
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
     views = models.IntegerField('Просмотров', default=0)
     is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
+    subcat_id = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.name_slug = slugify(self.name)
+        slug = slugify(self.name)
+        testSlug = Item.objects.filter(name_slug=slug)
+        slugRandom = ''
+        if self.name_slug != slug:
+            if testSlug:
+                slugRandom = '-' + ''.join(choices(string.ascii_lowercase + string.digits, k=2))
+                self.name_slug = slug + slugRandom
+            else:
+                self.name_slug = slug
+        self.name_lower = self.name.lower()
         # all_items = self.item_set.all()
         # for item in all_items:
         #     item.discount = self.discount
@@ -96,11 +107,21 @@ class SubSubCategory(models.Model):
     discount = models.IntegerField('Скидка на все товары в подкатегории %', blank=True, default=0)
     views = models.IntegerField('Просмотров', default=0)
     is_active = models.BooleanField('Отображать подкатегорию ?', default=True, db_index=True)
+    subsubcat_id = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        self.name_slug = slugify(self.name)
+        slug = slugify(self.name)
+        testSlug = Item.objects.filter(name_slug=slug)
+        slugRandom = ''
+        if self.name_slug != slug:
+            if testSlug:
+                slugRandom = '-' + ''.join(choices(string.ascii_lowercase + string.digits, k=2))
+                self.name_slug = slug + slugRandom
+            else:
+                self.name_slug = slug
+        self.name_lower = self.name.lower()
         # all_items = self.item_set.all()
         # for item in all_items:
         #     item.discount = self.discount
@@ -123,7 +144,16 @@ class Filter(models.Model):
     name_slug = models.CharField(max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        self.name_slug = slugify(self.name)
+        slug = slugify(self.name)
+        testSlug = Item.objects.filter(name_slug=slug)
+        slugRandom = ''
+        if self.name_slug != slug:
+            if testSlug:
+                slugRandom = '-' + ''.join(choices(string.ascii_lowercase + string.digits, k=2))
+                self.name_slug = slug + slugRandom
+            else:
+                self.name_slug = slug
+        self.name_lower = self.name.lower()
         super(Filter, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -167,7 +197,7 @@ class Item(models.Model):
         slug = slugify(self.name)
         testSlug = Item.objects.filter(name_slug=slug)
         slugRandom = ''
-        if not self.name_slug:
+        if self.name_slug != slug:
             if testSlug:
                 slugRandom = '-' + ''.join(choices(string.ascii_lowercase + string.digits, k=2))
                 self.name_slug = slug + slugRandom

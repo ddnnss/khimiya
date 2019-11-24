@@ -1,3 +1,4 @@
+import requests
 from django.shortcuts import render, render_to_response
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
 from .models import Banner
@@ -11,6 +12,11 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.http import Http404
 
+import lxml
+from bs4 import BeautifulSoup
+import requests as req
+from urllib import request
+import xlsxwriter
 
 
 def create_password():
@@ -584,3 +590,170 @@ def customhandler404(request, exception, template_name='404.html'):
     response = render_to_response("404.html")
     response.status_code = 404
     return response
+
+
+def test(request):
+
+
+    resp = req.get("https://specsintez.com/katalog")
+
+    soup = BeautifulSoup(resp.text, 'lxml')
+    main_structure={}
+    cats=[]
+    subcats={}
+    print()
+    for link in soup.find(id="id_1010").find_all('a'):
+        if link.find('span', {'class': 'category_ids'}):
+            #print(link.find('span', {'class': 'nav-label'}).text)
+            # print(link.find('span',{'class':'category_ids'}))
+            print(link.get('id').split('-')[1])
+            if int(link.get('id').split('-')[1]) < 200 :
+                print(link.find('span', {'class': 'nav-label'}).text)
+                cat_id = int(link.get('id').split('-')[1])
+                cat_name = (link.find('span', {'class': 'nav-label'}).text).replace('\n','').rstrip().lstrip()
+                cats.append(f'{cat_id}-{cat_name}')
+    print (cats)
+
+
+
+    for maincat in cats:
+        temp = []
+        maincat = maincat.split('-')[0]
+        ul = soup.find(id = f'category_{maincat}')
+        subcats_items = ul.find_all('a', {'data-parent': '#id_1010'})
+        for item in subcats_items:
+            subcat_name = item.find_all('span', {'class': 'nav-label'})
+            fullname = ''
+
+            if len(subcat_name) > 1:
+                for name in subcat_name:
+                    fullname += ' ' + name.text
+            else:
+                fullname = subcat_name[0].text
+            temp.append(item.get('id').split('-')[1])
+            temp.append(fullname.replace('\n','').rstrip().lstrip())
+            subcats[f'{maincat}'] = temp
+
+    print(subcats)
+
+    all_links = soup.find(id="id_1010").find_all("a", class_='start_products')
+
+    for link in all_links:
+
+        subsubID = link.get('id').split('-')[1]
+        subcat = []
+        subsubcat_name = link.find_all('span', {'class': 'nav-label'})
+        fullname = ''
+
+        if len(subsubcat_name)>1:
+            for name in subsubcat_name:
+
+                fullname += ' '+ name.text
+        else:
+            fullname = subsubcat_name[0].text
+
+        temp = link.get('href').split('=')[2].replace('&path','').split('_')
+
+        # subcat.append(fullname)
+        subcat.append(f'maincat-{temp[0]}')
+        subcat.append(f'subcat-{temp[1]}')
+
+        subcat.append(f'subsubcat-{subsubID}')
+        subcat.append('https://specsintez.com/' + link.get('href'))
+        subcat.append(f'{subsubID} - {fullname}')
+
+        try:
+            main_structure[f'subsubcat-{temp[2]}'] = subcat
+        except:
+            pass
+
+    print(main_structure)
+    # workbook = xlsxwriter.Workbook('c:/sites/Expenses011.xlsx')
+    # worksheet = workbook.add_worksheet()
+    #
+    # row = 0
+    # col = 0
+    items = []
+    subsubcats=[]
+    for item in main_structure:
+
+
+        print(main_structure[item])
+        resp = req.get(main_structure[item][3])
+        soup = BeautifulSoup(resp.text, 'lxml')
+
+        # itemIDS=[]
+        print(items)
+        for link in soup.find_all('div',{'class':'run_card'}):
+            print(items)
+            # print(link.find('a').get('href'))
+            print('itemID ',link.get('id').split('-')[2])
+            item_id=link.get('id').split('-')[2]
+            # itemIDS.append(link.get('id').split('-')[2])
+            resp = req.get('https://specsintez.com/'+link.find('a').get('href'))
+            soup = BeautifulSoup(resp.text, 'lxml')
+            try:
+                image = soup.find(class_='thumbnail').find('img').get('src')
+            except:
+                image = 'картинка не спарсилось'
+            # with open('c:/sites/wew.png', "wb") as f:
+            #     f.write(requests.get(image).content)
+            name = soup.find('h1').text
+            try:
+                descr = soup.find(id='tab-description').prettify(formatter="html")
+            except:
+                descr='описание не спарсилось'
+            # print(descr)
+            volumes = soup.find_all('img', {'class': 'img-thumbnail'})
+            #items.append(f'{item_id},{main_structure[item][0]},{ main_structure[item][1]},{main_structure[item][2]}')
+            #print(main_structure[item][4])
+            if not main_structure[item][4] in subsubcats:
+                subsubcats.append(main_structure[item][4])
+            print(subsubcats)
+                # for vol in volumes:
+            #     print(vol.get('alt').split(' ')[0])
+            #     print(vol.get('alt').split(' ')[1])
+    #         worksheet.write(row, col, link.get('id').split('-')[2])
+    #         worksheet.write(row, col+1, main_structure[item][1])
+    #         worksheet.write(row, col+2, main_structure[item][2])
+    #         worksheet.write(row, col+3, main_structure[item][0])
+    #         worksheet.write(row, col+4, name)
+    #         worksheet.write(row, col+5, image)
+    #         worksheet.write(row, col+6, descr)
+    #         j=0
+    #         for vol in volumes:
+    #             worksheet.write(row, col+(7+j), vol.get('alt'))
+    #             j += 1
+    #         row += 1
+    #
+    # workbook.close()
+    with open('c:/sites/subsubcats.txt', 'w') as f:
+        for item in subsubcats:
+            f.write("%s\n" % item)
+    return
+
+
+
+
+
+    image = soup.find(class_='thumbnail').find('img').get('src')
+    # with open('c:/sites/wew.png', "wb") as f:
+    #     f.write(requests.get(image).content)
+    name = soup.find('h1').text
+    descr = soup.find(id='tab-description').prettify( formatter="html" )
+    print(descr)
+    volumes = soup.find_all('img',{'class':'img-thumbnail'})
+    for vol in volumes:
+
+        print(vol.get('alt').split(' ')[0])
+        print(vol.get('alt').split(' ')[1])
+
+
+
+    worksheet.write(row, col, image)
+    worksheet.write(row, col + 1, name)
+    worksheet.write(row, col + 2, descr)
+
+
+    workbook.close()
+
