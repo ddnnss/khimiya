@@ -69,9 +69,11 @@ class SubCategory(models.Model):
 
     def save(self, *args, **kwargs):
         slug = slugify(self.name)
-        testSlug = Item.objects.filter(name_slug=slug)
+        print(slug)
+        testSlug = SubCategory.objects.filter(name_slug=slug)
+        print(testSlug)
         slugRandom = ''
-        if self.name_slug != slug:
+        if not self.name_slug or testSlug:
             if testSlug:
                 slugRandom = '-' + ''.join(choices(string.ascii_lowercase + string.digits, k=2))
                 self.name_slug = slug + slugRandom
@@ -113,15 +115,24 @@ class SubSubCategory(models.Model):
 
     def save(self, *args, **kwargs):
         slug = slugify(self.name)
-        testSlug = Item.objects.filter(name_slug=slug)
+        print(slug)
+        testSlug = SubSubCategory.objects.filter(name_slug=slug)
+        print(testSlug)
         slugRandom = ''
-        if self.name_slug != slug:
+        if not self.name_slug or testSlug:
             if testSlug:
                 slugRandom = '-' + ''.join(choices(string.ascii_lowercase + string.digits, k=2))
                 self.name_slug = slug + slugRandom
             else:
                 self.name_slug = slug
         self.name_lower = self.name.lower()
+        # all_items = self.item_set.all()
+        # for item in all_items:
+        #     item.discount = self.discount
+        #     item.save()
+
+
+
         # all_items = self.item_set.all()
         # for item in all_items:
         #     item.discount = self.discount
@@ -187,6 +198,7 @@ class Item(models.Model):
     zapah = models.CharField('Запах', max_length=50, blank=True, null=True, default='не указано')
     is_active = models.BooleanField('Отображать товар ?', default=True, db_index=True)
     is_present = models.BooleanField('Товар в наличии ?', default=True, db_index=True)
+    item_idd = models.IntegerField(default=0)
     buys = models.IntegerField('Покупок', default=0)
     views = models.IntegerField('Просмотров', default=0)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)

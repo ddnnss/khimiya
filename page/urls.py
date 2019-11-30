@@ -19,7 +19,8 @@ urlpatterns = [
     path('order/<order_code>', views.order, name='order'),
     path('robots.txt', views.robots, name='robots'),
     path('sitemap.xml', views.sitemap, name='sitemap'),
-    path('test/', views.test, name='test')
+    path('test/', views.test, name='test'),
+    path('test1/', views.test1, name='test1')
 
 
     # path('login/', views.login, name='login'),

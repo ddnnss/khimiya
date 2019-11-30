@@ -1,3 +1,5 @@
+import urllib
+
 import requests
 from django.shortcuts import render, render_to_response
 from django.http import JsonResponse, HttpResponseRedirect, HttpResponse
@@ -436,21 +438,21 @@ def subcategory(request, cat_slug,subcat_slug):
 
 
 def subsubcategory(request, cat_slug,subcat_slug,subsubcat_slug):
-    try:
-        cat = Category.objects.get(name_slug=cat_slug)
-        # cat.views += 1
-        # cat.save()
-        title = cat.page_title
-        description = cat.page_description
-        keywords = cat.page_keywords
-        subcategory = SubCategory.objects.get(name_slug=subcat_slug)
-        subcats = SubCategory.objects.filter(name_slug=subcat_slug)
-        subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
-        all_items = subsubcat.item_set.filter(is_active=True)
+    # try:
+    cat = Category.objects.get(name_slug=cat_slug)
+    # cat.views += 1
+    # cat.save()
+    title = cat.page_title
+    description = cat.page_description
+    keywords = cat.page_keywords
+    subcategory = SubCategory.objects.get(name_slug=subcat_slug)
+    subcats = SubCategory.objects.filter(name_slug=subcat_slug)
+    subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
+    all_items = subsubcat.item_set.filter(is_active=True)
 
-    except:
-        raise Http404
-        # return render(request, '404.html', locals())
+    # except:
+    #     raise Http404
+    #     # return render(request, '404.html', locals())
     show_tags = True
 
     return render(request, 'page/catalog.html', locals())
@@ -612,7 +614,7 @@ def test(request):
                 cat_id = int(link.get('id').split('-')[1])
                 cat_name = (link.find('span', {'class': 'nav-label'}).text).replace('\n','').rstrip().lstrip()
                 cats.append(f'{cat_id}-{cat_name}')
-    print (cats)
+  #  print (cats)
 
 
 
@@ -634,7 +636,7 @@ def test(request):
             temp.append(fullname.replace('\n','').rstrip().lstrip())
             subcats[f'{maincat}'] = temp
 
-    print(subcats)
+ #   print(subcats)
 
     all_links = soup.find(id="id_1010").find_all("a", class_='start_products')
 
@@ -667,7 +669,7 @@ def test(request):
         except:
             pass
 
-    print(main_structure)
+ #   print(main_structure)
     # workbook = xlsxwriter.Workbook('c:/sites/Expenses011.xlsx')
     # worksheet = workbook.add_worksheet()
     #
@@ -678,16 +680,16 @@ def test(request):
     for item in main_structure:
 
 
-        print(main_structure[item])
+ #       print(main_structure[item])
         resp = req.get(main_structure[item][3])
         soup = BeautifulSoup(resp.text, 'lxml')
 
         # itemIDS=[]
-        print(items)
+   #     print(items)
         for link in soup.find_all('div',{'class':'run_card'}):
-            print(items)
+ #           print(items)
             # print(link.find('a').get('href'))
-            print('itemID ',link.get('id').split('-')[2])
+  #          print('itemID ',link.get('id').split('-')[2])
             item_id=link.get('id').split('-')[2]
             # itemIDS.append(link.get('id').split('-')[2])
             resp = req.get('https://specsintez.com/'+link.find('a').get('href'))
@@ -708,6 +710,7 @@ def test(request):
             #items.append(f'{item_id},{main_structure[item][0]},{ main_structure[item][1]},{main_structure[item][2]}')
             #print(main_structure[item][4])
             if not main_structure[item][4] in subsubcats:
+                subsubcats.append(main_structure[item][1])
                 subsubcats.append(main_structure[item][4])
             print(subsubcats)
                 # for vol in volumes:
@@ -727,6 +730,7 @@ def test(request):
     #         row += 1
     #
     # workbook.close()
+
     with open('c:/sites/subsubcats.txt', 'w') as f:
         for item in subsubcats:
             f.write("%s\n" % item)
@@ -757,3 +761,132 @@ def test(request):
 
     workbook.close()
 
+def test1(request):
+    # a = [['65-КРС', '55-Птицеводство', '60-Свиноводство'],
+    #     ['132-Дезинфекция поверхностей', '133-Обработка изделий медицинского назначения', '137-Обработка кожных покровов', '135-Обработка эндоскопов', '140-Профессиональная уборка', '1536-Стирка', '134-Дезинфекция и уборка на пищеблоке','136-Дезинфекция биологических и медицинских отходов'],
+    #     ['1563-Масложировая промышленность', '1569-Молочная промышленность', '1575-Мясопереработка', '1581-Пиво и напитки', '1587-Производство соусов', '1593-Хлеб и кондитерские изделия'],
+    #     ['1452-Дом', '88-Коммерческий клининг'],
+    #     ['81-Гостиницы', '73-Кафе, бары, рестораны'],
+    #     ['172-Гигиена кожных покровов', '1546-Дезинфекция поверхностей', '1543-Дезинфекция, совмещенная с  очисткой многоразовых  инструментов', '1553-Уборка','1552-Дезинфекция перед утилизацией ','1551-Дезинфекция уборочного инвентаря'],
+    #     ['154-Гигиена кожных покровов', '157-Дезинфекция на пищеблоке', '151-Дезинфекция поверхностей', '152-Дезинфекция, совмещенная с  очисткой, многоразовых инструментов', '153-Стирка', '1445-Уборка в пищеблоке', '158-Уборка помещений','1442-Дезинфекция одноразовых инструментов и материалов перед утилизацией'],
+    #     ['118-Обезжиривание поверхностей', '121-Промышленный клининг'],
+    #     ['100-Категории транспорта', '95-Железнодорожный транспорт', '108-Метрополитен'],
+    #     ['1478-Обслуживание коммерческой недвижимости', '1474-Производственные предприятия', '1471-Тепловые сети', '1468-Теплоэлектростанции (ТЭЦ)', '1482-Частный сектор']]
+    #
+    # y = 1
+    # for xx in a:
+    #
+    #     print(xx)
+    #
+    #     for x in xx:
+    #         subcat_id = x.split('-')[0]
+    #         subcat_name = x.split('-')[1]
+    #         SubCategory.objects.create(category_id=y,subcat_id=subcat_id, name=subcat_name)
+    #     y+=1
+
+    # f = open('c:/sites/subsubcats.txt')
+    # for line in f:
+    #     row = line.split(';')
+    #     subcat_id = row[0]
+    #     subsubcat_id = row[1].split('-')[0].replace(' ','')
+    #     subsubcat_name = row[1].split('-')[1].lstrip()
+    #     print(subcat_id,subsubcat_id, subsubcat_name)
+    #     subcat = SubCategory.objects.get(subcat_id=int(subcat_id))
+    #     SubSubCategory.objects.create(subcategory=subcat,name=subsubcat_name,subsubcat_id=int(subsubcat_id))
+    import requests
+    import shutil
+    # from openpyxl import load_workbook
+    # wb = load_workbook(filename='c:/sites/tovary_s_tsenami.xlsx')
+    # sheet = wb.active
+    # # get max row count
+    # max_row = sheet.max_row
+    # # get max column count
+    # max_column = sheet.max_column
+    # # iterate over all cells
+    # # iterate over all rows
+    #
+    # for i in range(1, max_row + 1):
+    #
+    #     # iterate over all columns
+    #     for j in range(1, max_column + 1):
+    #         # get particular cell value
+    #         print('col=', j)
+    #         print(sheet.cell(row=i, column=1).value)
+    #         prices=[]
+    #
+    #         item_id = sheet.cell(row=i, column=1).value
+    #         item_name = sheet.cell(row=i, column=2).value
+    #         item_descr = sheet.cell(row=i, column=4).value
+    #
+    #         if j==1:
+    #             newitem = Item.objects.create(item_idd=int(item_id),description=item_descr,name=item_name)
+    #
+    #         for p in range(5, max_column + 1):
+    #             print(sheet.cell(row=i, column=p).value)
+    #             if sheet.cell(row=i, column=p).value:
+    #                 pricee = []
+    #                 price = sheet.cell(row=i, column=p).value.split('-')[1]
+    #                 vol = sheet.cell(row=i, column=p).value.split('-')[0].split(' ')[0]
+    #                 unit = sheet.cell(row=i, column=p).value.split('-')[0].split(' ')[1]
+    #                 if unit == 'л':
+    #                     unit1 = 'LITER'
+    #                 else:
+    #                     unit1 = 'UNIT'
+    #                 ItemPrice.objects.create(item=newitem,unit=unit1,volume=vol,price=int(price))
+    #                 pricee.append(vol)
+    #                 pricee.append(unit)
+    #                 pricee.append(price)
+    #                 prices.append(pricee)
+    #         if j == 1:
+    #             ItemImage.objects.create(item=newitem,image='items/{}.png'.format(sheet.cell(row=i, column=1).value))
+    #
+    #         print(prices)
+
+            # urllib.request.urlretrieve(sheet.cell(row=i, column=3).value.encode('utf-8'),
+            #                                "c:/sites/{}.png".format(sheet.cell(row=i, column=1).value))
+            # image_url = sheet.cell(row=i, column=3).value
+            #
+            #
+            # # Open the url image, set stream to True, this will return the stream content.
+            # resp = requests.get(image_url, stream=True)
+            #
+            # # Open a local file with wb ( write binary ) permission.
+            # local_file = open("c:/sites/{}.png".format(sheet.cell(row=i, column=1).value), 'wb')
+            #
+            # # Set decode_content value to True, otherwise the downloaded image file's size will be zero.
+            # resp.raw.decode_content = True
+            #
+            # # Copy the response stream raw data to local image file.
+            # shutil.copyfileobj(resp.raw, local_file)
+            #
+            # # Remove the image url response object.
+            # del resp
+
+
+            # cell_obj = sheet.cell(row=i, column=j)
+            # print cell value
+            # print(cell_obj.value)
+        # print new line
+        # print('\n')
+
+    # f = open('c:/sites/items.txt')
+    # for line in f:
+    #     row = line.split(',')
+    #     # print(row[0],row[3].split('-')[1])
+    #     subcat = SubSubCategory.objects.get(subsubcat_id=int(row[3].split('-')[1]))
+    #     try:
+    #         item = Item.objects.get(item_idd=int(row[0]))
+    #         item.subcategory.add(subcat)
+    #         item.save()
+    #     except:
+    #         print('notfound idd',row[0])
+
+    pr = ItemPrice.objects.all()
+
+    for p in pr:
+        if p.unit == 'LITER':
+            p.unit = 'л.'
+            p.save()
+        if p.unit == 'UNIT':
+            p.unit = 'шт.'
+            p.save()
