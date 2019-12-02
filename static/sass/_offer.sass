@@ -17,28 +17,29 @@
 .categories-nav
   display: flex
   flex-wrap: wrap
-  max-width: 975px
+  //max-width: 975px
   margin: 0 auto
   ul
     position: relative
     li
       display: inline-block
       position: relative
-      color: #ffffff
+      color: $text-color
       font-size: 14px
       padding: 10px 20px
       z-index: 46
       a
         font-family: Panton-Regular, sans-serif
+        text-transform: uppercase
         position: relative
         display: block
         text-decoration: none
-        color: #ffffff
+        color: $text-color
         z-index: 1
         pointer-events: none
       &:hover
         a
-          color: $text-color !important
+          color: $text-color
 
 
 
@@ -50,7 +51,10 @@
         top: 0
         left: 0
         background-color: #fff
+        color: $text-color !important
         border-radius: 4px 4px 0 0
+        border: 1px solid green
+
 
 
 .li-before
@@ -65,7 +69,7 @@
   left: 0
   background-color: #fff
   border-radius: 4px 4px 0 0
-
+  border: 1px solid red
 
 .hover
   background-color: #fff
@@ -82,6 +86,7 @@
   position: relative
   border-radius: 5px
   display: none
+  border: 1px solid red
 
 .menu-active
   display: grid
