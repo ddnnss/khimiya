@@ -163,3 +163,61 @@
 #shopping_bag_menu
   img
     width: 45px
+
+
+.header-mobile-menu
+  position: fixed
+  top: 0
+  left: 0
+  bottom: 0
+  width: 320px
+  overflow-y: auto
+  background: red
+  padding: 10px
+  z-index: 100
+
+.mobile-main-categories
+  &-wrapper
+    height: 56px
+    overflow: hidden
+    margin-bottom: 5px
+
+    &.main-active
+      height: fit-content
+      overflow: auto
+  &-item
+    background: #9F6000
+    font: 14px "Gotham Pro",sans-serif
+    text-decoration: none
+    text-transform: uppercase
+    color: $text-color
+    padding: 20px
+    display: block
+
+
+.mobile-sub-categories
+  &-wrapper
+    height: 36px
+    overflow: hidden
+    margin-top: 5px
+    &.sub-active
+      height: fit-content
+      overflow: auto
+  &-item
+    background: #35429f
+    font: 14px "Gotham Pro",sans-serif
+    text-decoration: none
+    text-transform: uppercase
+    color: $text-color
+    padding: 10px
+    display: block
+
+.mobile-subsub-categories
+  &-item
+    background: #309f23
+    font: 13px "Gotham Pro",sans-serif
+    text-decoration: none
+    text-transform: uppercase
+    color: $text-color
+    padding: 10px
+    display: block
