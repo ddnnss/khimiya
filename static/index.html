@@ -253,12 +253,30 @@
 
     </div>
 <div class="header-mobile-menu">
+        <div class="header-mobile-menu-top">
+            <ul>
+                    <li><a href="#">Краснодар</a></li>
+                    <li><a href="#">Информация о доставке</a></li>
+                    <li><a href="#">Бонусная программа</a></li>
+                    <li><a href="#">Частые вопросы</a></li>
+                    <li><a href="#">Вход/Регистрация</a></li>
+                    <li><a href="#">Корзина</a></li>
+                </ul>
+        </div>
+
+      <form class="search-form">
+                    <input class="search-input" name="search-query" placeholder="Поиск товаров по сайту" required>
+                    <button class="search-input-button" type="submit"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                                                           width="24" height="24"
+                                                                           viewBox="0 0 24 24"
+                                                                           style=" fill:#44d4de;">    <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"></path></svg></button>
+      </form>
 
     <ul class="mobile-main-categories">
-        <li class="mobile-main-categories-wrapper main-active">
+        <li class="mobile-main-categories-wrapper " onclick="openCategory(this)">
             <a class="mobile-main-categories-item" href="#">Главния категория</a>
             <ul class="mobile-sub-categories">
-                <li class="mobile-sub-categories-wrapper sub-active">
+                <li class="mobile-sub-categories-wrapper"  onclick="openSubcategory(this)">
                     <a class="mobile-sub-categories-item" href="#">Главная подкатегория</a>
                     <ul class="mobile-subsub-categories">
                         <li><a class="mobile-subsub-categories-item" href="#">подкатегория</a> </li>
@@ -269,18 +287,17 @@
                </li>
             </ul>
                <ul class="mobile-sub-categories">
-                <li class="mobile-sub-categories-wrapper sub-active">
+                <li class="mobile-sub-categories-wrapper " onclick="openSubcategory(this)">
                     <a class="mobile-sub-categories-item" href="#">Главная подкатегория</a>
                     <ul class="mobile-subsub-categories-wrapper">
                         <li><a class="mobile-subsub-categories-item" href="#">подкатегория</a> </li>
                         <li><a class="mobile-subsub-categories-item" href="#">подкатегория</a> </li>
-                         <li><a class="mobile-subsub-categories-item" href="#">подкатегория</a> </li>
-                        <li><a class="mobile-subsub-categories-item" href="#">подкатегория</a> </li>
+
                     </ul>
                </li>
             </ul>
         </li>
-            <li class="mobile-main-categories-wrapper">
+            <li class="mobile-main-categories-wrapper" onclick="openCategory(this)">
             <a class="mobile-main-categories-item" href="#">Главния категория</a>
             <ul class="mobile-sub-categories">
                 <li class="mobile-sub-categories-wrapper">
@@ -611,6 +628,31 @@
 </div>
 
 <script>
+    function openSubcategory(el){
+        console.log(el)
+        let allSubCats = document.getElementsByClassName('mobile-sub-categories-wrapper')
+        for (x of allSubCats){
+            x.classList.remove('sub-active')
+        }
+        el.classList.add('sub-active')
+    }
+ function openCategory(el){
+        console.log(el)
+   // try {
+   //       document.getElementsByClassName('sub-active')[0].classList.remove('sub-active')
+   //  }catch (e) {
+   //
+   //  }
+       
+        let allCats = document.getElementsByClassName('mobile-main-categories-wrapper')
+        for (x of allCats){
+            x.classList.remove('main-active')
+        }
+
+        el.classList.add('main-active')
+    }
+
+
     let close_modal = document.getElementsByClassName("loginModalClose")[0];
     let modal = document.getElementById('loginModal')
     let modalContent = document.getElementById('user-form-wrapper')

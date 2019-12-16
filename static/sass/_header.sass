@@ -171,20 +171,37 @@
   left: 0
   bottom: 0
   width: 320px
-  overflow-y: auto
   background: red
   padding: 10px
   z-index: 100
 
+  form
+    margin-bottom: 10px
+  &-top
+    ul
+      display: grid
+      grid-template-columns: repeat(auto-fit , minmax(100px,1fr))
+      li
+        a
+          font: 12px "Gotham Pro",sans-serif
+          text-decoration: none
+          text-transform: uppercase
+          color: $text-color
+          border: 1px solid $border
+          padding: 5px 10px
+
+
 .mobile-main-categories
   &-wrapper
-    height: 56px
+    max-height: 56px
     overflow: hidden
     margin-bottom: 5px
 
     &.main-active
-      height: fit-content
-      overflow: auto
+      max-height: 500px
+      transition: all .3s linear
+
+
   &-item
     background: #9F6000
     font: 14px "Gotham Pro",sans-serif
@@ -197,12 +214,12 @@
 
 .mobile-sub-categories
   &-wrapper
-    height: 36px
+    max-height: 36px
     overflow: hidden
     margin-top: 5px
     &.sub-active
-      height: fit-content
-      overflow: auto
+      max-height: 500px
+      transition: all .3s linear
   &-item
     background: #35429f
     font: 14px "Gotham Pro",sans-serif
