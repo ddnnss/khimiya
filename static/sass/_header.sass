@@ -179,16 +179,24 @@
     margin-bottom: 10px
   &-top
     ul
-      display: grid
-      grid-template-columns: repeat(auto-fit , minmax(100px,1fr))
+      display: flex
+      flex-wrap: wrap
+      justify-content: space-between
+      margin-bottom: 5px
+
       li
+        flex-grow: 1
+        margin-right: 5px
+        margin-bottom: 5px
         a
+          display: block
           font: 12px "Gotham Pro",sans-serif
           text-decoration: none
           text-transform: uppercase
           color: $text-color
           border: 1px solid $border
-          padding: 5px 10px
+          padding: 10px 0
+          text-align: center
 
 
 .mobile-main-categories

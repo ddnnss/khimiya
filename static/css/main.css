@@ -610,15 +610,30 @@ h3 {
   .header-mobile-menu form {
     margin-bottom: 10px; }
   .header-mobile-menu-top ul {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
-    .header-mobile-menu-top ul li a {
-      font: 12px "Gotham Pro",sans-serif;
-      text-decoration: none;
-      text-transform: uppercase;
-      color: #010101;
-      border: 1px solid #e5e5e5;
-      padding: 5px 10px; }
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin-bottom: 5px; }
+    .header-mobile-menu-top ul li {
+      -webkit-box-flex: 1;
+          -ms-flex-positive: 1;
+              flex-grow: 1;
+      margin-right: 5px;
+      margin-bottom: 5px; }
+      .header-mobile-menu-top ul li a {
+        display: block;
+        font: 12px "Gotham Pro",sans-serif;
+        text-decoration: none;
+        text-transform: uppercase;
+        color: #010101;
+        border: 1px solid #e5e5e5;
+        padding: 10px 0;
+        text-align: center; }
 
 .mobile-main-categories-wrapper {
   max-height: 56px;
