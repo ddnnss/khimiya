@@ -220,7 +220,9 @@ h3 {
   padding: 15px 40px !important; }
 
 .btn-sm {
-  padding: 10px 20px !important; }
+  padding: 10px 0 !important;
+  display: block;
+  text-align: center; }
 
 .btn:hover {
   -webkit-box-shadow: 0px 0px 9px 1px #d5ab61;
@@ -1704,6 +1706,9 @@ h3 {
   top: 0;
   width: 100%;
   height: 100%;
+  padding: 0 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   overflow: hidden;
   background-color: black;
   background-color: rgba(0, 0, 0, 0.4);
@@ -1730,10 +1735,15 @@ h3 {
   margin: auto;
   padding: 40px;
   border: 1px solid #888;
-  max-width: 520px;
+  max-width: 420px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   top: 25%;
+  left: 0;
   bottom: 25%;
-  border-radius: 8px; }
+  border-radius: 8px;
+  right: 0; }
 
 .modal-form {
   text-align: center;
@@ -1747,7 +1757,11 @@ h3 {
     font-size: 13px;
     margin-bottom: 40px; }
   .modal-form input {
-    width: 100%; }
+    -ms-flex-preferred-size: 69%;
+        flex-basis: 69%;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1; }
 
 .close {
   color: #aaaaaa;
@@ -1797,7 +1811,11 @@ h3 {
   border-bottom: 2px solid #e5e5e5;
   margin-bottom: 20px; }
   .user-form-inputs .checkout-user-info__input {
-    grid-template-columns: 20% 78%; }
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-flow: wrap;
+        flex-flow: wrap; }
 
 .user-form-buttons {
   display: -webkit-box;
@@ -1808,6 +1826,15 @@ h3 {
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly; }
+  .user-form-buttons a {
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    padding: 10px 15px !important; }
+    .user-form-buttons a:last-child {
+      margin-right: 0; }
 
 .user-form-p {
   margin: 0 !important;
@@ -1981,9 +2008,13 @@ h3 {
       -ms-flex-align: center;
           align-items: center; }
   .checkout-user-info__input label {
-    margin-right: 10px;
     font-family: "SF UI Display",sans-serif;
-    color: #7a7a7a; }
+    color: #7a7a7a;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
+    -ms-flex-preferred-size: 28%;
+        flex-basis: 28%; }
   .checkout-user-info__input input {
     padding: 15px 5px;
     border: 1px solid #e5e5e5; }

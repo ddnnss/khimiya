@@ -815,14 +815,14 @@
 
 
 
-    cart.addEventListener("mouseenter", showcart, false);
+    cart.addEventListener("click", showcart, false);
     cart_menu.addEventListener("mouseleave", hidecart, false)
-    cart.addEventListener("mouseleave", function (event) {
-        if (event.relatedTarget.classList != 'nav-search-cart'){
-            cart_menu.style.display = 'none'
+   // cart.addEventListener("mouseleave", function (event) {
+   //     if (event.relatedTarget.classList != 'header-inner'){
+   //         cart_menu.style.display = 'none'
 
-        }
-    });
+    //    }
+    //});
     let menu_items = document.getElementsByClassName('categories-nav-item')
     let menu_items_link = document.getElementsByClassName('categories-nav-item-link')
     let sub_menus = document.getElementsByClassName('categories-nav-dropdown')
