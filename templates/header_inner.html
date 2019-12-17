@@ -1,77 +1,178 @@
- {% load humanize %}
-  <div class="container ">
-        <div class="header-inner">
-            <nav class="nav">
-                <ul>
-                    <li><a href="/">главная</a></li>
-                    <li><a href="#">доставка</a></li>
-                    <li><a href="#">контакты</a></li>
-                    {% if request.user.is_authenticated %}
-                         <li><a href="javascript:void(0)" onclick="openUserModal()">Личный кабинет</a></li>
-                        {% else %}
-                         <li><a href="javascript:void(0)" onclick="openUserModal()">вход / регистрация</a></li>
-                    {% endif %}
-                </ul>
-            </nav>
-            <div class="nav-search-cart" >
-                <form class="search-form">
-                    <input class="search-input" name="search-query" placeholder="Поиск товаров по сайту" required>
-                    <button class="search-input-button" type="submit"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                                                                           width="24" height="24"
-                                                                           viewBox="0 0 24 24"
-                                                                           style=" fill:#44d4de;">    <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"></path></svg></button>
-                </form>
-                <div id="shopping-bag" class="header-cart">
-                    <a  href="#"><span class="shopping-bag">
-                        {% if count_items_in_cart > 0 %}
-                        <span class="cart-items">{{ count_items_in_cart }}</span>
-                        {% else %}
-                         <span style="display: none" class="cart-items"></span>
-                        {% endif %}
-                    </span></a>
-                <div id="shopping_bag_menu" class="menu-cart-items">
 
-                    <table class="cart_table">
-                        {% for cart_item in all_items_in_cart %}
+<div class="container hidden-md">
+    <div class="header-top">
+        <ul>
+            <li><a href="#">Краснодар</a></li>
+            <li><a href="#">Информация о доставке</a></li>
+            <li><a href="#">Бонусная программа</a></li>
+            <li><a href="#">Частые вопросы</a></li>
+        </ul>
+    </div>
+    <div class="header-inner">
+        <a>
+            <img src="http://placehold.it/300x70" alt="">
+        </a>
+
+
+        <form class="search-form">
+            <input class="search-input" name="search-query" placeholder="Поиск товаров по сайту" required>
+            <button class="search-input-button" type="submit"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                                                   width="24" height="24"
+                                                                   viewBox="0 0 24 24"
+                                                                   style=" fill:#44d4de;">    <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"></path></svg></button>
+        </form>
+
+        <div class="header-icons-block">
+            <div  class="header-cart">
+                <a  href="#"><span class="user-lk"><!--span class="cart-items">!</span--></span></a>
+            </div>
+            <div id="shopping-bag" class="header-cart">
+                <a  href="#"><span class="shopping-bag"><span class="cart-items">3</span></span></a>
+                <div id="shopping_bag_menu" class="menu-cart-items">
+                    <table>
                         <tr>
+                            <td>
+                                <img width="40" src="img/icons-vk.png" alt="">
+                            </td>
+                            <td>
+                                Название товара
+                            </td>
+                            <td>
+                                <span id="cart_item_number">1</span> x <span id="cart_item_price">500</span> = <span id="cart_item_total_price">9098</span>
+                            </td>
+                            <td><a class="cart-delete-btn" href="javascript:void(0)"><span>&#10006;</span></a></td>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <img width="40" src="img/icons-vk.png" alt="">
+                            </td>
                             <td >
-                                <img  src="{{ cart_item.item.item.itemimage_set.first.image_small }}" alt="">
+                                Название товара
                             </td>
                             <td>
-                                {{ cart_item.item.item.name }} {{ cart_item.item.volume}} {{ cart_item.item.unit }}
+                                <span id="cart_item_number">1</span> x <span id="cart_item_price">500</span> = <span id="cart_item_total_price">87889789</span>
                             </td>
-                            <td>
-                                <span id="cart_item_number">{{ cart_item.number }}</span> x  <span id="cart_item_price">{{ cart_item.current_price }} &#8381;</span> = <span id="cart_item_total_price">{{ cart_item.total_price  }} &#8381;</span>
-                            </td>
-                        <td>
-                            <a class="cart-delete-btn" href="javascript:void(0)"
-                               data-item_id="{{ cart_item.id }}"
-                               onclick="delete_from_cart(this)"><span>&#10006;</span></a>
-                        </td>
-                        </tr>
-                        {% endfor %}
-                      {% if count_items_in_cart > 0 %}
-                        <tr class="cart-footer">
-                            <td colspan="4">Итого: {{ total_cart_price }} &#8381;</td>
+                            <td><a class="cart-delete-btn" href="javascript:void(0)"><span>&#10006;</span></a></td>
                         </tr>
                         <tr>
-                            <td colspan="4">
-                                <a href="{% url 'show_cart' %}" class="btn btn-sm">Открыть корзину</a>
-                                <a href="{% url 'checkout' %}" class="btn-outline btn-sm">Оплата</a>
+                            <td>
+                                <img width="40" src="img/icons-vk.png" alt="">
                             </td>
+                            <td>
+                                Название товара
+                            </td>
+                            <td>
+                                <span id="cart_item_number">1</span> x <span id="cart_item_price">500</span> = <span id="cart_item_total_price">56565</span>
+                            </td>
+                            <td><a class="cart-delete-btn" href="javascript:void(0)"><span>&#10006;</span></a></td>
                         </tr>
-                    {% else %}
-                          <tr>
-                          <td style="width: 100% !important;"> Корзина пуста</td>
-                          </tr>
-                    {% endif %}
+                        <tr class="cart-footer">
+                            <td colspan="2">Итого</td>
+                            <td colspan="2">123123123</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <a href="#" class="btn btn-sm">Открыть корзину</a>
+
+                            </td>
+                            <td colspan="2">
+
+                                <a href="#" class="btn-outline btn-sm">Оплата</a>
+                            </td>
+
+                        </tr>
                     </table>
 
                 </div>
-                </div>
-
             </div>
+
         </div>
 
 
     </div>
+    <div class="categories-nav">
+        {% for category in all_categories %}
+            <ul>
+                <li class="categories-nav-item" id="li_id_{{ category.id }}" data-menu_id="{{ category.id }}"><a class="categories-nav-item-link" href="{% url 'category' category.name_slug%}">{{ category.name }}</a></li>
+
+            </ul>
+        {% endfor %}
+    </div>
+
+    {% for category in all_categories %}
+        <div id="menu_id_{{ category.id }}" data-li_id="{{ category.id }}" class="categories-nav-dropdown" >
+
+            {% for subcat in category.subcategory_set.all %}
+                <ul class="categories-nav-dropdown-subcategory-items">
+
+                    <li><a href="{% url 'subcategory' category.name_slug subcat.name_slug %}">{{ subcat.name }}</a></li>
+
+                    {% for subsubcat in subcat.subsubcategory_set.all %}
+                        <li><a href="{% url 'subsubcategory' category.name_slug subcat.name_slug subsubcat.name_slug %}">{{ subsubcat.name }}</a></li>
+                    {% endfor %}
+
+                </ul>
+            {% endfor %}
+        </div>
+    {% endfor %}
+
+
+</div>
+ <div class="mobile-header container visible-md">
+
+
+            <div class="header-mobile-close">
+                   <a>
+                <img src="http://placehold.it/300x70" alt="">
+            </a>
+               <span onclick="toggleMenu()">&#9776;</span>
+           </div>
+
+    </div>
+<div class="header-mobile-menu">
+    <div class="header-mobile-menu-top">
+         <div class="header-mobile-close">
+               <p>телефон</p>
+               <span onclick="toggleMenu()">&#10006;</span>
+           </div>
+        <ul>
+            <li><a href="#">Краснодар</a></li>
+            <li><a href="#">Информация о доставке</a></li>
+            <li><a href="#">Бонусная программа</a></li>
+            <li><a href="#">Частые вопросы</a></li>
+            <li><a href="#">Вход/Регистрация</a></li>
+            <li><a href="#">Корзина</a></li>
+        </ul>
+    </div>
+
+    <form class="search-form">
+        <input class="search-input" name="search-query" placeholder="Поиск товаров по сайту" required>
+        <button class="search-input-button" type="submit"><svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                                                               width="24" height="24"
+                                                               viewBox="0 0 24 24"
+                                                               style=" fill:#44d4de;">    <path d="M 9 2 C 5.1458514 2 2 5.1458514 2 9 C 2 12.854149 5.1458514 16 9 16 C 10.747998 16 12.345009 15.348024 13.574219 14.28125 L 14 14.707031 L 14 16 L 20 22 L 22 20 L 16 14 L 14.707031 14 L 14.28125 13.574219 C 15.348024 12.345009 16 10.747998 16 9 C 16 5.1458514 12.854149 2 9 2 z M 9 4 C 11.773268 4 14 6.2267316 14 9 C 14 11.773268 11.773268 14 9 14 C 6.2267316 14 4 11.773268 4 9 C 4 6.2267316 6.2267316 4 9 4 z"></path></svg></button>
+    </form>
+
+    <ul class="mobile-main-categories">
+        {% for category in all_categories %}
+            <li class="mobile-main-categories-wrapper " onclick="openCategory(this)">
+                <a class="mobile-main-categories-item" href="#">{{ category.name }}</a>
+                 {% for subcat in category.subcategory_set.all %}
+                    <ul class="mobile-sub-categories">
+                        <li class="mobile-sub-categories-wrapper"  onclick="openSubcategory(this)">
+                            <a class="mobile-sub-categories-item" href="#">{{ subcat.name }}</a>
+                            <ul class="mobile-subsub-categories">
+                                {% for subsubcat in subcat.subsubcategory_set.all %}
+                                    <li><a class="mobile-subsub-categories-item" href="{% url 'subsubcategory' category.name_slug subcat.name_slug subsubcat.name_slug %}">{{ subsubcat.name }}</a> </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                 {% endfor %}
+            </li>
+        {% endfor %}
+
+    </ul>
+
+</div>

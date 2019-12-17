@@ -390,6 +390,12 @@ h3 {
     -webkit-transform: scale3d(1, 1, 1);
             transform: scale3d(1, 1, 1); } }
 
+@media (max-width: 720px) {
+  .hidden-md {
+    display: none !important; }
+  .visible-md {
+    display: block !important; } }
+
 .header {
   height: 198px; }
   .header-inner {
@@ -598,15 +604,34 @@ h3 {
 #shopping_bag_menu img {
   width: 45px; }
 
+.mobile-header {
+  display: none; }
+
 .header-mobile-menu {
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
-  width: 320px;
-  background: red;
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background: #ffffff;
   padding: 10px;
-  z-index: 100; }
+  z-index: 100;
+  overflow-y: auto;
+  -webkit-transform: translateX(-100%);
+      -ms-transform: translateX(-100%);
+          transform: translateX(-100%);
+  -webkit-transition: all .3s;
+  -o-transition: all .3s;
+  transition: all .3s; }
+  .header-mobile-menu.mobile-menu-active {
+    -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+            transform: translateX(0);
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s; }
   .header-mobile-menu form {
     margin-bottom: 10px; }
   .header-mobile-menu-top ul {
@@ -631,7 +656,7 @@ h3 {
         text-decoration: none;
         text-transform: uppercase;
         color: #010101;
-        border: 1px solid #e5e5e5;
+        border: 1px solid #44d4de;
         padding: 10px 0;
         text-align: center; }
 
@@ -646,8 +671,8 @@ h3 {
     transition: all .3s linear; }
 
 .mobile-main-categories-item {
-  background: #9F6000;
-  font: 14px "Gotham Pro",sans-serif;
+  background: #44d4de;
+  font: 12px "Gotham Pro",sans-serif;
   text-decoration: none;
   text-transform: uppercase;
   color: #010101;
@@ -665,8 +690,8 @@ h3 {
     transition: all .3s linear; }
 
 .mobile-sub-categories-item {
-  background: #35429f;
-  font: 14px "Gotham Pro",sans-serif;
+  background: #d5ab61;
+  font: 12px "Gotham Pro",sans-serif;
   text-decoration: none;
   text-transform: uppercase;
   color: #010101;
@@ -674,13 +699,38 @@ h3 {
   display: block; }
 
 .mobile-subsub-categories-item {
-  background: #309f23;
-  font: 13px "Gotham Pro",sans-serif;
+  background: #ffffff;
+  font: 11px "Gotham Pro",sans-serif;
   text-decoration: none;
   text-transform: uppercase;
   color: #010101;
   padding: 10px;
   display: block; }
+
+.header-mobile-close {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 10px; }
+  .header-mobile-close span {
+    background: #44d4de;
+    padding: 10px 15px;
+    color: #ffffff;
+    cursor: pointer; }
+
+@media (max-width: 900px) {
+  .header {
+    height: 250px; } }
+
+@media (max-width: 720px) {
+  .header {
+    height: 40px; } }
 
 .offer {
   background: url("../img/index_offer_bg.jpg");
@@ -735,7 +785,7 @@ h3 {
         background-color: #fff;
         color: #010101 !important;
         border-radius: 4px 4px 0 0;
-        border: 1px solid green; }
+        border: 1px solid #e5e5e5; }
 
 .li-before a {
   color: #010101 !important; }
@@ -749,7 +799,7 @@ h3 {
   left: 0;
   background-color: #fff;
   border-radius: 4px 4px 0 0;
-  border: 1px solid red; }
+  border: 1px solid #e5e5e5; }
 
 .hover {
   background-color: #fff;
@@ -764,7 +814,7 @@ h3 {
   position: relative;
   border-radius: 5px;
   display: none;
-  border: 1px solid red; }
+  border: 1px solid #e5e5e5; }
 
 .menu-active {
   display: grid; }
@@ -830,7 +880,7 @@ h3 {
           box-sizing: border-box;
   background: url("../img/bg.jpg") no-repeat center;
   padding-top: 70px;
-  height: 450px;
+  height: 518px;
   border-bottom: 2px solid #f2f3f5; }
 
 .about-us-inner {
@@ -842,7 +892,7 @@ h3 {
   .about-us-info p {
     font-family: SF UI Regular, sans-serif;
     color: #5a5b5c;
-    margin-bottom: 50px; }
+    margin-bottom: 15px; }
   .about-us-info p:last-child {
     margin: 0; }
 

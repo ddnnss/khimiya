@@ -10,30 +10,8 @@
             <p>Пройдите опрос, который автоматически определит товар для вас</p>
             <a href="#" class="btn">пройти опрос</a>
         </div>
-        <div class="categories-nav">
-            {% for category in all_categories %}
-            <ul>
-                <li class="categories-nav-item" id="li_id_{{ category.id }}" data-menu_id="{{ category.id }}"><a class="categories-nav-item-link" href="{% url 'category' category.name_slug%}">{{ category.name }}</a></li>
 
-            </ul>
-            {% endfor %}
-        </div>
-    {% for category in all_categories %}
-        <div id="menu_id_{{ category.id }}" data-li_id="{{ category.id }}" class="categories-nav-dropdown" >
 
- {% for subcat in category.subcategory_set.all %}
-            <ul class="categories-nav-dropdown-subcategory-items">
-
-                         <li><a href="{% url 'subcategory' category.name_slug subcat.name_slug %}">{{ subcat.name }}</a></li>
-
-                        {% for subsubcat in subcat.subsubcategory_set.all %}
-                            <li><a href="{% url 'subsubcategory' category.name_slug subcat.name_slug subsubcat.name_slug %}">{{ subsubcat.name }}</a></li>
-                        {% endfor %}
-
-            </ul>
- {% endfor %}
-        </div>
-     {% endfor %}
     </div>
 
 </section><!--offer-->
@@ -79,7 +57,7 @@
             </div>
             <div class="about-us-video">
                 <iframe width="80%" height="100%"
-                        src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                        src="https://www.youtube.com/embed/L9fXfiZzMJk">
                 </iframe>
                 <!--  <p>Посмотрите видео-ролик о нашем товаре</p>-->
             </div>

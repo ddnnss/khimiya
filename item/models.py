@@ -275,13 +275,11 @@ class ItemPrice(models.Model):
     volume = models.CharField('Объем', max_length=6, blank=False, default=0, db_index=True)
     price = models.IntegerField('Цена', blank=False, default=0, db_index=True)
 
-    # @property
-    # def discount_value(self):
-    #     if self.discount > 0:
-    #         dis_val = self.price - (self.price * self.discount / 100)
-    #     else:
-    #         dis_val = 0
-    #     return (format_number(dis_val))
+    @property
+    def discount_value(self):
+        if self.item.discount > 0:
+            dis_val = self.price - (self.price * self.item.discount / 100)
+            return (round(dis_val))
 
     def save(self, *args, **kwargs):
         self.volume = self.volume.replace(',', '.')

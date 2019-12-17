@@ -8,7 +8,7 @@
 </head>
 <body>
 <header class="header">
-    <div class="container ">
+    <div class="container  hidden-md">
             <div class="header-top">
                 <ul>
                     <li><a href="#">Краснодар</a></li>
@@ -17,7 +17,7 @@
                     <li><a href="#">Частые вопросы</a></li>
                 </ul>
             </div>
-        <div class="header-inner">
+        <div class="header-inner ">
             <a>
                 <img src="http://placehold.it/300x70" alt="">
             </a>
@@ -252,8 +252,23 @@
 
 
     </div>
+    <div class="mobile-header container visible-md">
+
+
+            <div class="header-mobile-close">
+                   <a>
+                <img src="http://placehold.it/300x70" alt="">
+            </a>
+               <span onclick="toggleMenu()">&#9776;</span>
+           </div>
+
+    </div>
 <div class="header-mobile-menu">
         <div class="header-mobile-menu-top">
+           <div class="header-mobile-close">
+               <p>телефон</p>
+               <span onclick="toggleMenu()">&#10006;</span>
+           </div>
             <ul>
                     <li><a href="#">Краснодар</a></li>
                     <li><a href="#">Информация о доставке</a></li>
@@ -628,6 +643,11 @@
 </div>
 
 <script>
+
+    function toggleMenu() {
+        let menu = document.getElementsByClassName('header-mobile-menu')[0]
+        menu.classList.toggle('mobile-menu-active')
+    }
     function openSubcategory(el){
         console.log(el)
         let allSubCats = document.getElementsByClassName('mobile-sub-categories-wrapper')

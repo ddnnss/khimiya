@@ -164,20 +164,30 @@
   img
     width: 45px
 
+.mobile-header
+  display: none
 
 .header-mobile-menu
   position: fixed
   top: 0
   left: 0
   bottom: 0
-  width: 320px
-  background: red
+  width: 100%
+  box-sizing: border-box
+  background: #ffffff
   padding: 10px
   z-index: 100
+  overflow-y: auto
+  transform: translateX(-100%)
+  transition: all .3s
+  &.mobile-menu-active
+    transform: translateX(0)
+    transition: all .3s
 
   form
     margin-bottom: 10px
   &-top
+
     ul
       display: flex
       flex-wrap: wrap
@@ -194,7 +204,7 @@
           text-decoration: none
           text-transform: uppercase
           color: $text-color
-          border: 1px solid $border
+          border: 1px solid $secondary-color
           padding: 10px 0
           text-align: center
 
@@ -211,8 +221,8 @@
 
 
   &-item
-    background: #9F6000
-    font: 14px "Gotham Pro",sans-serif
+    background: $secondary-color
+    font: 12px "Gotham Pro",sans-serif
     text-decoration: none
     text-transform: uppercase
     color: $text-color
@@ -229,8 +239,8 @@
       max-height: 500px
       transition: all .3s linear
   &-item
-    background: #35429f
-    font: 14px "Gotham Pro",sans-serif
+    background: $primary-color
+    font: 12px "Gotham Pro",sans-serif
     text-decoration: none
     text-transform: uppercase
     color: $text-color
@@ -239,10 +249,29 @@
 
 .mobile-subsub-categories
   &-item
-    background: #309f23
-    font: 13px "Gotham Pro",sans-serif
+    background: #ffffff
+    font: 11px "Gotham Pro",sans-serif
     text-decoration: none
     text-transform: uppercase
     color: $text-color
     padding: 10px
     display: block
+
+.header-mobile-close
+  display: flex
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 10px
+  span
+    background: $secondary-color
+    padding: 10px 15px
+    color: #ffffff
+    cursor: pointer
+
+@media (max-width: 900px)
+  .header
+    height: 250px
+
+@media (max-width: 720px)
+  .header
+    height: 40px

@@ -27,7 +27,35 @@
 <script src="{% static 'js/add_to_cart.js' %}"></script>
 <script src="{% static 'js/delete_from_cart.js' %}"></script>
  <script src="{% static 'js/login.js' %}"></script>
+<script>
+     function openSubcategory(el){
+        console.log(el)
+        let allSubCats = document.getElementsByClassName('mobile-sub-categories-wrapper')
+        for (x of allSubCats){
+            x.classList.remove('sub-active')
+        }
+        el.classList.add('sub-active')
+    }
+        function openCategory(el){
+        console.log(el)
+   // try {
+   //       document.getElementsByClassName('sub-active')[0].classList.remove('sub-active')
+   //  }catch (e) {
+   //
+   //  }
 
+        let allCats = document.getElementsByClassName('mobile-main-categories-wrapper')
+        for (x of allCats){
+            x.classList.remove('main-active')
+        }
+
+        el.classList.add('main-active')
+    }
+ function toggleMenu() {
+        let menu = document.getElementsByClassName('header-mobile-menu')[0]
+        menu.classList.toggle('mobile-menu-active')
+    }
+</script>
 {% block js %}
 {% endblock %}
 </body>

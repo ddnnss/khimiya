@@ -31,8 +31,7 @@ class ItemAdmin(admin.ModelAdmin):
     inlines = [PriceInline,ImagesInline]
     search_fields = ('name_lower',)
     list_filter = ('subcategory', 'is_active', 'is_present',)
-    exclude = ['name_slug', 'name_lower', 'zapah', 'views', 'buys',
-               'discount', 'page_title', 'page_description', 'page_keywords'] #не отображать на сранице редактирования
+    exclude = ['name_slug', 'name_lower', 'zapah', 'views', 'buys', 'page_title', 'page_description', 'page_keywords'] #не отображать на сранице редактирования
     class Meta:
         model = Item
 
