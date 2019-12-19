@@ -99,7 +99,12 @@
                         <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>
 
                     </div>
-                    <div class="item-info-description-short-share">
+
+
+                </div>
+
+            </div>
+         <div class="item-info-description-short-share">
                         <h4>описание</h4>
                         <div class="item-full-description">{{ item.description | safe }}</div>
                         <h5>Поделиться:</h5>
@@ -111,11 +116,6 @@
 
                         </ul>
                     </div>
-
-
-                </div>
-
-            </div>
             <div class="tab">
                 <button id="first-tab" class="tablinks" onclick="openTab(event, 'description')">описание</button>
                 <button class="tablinks" onclick="openTab(event, 'delivery')">доставка</button>
@@ -237,6 +237,7 @@
 {% endblock %}
 
 {% block js %}
+    {{ block.super }}
     <script>
         const liter_price = parseInt(document.getElementById('item_price').innerHTML)
         let price_per_liter_span = document.getElementById('price_per_liter')

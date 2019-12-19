@@ -24,8 +24,14 @@
                 </div>
                 <div class="item-card-price">
                     <p> {{ item.itemprice_set.first.volume }} {{ item.itemprice_set.first.unit }}
+                        {% if item.discount %}
+                        - <del style="color: #696969">{{ item.itemprice_set.first.price}} </del>  {{ item.itemprice_set.first.price_with_discount}} РУБ
+                        {% else %}
+                        - {{ item.itemprice_set.first.price}} РУБ
+                        {% endif %}
+                    </p>
 
-                        - {{ item.itemprice_set.first.price}} РУБ </p>
+
                     <a class="btn btn-sm" href="javascript:void(0)" onclick="quick_add_to_cart({{ item.id }})">в корзину</a>
                     {% if request.user.is_authenticated and  request.user.is_staff%}
                       <hr>

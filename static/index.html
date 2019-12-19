@@ -801,88 +801,14 @@
     });
     //------------------------------------------
 
-    let cart = document.getElementById("shopping-bag");
-    let cart_menu = document.getElementById("shopping_bag_menu");
-    function showcart() {
-        cart_menu.style.display = 'block'
-        cart_menu.classList.add('slide-top')
 
-    }
-    function hidecart() {
-        cart_menu.style.display = 'none'
-
-    }
-
-
-
-    cart.addEventListener("click", showcart, false);
-    cart_menu.addEventListener("mouseleave", hidecart, false)
    // cart.addEventListener("mouseleave", function (event) {
    //     if (event.relatedTarget.classList != 'header-inner'){
    //         cart_menu.style.display = 'none'
 
     //    }
     //});
-    let menu_items = document.getElementsByClassName('categories-nav-item')
-    let menu_items_link = document.getElementsByClassName('categories-nav-item-link')
-    let sub_menus = document.getElementsByClassName('categories-nav-dropdown')
-    let menu_id = ''
-    let cur_slide = 1
 
-    let slide_img = document.getElementsByClassName('slide-img')
-    let slide_text = document.getElementsByClassName('slide-text')
-    document.getElementById('total_slide').innerText = '0'+slide_text.length
-
-    let li_id = ''
-    console.log( menu_items)
-    document.getElementById('slide-img-1').style.display = 'block'
-    document.getElementById('slide-text-1').style.display = 'block'
-    for (var i = 0; i < menu_items.length; i++){
-        menu_items[i].addEventListener("mouseover", function( event ) {
-            menu_id = event.target.dataset.menu_id
-            li_id = event.target.dataset.li_id
-            let menu = document.getElementById('menu_id_'+menu_id)
-            menu.classList.add('menu-active')
-            event.target.classList.add('hover')
-            console.log(menu)
-        })
-    }
-
-    for (var i = 0; i < menu_items.length; i++){
-        menu_items[i].addEventListener("mouseout", function( event ) {
-
-            event.target.classList.remove('hover')
-            let menu = document.getElementById('menu_id_'+menu_id)
-            console.log('related= '+ (event.relatedTarget.classList))
-            if (event.relatedTarget.classList != 'categories-nav-dropdown menu-active'){
-                console.log('close')
-                menu.classList.remove('menu-active')
-            }else{
-                console.log('not close')
-                let li = document.getElementById('li_id_'+menu_id)
-                li.classList.add('li-before')
-            }
-        })
-    }
-    for (var i = 0; i < sub_menus.length; i++){
-        sub_menus[i].addEventListener("mouseover", function( event ) {
-            console.log('menu over')
-            let li = document.getElementById('li_id_'+menu_id)
-            li.classList.add('hover')
-
-
-        })
-    }
-    for (var i = 0; i < sub_menus.length; i++){
-        sub_menus[i].addEventListener("mouseleave", function( event ) {
-            console.log('menu out')
-            let li = document.getElementById('li_id_'+menu_id)
-            li.classList.remove('hover')
-            let menu = document.getElementById('menu_id_'+menu_id)
-            menu.classList.remove('menu-active')
-            li.classList.remove('li-before')
-        })
-    }
 
     function nextSlide() {
         if (cur_slide + 1 > slide_text.length){

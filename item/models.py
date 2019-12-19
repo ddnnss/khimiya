@@ -276,7 +276,7 @@ class ItemPrice(models.Model):
     price = models.IntegerField('Цена', blank=False, default=0, db_index=True)
 
     @property
-    def discount_value(self):
+    def price_with_discount(self):
         if self.item.discount > 0:
             dis_val = self.price - (self.price * self.item.discount / 100)
             return (round(dis_val))

@@ -37,19 +37,19 @@
                 </aside>
                 <div class="catalog-items-wrappper">
                     <div id="item_filter" class="catalog-items-filter">
-                    {% if request.user.is_authenticated and  request.user.is_staff%}
-                       <div class="dropdown">
-                            <button style="color: red" onclick="customDropDown(this)" data-target="home" class="dropbtn "><strong>АДМИН</strong></button>
-                            <div id="home" style="min-width: 260px !important;" class="dropdown-content">
-                                <a href="/admin/item/subcategory/{{ subcategory.id }}/change/">редактировать эту категорию</a>
-                                <a href="/admin/item/subsubcategory/{{subsubcat.id}}/change/">редактировать эту подкатегорию</a>
-                                <hr>
+                        {% if request.user.is_authenticated and  request.user.is_staff%}
+                            <div class="dropdown">
+                                <button style="color: red" onclick="customDropDown(this)" data-target="home" class="dropbtn "><strong>АДМИН</strong></button>
+                                <div id="home" style="min-width: 260px !important;" class="dropdown-content">
+                                    <a href="/admin/item/subcategory/{{ subcategory.id }}/change/">редактировать эту категорию</a>
+                                    <a href="/admin/item/subsubcategory/{{subsubcat.id}}/change/">редактировать эту подкатегорию</a>
+                                    <hr>
                                     <a href="/admin/item/subcategory/add/">добавить категорию</a>
                                     <a href="/admin/item/subsubcategory/add/">добавить подкатегорию</a>
                                     <a href="/admin/item/item/add/">добавить товар</a>
+                                </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
                         <div class="dropdown">
                             <button onclick="customDropDown(this)" data-target="price" class="dropbtn">Сортировка</button>
                             <div id="price" class="dropdown-content">
@@ -76,19 +76,19 @@
                                 <a href="#">Цена ниже</a>
                             </div>
                         </div>
-                    {% if request.user.is_authenticated and  request.user.is_staff%}
-                       <div class="dropdown">
-                            <button onclick="customDropDown(this)" data-target="home" class="dropbtn">АДМИН</button>
-                            <div id="home" style="min-width: 260px !important;" class="dropdown-content">
-                                <a href="/admin/item/subcategory/{{ subcategory.id }}/change/">редактировать эту категорию</a>
-                                <a href="/admin/item/subsubcategory/{{subsubcat.id}}/change/">редактировать эту подкатегорию</a>
-                                <hr>
+                        {% if request.user.is_authenticated and  request.user.is_staff%}
+                            <div class="dropdown">
+                                <button onclick="customDropDown(this)" data-target="home" class="dropbtn">АДМИН</button>
+                                <div id="home" style="min-width: 260px !important;" class="dropdown-content">
+                                    <a href="/admin/item/subcategory/{{ subcategory.id }}/change/">редактировать эту категорию</a>
+                                    <a href="/admin/item/subsubcategory/{{subsubcat.id}}/change/">редактировать эту подкатегорию</a>
+                                    <hr>
                                     <a href="/admin/item/subcategory/add/">добавить категорию</a>
                                     <a href="/admin/item/subsubcategory/add/">добавить подкатегорию</a>
                                     <a href="/admin/item/item/add/">добавить товар</a>
+                                </div>
                             </div>
-                        </div>
-                    {% endif %}
+                        {% endif %}
 
                     </div>
                     <div class="catalog-items">
@@ -114,59 +114,59 @@
                     <div class="modal-header">
                         <h6>Добавить в корзину</h6> <span class="close">&times;</span>
                     </div>
-                  <div class="add-to-cart-item-info-description">
-                    <div style="border-bottom: 2px solid #e5e5e5;" class="add-to-cart-item-name">
-                        <img id="preview_img" src=""><h5 id="item_name"></h5>
-                        <p class="item-presents">Есть в наличии</p>
-                        <!--p class="item-liter-price">Цена за литр:
-                            <del id="old_price">33 &#8381;  </del> <span id="new_price">100  &#8381;</span>
-                        </p-->
-                    </div>
-                    <span style="display: none" id="item_price"></span>
-                    <div class="item-info-description-price-volume">
+                    <div class="add-to-cart-item-info-description">
+                        <div style="border-bottom: 2px solid #e5e5e5;" class="add-to-cart-item-name">
+                            <img id="preview_img" src=""><h5 id="item_name"></h5>
+                            <p class="item-presents">Есть в наличии</p>
+                            <!--p class="item-liter-price">Цена за литр:
+                                <del id="old_price">33 &#8381;  </del> <span id="new_price">100  &#8381;</span>
+                            </p-->
+                        </div>
+                        <span style="display: none" id="item_price"></span>
+                        <div class="item-info-description-price-volume">
 
-                        <div class="item-info-description-volume">
+                            <div class="item-info-description-volume">
                        <span>
                            Количество штук:
                        </span>
-                            <div class="custom-input">
-                                <button class="custom-input-minus"  onclick="minusItem(this)">-</button>
-                                <input id="item_total" value="1" disabled onchange="calculatePrice()">
-                                <button class="custom-input-plus"  onclick="plusItem(this)">+</button>
+                                <div class="custom-input">
+                                    <button class="custom-input-minus"  onclick="minusItem(this)">-</button>
+                                    <input id="item_total" value="1" disabled onchange="calculatePrice()">
+                                    <button class="custom-input-plus"  onclick="plusItem(this)">+</button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="item-info-description-volume">
+                            <div class="item-info-description-volume">
                        <span>
                            Доступные варианты:
                        </span>
-                            <div class="custom-select" style="width:150px;">
-                                <select id="liters">
-                                </select>
+                                <div class="custom-select" style="width:150px;">
+                                    <select id="liters">
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="item-info-description-volume">
-                            <span >Общая стоимость:</span>
-                            <span>
+                            <div class="item-info-description-volume">
+                                <span >Общая стоимость:</span>
+                                <span>
                         <span id="price_per_liter">
                          </span> &#8381;
                     </span>
+                            </div>
+
+
+
                         </div>
 
+                        <div class="item-info-description-buttons">
+                            <a id="quick_add_to_cart_btn" href="javascript:void(0)" class="btn btn-md"
+                               data-item_id=""
+                               data-item_image=""
+                               data-item_name=""
+                               data-item_unit=""
+                               onclick="add_to_cart(this)">добавить в корзину</a>
+                            <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>
 
-
+                        </div>
                     </div>
-
-                    <div class="item-info-description-buttons">
-                        <a id="quick_add_to_cart_btn" href="javascript:void(0)" class="btn btn-md"
-                           data-item_id=""
-                           data-item_image=""
-                           data-item_name=""
-                           data-item_unit=""
-                           onclick="add_to_cart(this)">добавить в корзину</a>
-                        <a href="javascript:void(0)" class="btn-outline btn-md">купить в один клик</a>
-
-                    </div>
-                </div>
 
                 </div>
 
@@ -180,17 +180,19 @@
 {% endblock %}
 
 {% block js %}
+    {{ block.super }}
     <script>
         let close_modal_cart = document.getElementsByClassName("close")[0];
         let modal_cart = document.getElementById('add_to_cart_modal')
         let price_per_liter_span = document.getElementById('price_per_liter')
         let liter_price = document.getElementById('item_price')
+
         close_modal_cart.onclick = function () {
             modal_cart.style.display = "none";
         }
 
         function quick_add_to_cart(item_id) {
-
+            var showingPrice = 0
             var url = '/item/quick_add_to_cart/';
             var csrf_token = $('#dummy_form [name="csrfmiddlewaretoken"]').val();
             var data = {};
@@ -203,16 +205,16 @@
                 cache:true,
                 success: function (data) {
                     console.log('OK');
-                    console.log(data);
+                    console.table(data);
 
                     if (data.item_discount > 0){
                         $('#old_price').html(data.item_price + ' &#8381;');
-                    //    $('#new_price').html(numberWithCommas(data.item_price_discount) + ' &#8381;');
+                        //    $('#new_price').html(numberWithCommas(data.item_price_discount) + ' &#8381;');
                         $('#lit_price').html(data.item_price_discount)
                     }
                     else {
                         $('#old_price').html('');
-                     //   $('#new_price').html(numberWithCommas(data.item_price) + ' &#8381;');
+                        //   $('#new_price').html(numberWithCommas(data.item_price) + ' &#8381;');
                         $('#lit_price').html(data.item_price)
 
                     }
@@ -227,15 +229,26 @@
                     $('#quick_add_to_cart_btn').attr('data-item_name',data.item_name)
                     $('#quick_add_to_cart_btn').attr('data-item_unit',data.item_volumes[0]['unit'])
                     document.getElementById('item_total').value='1'
-                    $('#liters').append(` <option data-price="${data.item_volumes[0]['price']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} ${data.item_volumes[0]['unit']} - ${data.item_volumes[0]['price']} &#8381;</option>`);
-                    price_per_liter_span.innerHTML = data.item_volumes[0]['price']
-                    liter_price.innerHTML = data.item_volumes[0]['price']
-                    $.each(data.item_volumes,function (i,v) {
-                        console.log(i)
-                        $('#liters').append(` <option data-price="${data.item_volumes[i]['price']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} ${data.item_volumes[i]['unit']} - ${data.item_volumes[i]['price']} &#8381;</option>`);
+                    if(data.item_discount){
+                        $('#liters').append(` <option data-price="${data.item_volumes[0]['price_with_discount']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} ${data.item_volumes[0]['unit']} - ${data.item_volumes[0]['price_with_discount']} &#8381;</option>`);
+                        price_per_liter_span.innerHTML = data.item_volumes[0]['price_with_discount']
+                        liter_price.innerHTML = data.item_volumes[0]['price_with_discount']
+                        $.each(data.item_volumes,function (i,v) {
+                            console.log(i)
+                            $('#liters').append(` <option data-price="${data.item_volumes[i]['price_with_discount']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} ${data.item_volumes[i]['unit']} - ${data.item_volumes[i]['price_with_discount']} &#8381;</option>`);
+                        })
+                    }else{
+                        $('#liters').append(` <option data-price="${data.item_volumes[0]['price']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} ${data.item_volumes[0]['unit']} - ${data.item_volumes[0]['price']} &#8381;</option>`);
+                        price_per_liter_span.innerHTML = data.item_volumes[0]['price']
+                        liter_price.innerHTML = data.item_volumes[0]['price']
+                        $.each(data.item_volumes,function (i,v) {
+                            console.log(i)
+                            $('#liters').append(` <option data-price="${data.item_volumes[i]['price']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} ${data.item_volumes[i]['unit']} - ${data.item_volumes[i]['price']} &#8381;</option>`);
 
 
-                    })
+                        })
+                    }
+
                     customInput()
                     modal_cart.style.display = 'block'
 
@@ -408,9 +421,9 @@
         document.addEventListener("click", closeAllSelect);
 
         function calculatePrice() {
-      const liter_price = parseInt(document.getElementById('item_price').innerHTML)
-      let item_number = document.getElementById('item_total').value
-      document.getElementById('price_per_liter').innerHTML = (item_number * liter_price).toFixed(0)
-    }
+            const liter_price = parseInt(document.getElementById('item_price').innerHTML)
+            let item_number = document.getElementById('item_total').value
+            document.getElementById('price_per_liter').innerHTML = (item_number * liter_price).toFixed(0)
+        }
     </script>
 {% endblock %}

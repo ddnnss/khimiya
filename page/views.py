@@ -18,7 +18,7 @@ import lxml
 from bs4 import BeautifulSoup
 import requests as req
 from urllib import request
-import xlsxwriter
+# import xlsxwriter
 
 
 def create_password():
@@ -55,6 +55,7 @@ def showitem(request, cat_slug,subcat_slug,subsubcat_slug,item_slug):
         keywords = '{} купить, {} цена, {} интернет магазин, {} доставка'.format(item.name,item.name,item.name,item.name)
         subcat = SubCategory.objects.get(name_slug=subcat_slug)
         subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
+        all_categories = Category.objects.all()
        # recomended = Item.objects.filter(subcategory_id=item.subcategory_id).order_by('-views')[:12]
         print(request.META['HTTP_HOST'])
         return render(request, 'page/item.html', locals())
@@ -395,8 +396,6 @@ def index(request):
     title = 'Главная'
     description = ''
     keywords = ''
-
-
     all_categories = Category.objects.all()
     return render(request, 'page/index.html', locals())
 
@@ -409,6 +408,7 @@ def category(request, cat_slug):
         title = cat.page_title
         description = cat.page_description
         keywords = cat.page_keywords
+        all_categories = Category.objects.all()
         subcats = SubCategory.objects.filter(category=cat)
     except:
         raise Http404
@@ -429,6 +429,7 @@ def subcategory(request, cat_slug,subcat_slug):
     subcats = SubCategory.objects.filter(name_slug=subcat_slug)
     subsubcat = subcategory.subsubcategory_set.first()
     all_items = subsubcat.item_set.filter(is_active=True)
+    all_categories = Category.objects.all()
   #  except:
    #     raise Http404
         # return render(request, '404.html', locals())
@@ -445,6 +446,7 @@ def subsubcategory(request, cat_slug,subcat_slug,subsubcat_slug):
     title = cat.page_title
     description = cat.page_description
     keywords = cat.page_keywords
+    all_categories = Category.objects.all()
     subcategory = SubCategory.objects.get(name_slug=subcat_slug)
     subcats = SubCategory.objects.filter(name_slug=subcat_slug)
     subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
