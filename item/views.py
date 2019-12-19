@@ -14,10 +14,7 @@ def quick_add_to_cart(request):
     item = Item.objects.get(id=item_id)
     images = ItemImage.objects.filter(item_id=item_id)
     volumes = ItemPrice.objects.filter(item=item)
-    print(volumes[0].price_with_discount)
     print(volumes)
-    if item.discount > 0:
-        return_dict['item_discount'] = item.discount
     return_dict['item_id'] = item.id
     return_dict['item_name'] = item.name
     return_dict['item_name_slug'] = item.name_slug
@@ -36,7 +33,7 @@ def quick_add_to_cart(request):
         item_volume['volume'] = vol.volume
 
         item_volume['price'] = vol.price
-        if item.discount > 0:
+        if vol.discount > 0:
             item_volume['price_with_discount'] = vol.price_with_discount
         item_volume['unit'] = vol.unit
 

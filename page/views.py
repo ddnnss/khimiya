@@ -397,6 +397,12 @@ def index(request):
     description = ''
     keywords = ''
     all_categories = Category.objects.all()
+    discounts = ItemPrice.objects.filter(discount__gt=0)
+    print(discounts)
+    for x in discounts:
+        print(x.item.name)
+
+
     return render(request, 'page/index.html', locals())
 
 

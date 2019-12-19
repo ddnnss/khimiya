@@ -176,13 +176,13 @@ class Filter(models.Model):
 
 
 class Item(models.Model):
-    subcategory = models.ManyToManyField(SubSubCategory, blank=True, verbose_name='Подкатегория', db_index=True)
+    subcategory = models.ManyToManyField(SubSubCategory, blank=True, verbose_name='Подкатегория', db_index=True, related_name='subsubcategory')
     filter = models.ForeignKey(Filter, blank=True, null=True, on_delete=models.SET_NULL, db_index=True,
                                verbose_name='Фильтр')
     name = models.CharField('Название товара', max_length=255, blank=False, null=True)
     name_lower = models.CharField(max_length=255, blank=True, null=True, default='')
     name_slug = models.CharField(max_length=255, blank=True, null=True, db_index=True)
-    discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
+
     page_title = models.CharField('Название страницы SEO', max_length=255, blank=True, null=True)
     page_description = models.TextField('Описание страницы SEO', blank=True, null=True)
     page_keywords = models.TextField('Keywords SEO', blank=True, null=True)
@@ -222,6 +222,10 @@ class Item(models.Model):
         #     if not self.short_description:
         #         self.short_description = Truncator(self.description).words(10, truncate='...')
         super(Item, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        print('URRRLL= ',self.subcategory.first().name_slug)
+        return f'/catalog/{self.subcategory.first().subcategory.category.name_slug}/{self.subcategory.first().subcategory.name_slug}/{self.subcategory.first().name_slug}/{self.name_slug}/'
 
     def getfirstimage(self):
         url = None
@@ -274,11 +278,12 @@ class ItemPrice(models.Model):
     item = models.ForeignKey(Item, blank=False, null=True, on_delete=models.CASCADE, verbose_name='Товар')
     volume = models.CharField('Объем', max_length=6, blank=False, default=0, db_index=True)
     price = models.IntegerField('Цена', blank=False, default=0, db_index=True)
+    discount = models.IntegerField('Скидка %', blank=True, default=0, db_index=True)
 
     @property
     def price_with_discount(self):
-        if self.item.discount > 0:
-            dis_val = self.price - (self.price * self.item.discount / 100)
+        if self.discount > 0:
+            dis_val = self.price - (self.price * self.discount / 100)
             return (round(dis_val))
 
     def save(self, *args, **kwargs):

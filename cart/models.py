@@ -28,8 +28,8 @@ class Cart(models.Model):
         verbose_name_plural = "Товары в корзинах"
 
     def save(self, *args, **kwargs):
-        if self.item.item.discount > 0:
-            self.current_price = (self.item.price - (self.item.price * self.item.item.discount / 100)) * self.number
+        if self.item.discount > 0:
+            self.current_price = (self.item.price - (self.item.price * self.item.discount / 100)) * self.number
         else:
             self.current_price = self.item.price
         self.total_price = self.number * self.current_price

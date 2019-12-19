@@ -1,10 +1,9 @@
  {% load static %}
+{% load mytags %}
   <div class="item-card ">
-                {% if item.discount > 0 %}
-                <div class="item-card-discount">
-                    -{{ item.discount }} %
-                </div>
-                {% endif %}
+                {{ item | is_discount |safe }}
+
+
                 <div class="item-card-favorite-btn">
                     <a href="#"><i class="favorite-icon"></i></a>
                 </div>
@@ -23,13 +22,7 @@
 
                 </div>
                 <div class="item-card-price">
-                    <p> {{ item.itemprice_set.first.volume }} {{ item.itemprice_set.first.unit }}
-                        {% if item.discount %}
-                        - <del style="color: #696969">{{ item.itemprice_set.first.price}} </del>  {{ item.itemprice_set.first.price_with_discount}} РУБ
-                        {% else %}
-                        - {{ item.itemprice_set.first.price}} РУБ
-                        {% endif %}
-                    </p>
+                {{ item | check_discount | safe}}
 
 
                     <a class="btn btn-sm" href="javascript:void(0)" onclick="quick_add_to_cart({{ item.id }})">в корзину</a>

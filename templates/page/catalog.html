@@ -229,25 +229,31 @@
                     $('#quick_add_to_cart_btn').attr('data-item_name',data.item_name)
                     $('#quick_add_to_cart_btn').attr('data-item_unit',data.item_volumes[0]['unit'])
                     document.getElementById('item_total').value='1'
-                    if(data.item_discount){
+                    if(data.item_volumes[0].price_with_discount){
                         $('#liters').append(` <option data-price="${data.item_volumes[0]['price_with_discount']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} ${data.item_volumes[0]['unit']} - ${data.item_volumes[0]['price_with_discount']} &#8381;</option>`);
                         price_per_liter_span.innerHTML = data.item_volumes[0]['price_with_discount']
                         liter_price.innerHTML = data.item_volumes[0]['price_with_discount']
-                        $.each(data.item_volumes,function (i,v) {
-                            console.log(i)
-                            $('#liters').append(` <option data-price="${data.item_volumes[i]['price_with_discount']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} ${data.item_volumes[i]['unit']} - ${data.item_volumes[i]['price_with_discount']} &#8381;</option>`);
-                        })
                     }else{
                         $('#liters').append(` <option data-price="${data.item_volumes[0]['price']}" data-id="${data.item_volumes[0]['id']}" value="${data.item_volumes[0]['volume']}">${data.item_volumes[0]['volume']} ${data.item_volumes[0]['unit']} - ${data.item_volumes[0]['price']} &#8381;</option>`);
                         price_per_liter_span.innerHTML = data.item_volumes[0]['price']
                         liter_price.innerHTML = data.item_volumes[0]['price']
-                        $.each(data.item_volumes,function (i,v) {
-                            console.log(i)
+                    }
+
+
+
+                    $.each(data.item_volumes,function (i,v) {
+                        console.table(i)
+                        if(data.item_volumes[i].price_with_discount){
+                            $('#liters').append(` <option data-price="${data.item_volumes[i]['price_with_discount']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} ${data.item_volumes[i]['unit']} - ${data.item_volumes[i]['price_with_discount']} &#8381;</option>`);
+                        }
+                        else{
                             $('#liters').append(` <option data-price="${data.item_volumes[i]['price']}" data-id="${data.item_volumes[i]['id']}" value="${data.item_volumes[i]['volume']}">${data.item_volumes[i]['volume']} ${data.item_volumes[i]['unit']} - ${data.item_volumes[i]['price']} &#8381;</option>`);
 
+                        }
 
-                        })
-                    }
+
+                    })
+
 
                     customInput()
                     modal_cart.style.display = 'block'

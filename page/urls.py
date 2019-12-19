@@ -4,10 +4,10 @@ from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('catalog/<cat_slug>', views.category, name='category'),
-    path('catalog/<cat_slug>/<subcat_slug>', views.subcategory, name='subcategory'),
-    path('catalog/<cat_slug>/<subcat_slug>/<subsubcat_slug>', views.subsubcategory, name='subsubcategory'),
-    path('catalog/<cat_slug>/<subcat_slug>/<subsubcat_slug>/<item_slug>', views.showitem, name='showitem'),
+    path('catalog/<cat_slug>/', views.category, name='category'),
+    path('catalog/<cat_slug>/<subcat_slug>/', views.subcategory, name='subcategory'),
+    path('catalog/<cat_slug>/<subcat_slug>/<subsubcat_slug>/', views.subsubcategory, name='subsubcategory'),
+    path('catalog/<cat_slug>/<subcat_slug>/<subsubcat_slug>/<item_slug>/', views.showitem, name='showitem'),
     # path('<cat_slug>/<subcat_slug>/', views.subcategory, name='subcategory'),
     path('search/', views.search, name='search'),
     path('about_us/', views.about_us, name='about_us'),

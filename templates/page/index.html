@@ -67,80 +67,28 @@
 
 <section class="popular-items">
     <div class="container">
-        <h3>Популярные товары</h3>
+        <h3>Товары со скидками</h3>
         <div class="item-cards">
+            {% for discount in discounts %}
             <div class="item-card ">
                 <div class="item-card-discount">
-                    -15 %
+                    -{{ discount.discount }} %
                 </div>
 
                 <div class="item-card-favorite-btn">
                     <a href="#"><i class="favorite-icon"></i></a>
                 </div>
                 <div class="item-card-inner">
-                    <a href="#"><img src="{% static 'img/item.png' %}" alt=""></a>
+                    <a href="#"><img src="{{ discount.item.getfirstimage }}" alt=""></a>
 
-                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
+                    <a href="{{ discount.item.get_absolute_url }}"><p class="item-card-name">{{ discount.item.get_absolute_url }}</p></a>
                     <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
                 </div>
                 <div class="item-card-price">
                     <p> 1300 Р</p>
                 </div>
             </div><!--item-card-->
-            <div class="item-card ">
-                <div class="item-card-discount">
-                    -15 %
-                </div>
-
-                <div class="item-card-favorite-btn">
-                    <a href="#"><i class="favorite-icon"></i></a>
-                </div>
-                <div class="item-card-inner">
-                    <a href="#"><img src="{% static 'img/item.png' %}" alt=""></a>
-
-                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
-                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
-                </div>
-                <div class="item-card-price">
-                    <p> 1300 Р</p>
-                </div>
-            </div><!--item-card-->
-            <div class="item-card ">
-                <div class="item-card-discount">
-                    -15 %
-                </div>
-
-                <div class="item-card-favorite-btn">
-                    <a href="#"><i class="favorite-icon"></i></a>
-                </div>
-                <div class="item-card-inner">
-                    <a href="#"><img src="{% static 'img/item.png' %}" alt=""></a>
-
-                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
-                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
-                </div>
-                <div class="item-card-price">
-                    <p> 1300 Р</p>
-                </div>
-            </div><!--item-card-->
-            <div class="item-card ">
-                <div class="item-card-discount">
-                    -15 %
-                </div>
-
-                <div class="item-card-favorite-btn">
-                    <a href="#"><i class="favorite-icon"></i></a>
-                </div>
-                <div class="item-card-inner">
-                    <a href="#"><img src="{% static 'img/item.png' %}" alt=""></a>
-
-                    <a href="#"><p class="item-card-name">Lorem ipsum.</p></a>
-                    <p class="item-card-description">Lorem ipsum dolor sit amet, consectetur.</p>
-                </div>
-                <div class="item-card-price">
-                    <p> 1300 Р</p>
-                </div>
-            </div><!--item-card-->
+            {% endfor %}
         </div>
         <div class="popular-items-btn">
             <a href="#" class="btn">смотреть каталог</a>
