@@ -25,7 +25,7 @@
                 {{ item | check_discount | safe}}
 
 
-                    <a class="btn btn-sm" href="javascript:void(0)" onclick="quick_add_to_cart({{ item.id }})">в корзину</a>
+                    <a class="btn " href="javascript:void(0)" onclick="quick_add_to_cart({{ item.id }})">в корзину</a>
                     {% if request.user.is_authenticated and  request.user.is_staff%}
                       <hr>
                     <a href="/admin/item/item/{{ item.id }}/change/">редактировать</a>

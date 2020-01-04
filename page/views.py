@@ -434,7 +434,7 @@ def subcategory(request, cat_slug,subcat_slug):
     subcategory = SubCategory.objects.get(name_slug=subcat_slug)
     subcats = SubCategory.objects.filter(name_slug=subcat_slug)
     subsubcat = subcategory.subsubcategory_set.first()
-    all_items = subsubcat.item_set.filter(is_active=True)
+    all_items = Item.objects.filter(subcategory=subsubcat.id, is_active=True)
     all_categories = Category.objects.all()
   #  except:
    #     raise Http404
@@ -456,7 +456,9 @@ def subsubcategory(request, cat_slug,subcat_slug,subsubcat_slug):
     subcategory = SubCategory.objects.get(name_slug=subcat_slug)
     subcats = SubCategory.objects.filter(name_slug=subcat_slug)
     subsubcat = SubSubCategory.objects.get(name_slug=subsubcat_slug)
-    all_items = subsubcat.item_set.filter(is_active=True)
+    all_items = Item.objects.filter(subcategory=subsubcat.id,is_active=True)
+    #https://rt.pornhub.com/view_video.php?viewkey=ph5aa51414f1112
+
 
     # except:
     #     raise Http404

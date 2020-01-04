@@ -1,7 +1,7 @@
 .item-cards
   display: grid
   grid-gap: 30px
-  grid-template-columns: repeat(auto-fit, minmax(270px, auto))
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr))
   margin-bottom: 90px
 
 .popular-items-btn
@@ -48,6 +48,9 @@
   p
     font-size: 20px
     margin-bottom: 10px
+  .btn
+
+    margin: 0 auto
 .item-card-info
   flex-basis: 150px
   display: flex

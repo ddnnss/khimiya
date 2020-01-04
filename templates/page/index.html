@@ -98,30 +98,39 @@
 </section><!--popular-items-->
 <section class="slider">
     <div class="slider-inner">
-        <div class="slider-image">
-            <img id="slide-img-1" class="slide-img" src="{% static 'img/slide1.jpg' %}">
-            <img id="slide-img-2" class="slide-img" src="{% static 'img/slide1.jpg' %}">
-        </div>
-        <div class="slider-text">
+
+
             <div class="slider-text-inner">
-                <div id="slide-text-1" class="slide-text">
-                    <h4>Самый большой выбор на рынке1</h4>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos dolore ducimus facilis rem repudiandae unde? Beatae cupiditate earum et expedita id nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+                <div class="slide-wrapper">
+                    <div class="slider-image">
+                        <img id="slide-img-1" class="slide-img" src="{% static 'img/slide1.jpg' %}">
+
+                    </div>
+                    <div  class="slide-text">
+                        <h4>Самый большой выбор на рынке1</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos dolore ducimus facilis rem repudiandae unde? Beatae cupiditate earum et expedita id nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+                    </div>
                 </div>
-                <div id="slide-text-2" class="slide-text">
-                    <h4>Самый большой выбор на рынке2</h4>
-                    <p>L nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+    <div class="slide-wrapper">
+                    <div class="slider-image">
+                        <img id="slide-img-1" class="slide-img" src="{% static 'img/slide1.jpg' %}">
+
+                    </div>
+                    <div  class="slide-text">
+                        <h4>Самый большой выбор на рынке1</h4>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos dolore ducimus facilis rem repudiandae unde? Beatae cupiditate earum et expedita id nemo nesciunt nulla numquam, possimus, quasi reiciendis, vel voluptatibus.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab dolorem nostrum obcaecati praesentium quia similique veniam. Ad nemo provident quae.</p>
+                    </div>
                 </div>
+
 
             </div>
             <div class="slider-text-inner-arrows">
                 <span id="cur_slide">01</span><span id="total_slide"></span>
-                <a id="arrow_left" href="javascript:void(0)" onclick="prevSlide()" > <img src="{% static 'img/arrow_left.png' %}" alt=""></a>
-                <a id="arrow_right" href="javascript:void(0)" onclick="nextSlide()"> <img src="{% static 'img/arrow_right.png' %}" alt=""></a>
+                <a id="arrow_left" href="javascript:void(0)"  > <img src="{% static 'img/arrow_left.png' %}" alt=""></a>
+                <a id="arrow_right" href="javascript:void(0)" > <img src="{% static 'img/arrow_right.png' %}" alt=""></a>
             </div>
-        </div>
 
     </div>
 
@@ -195,5 +204,26 @@
 
 {% endblock %}
 {% block js %}
+
 {{ block.super }}
+    <script src="{% static 'js/slick.js' %}"></script>
+    <script>
+        let qtySlides = $('.slide-wrapper').length;
+    $('#total_slide').text(`0${qtySlides}`);
+    console.log(qtySlides)
+    let slider = $('.slider-text-inner').slick({
+        prevArrow: '#arrow_left',
+        nextArrow: '#arrow_right',
+        slidesToShow: 1,
+
+    variableHeight: true
+        }
+
+    );
+
+    slider.on('afterChange', function(event, slick, currentSlide, nextSlide){
+    $('#cur_slide').text(`0${slider.slick('slickCurrentSlide')+1}`);
+ });
+
+    </script>
 {% endblock %}

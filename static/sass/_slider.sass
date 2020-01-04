@@ -1,14 +1,20 @@
+.slider
+  position: relative
 .slider-inner
-  display: grid
-  grid-template-columns: 54% 46%
-.slider-text
+
+.slide-text
   background: #202122
+  padding: 20px
 .slider-image
   background: #202122
+  float: left
+  margin-right: 20px
+
+.slide-wrapper
+  background: #202122
+
 .slider-text-inner
-  max-width: 400px
-  min-height: 100%
-  padding: 0 0 0 70px
+
   display: flex
   flex-direction: column
   justify-content: center
@@ -22,14 +28,11 @@
     font-family: SF UI Regular, sans-serif
     margin-bottom: 40px
     line-height: 23px
-.slide-text
-  display: none
-.slide-img
-  display: none
+
 .slider-text-inner-arrows
-  padding: 0 0 0 70px
-  position: relative
-  top: -60px
+  position: absolute
+  bottom: 0
+  right: 50px
 
 #cur_slide
   font-family: Panton-SemiBoldItalic,sans-serif
