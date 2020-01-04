@@ -1,35 +1,37 @@
- {% load static %}
+{% load static %}
 {% load mytags %}
-  <div class="item-card ">
-                {{ item | is_discount |safe }}
+<div class="item-card ">
+    {{ item | is_discount |safe }}
 
 
-                <div class="item-card-favorite-btn">
-                    <a href="#"><i class="favorite-icon"></i></a>
-                </div>
-                <div class="item-card-inner">
-                    <a href="{% url 'showitem' cat.name_slug subcategory.name_slug subsubcat.name_slug item.name_slug %}"> <img
-                        {% for image in item.itemimage_set.all %}
-                        {% if image.is_main %}
-                           src="{{ image.image_small }}" alt="">
-                        {% endif %}
-                        {% endfor %}
-                       </a>
-                    <div class="item-card-info">
-                      <a href="#"><p class="item-card-name">{{ item.name }}</p></a>
-                    <p class="item-card-description">{{ item.short_description }}</p>
-                    </div>
-
-                </div>
-                <div class="item-card-price">
-                {{ item | check_discount | safe}}
-
-
-                    <a class="btn " href="javascript:void(0)" onclick="quick_add_to_cart({{ item.id }})">в корзину</a>
-                    {% if request.user.is_authenticated and  request.user.is_staff%}
-                      <hr>
-                    <a href="/admin/item/item/{{ item.id }}/change/">редактировать</a>
+    <div class="item-card-favorite-btn">
+        <a href="#"><i class="favorite-icon"></i></a>
+    </div>
+    <div class="item-card-inner">
+        <a href="{% url 'showitem' cat.name_slug subcategory.name_slug subsubcat.name_slug item.name_slug %}"> <img
+                {% for image in item.itemimage_set.all %}
+                    {% if image.is_main %}
+                        src="{{ image.image_small }}" alt="">
                     {% endif %}
+                {% endfor %}
+        </a>
+        <div class="item-card-info">
+            <a href="#"><p class="item-card-name">{{ item.name }}</p></a>
+            {% if item.short_description %}
+                <p class="item-card-description">{{ item.short_description }}</p>
+            {% endif %}
+        </div>
 
-                </div>
-            </div><!--item-card-->
+    </div>
+    <div class="item-card-price">
+        {{ item | check_discount | safe}}
+
+
+        <a class="btn " href="javascript:void(0)" onclick="quick_add_to_cart({{ item.id }})">в корзину</a>
+        {% if request.user.is_authenticated and  request.user.is_staff%}
+            <hr>
+            <a href="/admin/item/item/{{ item.id }}/change/">редактировать</a>
+        {% endif %}
+
+    </div>
+</div><!--item-card-->

@@ -137,7 +137,7 @@
                             </div>
                             <div class="item-info-description-volume">
                        <span>
-                           Доступные варианты:
+                           Доступные<br>варианты:
                        </span>
                                 <div class="custom-select" style="width:150px;">
                                     <select id="liters">
@@ -190,6 +190,8 @@
         close_modal_cart.onclick = function () {
             modal_cart.style.display = "none";
         }
+
+
 
         function quick_add_to_cart(item_id) {
             var showingPrice = 0
@@ -341,6 +343,12 @@
             //   document.getElementById('subcat_' + first_subcat).click()
             //   document.getElementById('subsubcat_' + first_subsubcat).classList.add('selected')
             //}
+
+            window.onclick = function(event) {
+                if (event.target == modal_cart) {
+                    modal_cart.style.display = "none";
+                }
+            }
         });
 
         function customInput() {

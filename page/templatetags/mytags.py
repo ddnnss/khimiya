@@ -7,12 +7,18 @@ register = template.Library()
 @register.filter
 def check_discount(data):
     returnString = ''
+    withDiscount = False
     for price in data.itemprice_set.all():
         if price.discount > 0:
-            return f'<p>{price.volume} {price.unit} - <del>{price.price}</del> {price.price_with_discount} РУБ</p>'
+          withDiscount = True
+          returnString = f'<p>{price.volume} {price.unit} - <del>{price.price}</del> {price.price_with_discount} РУБ</p>'
         else:
-            returnString = f'<p>{price.volume} {price.unit} - {price.price} РУБ</p>'
-    return returnString
+            pass
+    if withDiscount:
+        return returnString
+    else:
+
+        return f'<p>{data.itemprice_set.first().volume} {data.itemprice_set.first().unit} - {data.itemprice_set.first().price} РУБ</p>'
 
 
 @register.filter
